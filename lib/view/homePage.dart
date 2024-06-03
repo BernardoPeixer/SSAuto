@@ -156,38 +156,67 @@ class HomePage extends StatelessWidget {
           Icons.add,
           color: Colors.white,
         ),
+        shape: CircleBorder(),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 3,
-        color: blue,
-        child: IconTheme(
-          data: const IconThemeData(color: Colors.white),
+      bottomNavigationBar: Container(
+        height: 75,
+        child: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 3,
+          color: blue,
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 6.0,),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.home,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 20,
+                      icon: const Icon(Icons.home),
+                      color: Colors.white,
+                    ),
+
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.directions_car),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 20,
+                      icon: const Icon(Icons.directions_car),
+                      color: Colors.white,
+                    ),
+
+                  ],
                 ),
-                const SizedBox(
-                  width: 24,
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 20,
+                      icon: const Icon(Icons.key),
+                      color: Colors.white,
+                    ),
+
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.key),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.dashboard),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      iconSize: 20,
+                      icon: const Icon(Icons.dashboard),
+                      color: Colors.white,
+                    ),
+
+                  ],
                 ),
               ],
             ),

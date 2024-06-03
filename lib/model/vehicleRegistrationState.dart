@@ -5,6 +5,8 @@ class VehicleRegistrationState with ChangeNotifier {
   bool isPressedYesButton = false;
   bool isPressedNoButton = false;
 
+
+
   void pressedNoButton() {
     isPressedNoButton = isPressedNoButton = true;
     isPressedYesButton = isPressedYesButton = false;
