@@ -149,7 +149,9 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         mini: true,
         backgroundColor: blue,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed('/addOptionsScreen');
+        },
         child: const Icon(
           Icons.add,
           color: Colors.white,
