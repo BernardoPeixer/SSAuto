@@ -28,7 +28,9 @@ class AddOptionsScreen extends StatelessWidget {
               color: orange,
               icon: Icons.supervisor_account),
           ListTileAddOptionsScreen(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed('/customerRegistration');
+              },
               title: 'CADASTRAR CLIENTE',
               color: orange,
               icon: Icons.person_add_alt_1),

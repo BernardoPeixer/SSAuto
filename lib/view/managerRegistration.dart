@@ -28,7 +28,7 @@ class ManagerRegistration extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           const Icon(
-            Icons.person,
+            Icons.supervisor_account,
             size: 150,
             color: Colors.white,
           ),
@@ -49,11 +49,11 @@ class ManagerRegistration extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'E-mail::', color: blu),
-              TextFormFieldVehicles(title: 'Telefone', color: blu),
+              TextFormFieldVehicles(title: 'E-mail:', color: blu),
+              TextFormFieldVehicles(title: 'Telefone:', color: blu),
             ],
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width / 1.5,
             child: ElevatedButton(
               style: ButtonStyle(
