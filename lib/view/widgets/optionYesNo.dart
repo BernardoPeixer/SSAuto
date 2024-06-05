@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/model/vehicleRegistrationState.dart';
+import 'package:ss_auto/states/vehicleRegistrationState.dart';
 
 class OptionYesNo extends StatelessWidget {
   final String title;

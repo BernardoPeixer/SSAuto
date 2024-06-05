@@ -85,26 +85,26 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CenterContainersHomePage(
-                      title: 'Aluguéis em Andamento:',
+                      title: 'Aluguéis:',
                       statistic: '197',
                       subtitle: 'Automóveis',
                       color: orange,
                       width: MediaQuery.of(context).size.width / 2.3,
                       height: MediaQuery.of(context).size.height / 5,
                       titleFontSize: 15,
-                      subtitleFontSize: 15,
-                      statisticFontSize: 20,
+                      subtitleFontSize: 16,
+                      statisticFontSize: 25,
                     ),
                     CenterContainersHomePage(
-                      title: 'Receita Estimada das Reservas:',
+                      title: 'Receita Estimada:',
                       statistic: 'R\$198.879',
                       subtitle: 'Pendente',
                       color: orange,
                       width: MediaQuery.of(context).size.width / 2.3,
                       height: MediaQuery.of(context).size.height / 5,
                       titleFontSize: 15,
-                      subtitleFontSize: 15,
-                      statisticFontSize: 20,
+                      subtitleFontSize: 16,
+                      statisticFontSize: 25,
                     ),
                   ],
                 ),
@@ -165,7 +165,9 @@ class HomePage extends StatelessWidget {
           notchMargin: 3,
           color: blue,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6.0,),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 6.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -178,7 +180,6 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.home),
                       color: Colors.white,
                     ),
-
                   ],
                 ),
                 Column(
@@ -190,10 +191,8 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.directions_car),
                       color: Colors.white,
                     ),
-
                   ],
                 ),
-
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -203,7 +202,6 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.key),
                       color: Colors.white,
                     ),
-
                   ],
                 ),
                 Column(
@@ -215,7 +213,6 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.dashboard),
                       color: Colors.white,
                     ),
-
                   ],
                 ),
               ],
