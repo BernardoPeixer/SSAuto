@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ss_auto/states/vehicleRegistrationState.dart';
 import 'package:ss_auto/view/widgets/optionYesNo.dart';
-import 'package:ss_auto/view/widgets/textFormFieldVehicles.dart';
+import 'package:ss_auto/view/widgets/textFormFieldModel.dart';
 import 'package:provider/provider.dart';
 
 class VehicleRegistration extends StatelessWidget {
@@ -39,14 +39,14 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Marca:',
                       color: orange,
                       controller: state.controllerBrand,
                       validator: (value) =>
                           state.name(state.controllerBrand.text),
                     ),
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Modelo:',
                       color: orange,
                       controller: state.controllerModel,
@@ -58,14 +58,14 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Placa:',
                       color: orange,
                       controller: state.controllerLicensePlate,
                       validator: (value) =>
                           state.name(state.controllerLicensePlate.text),
                     ),
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Ano:',
                       color: orange,
                       controller: state.controllerYear,
@@ -77,14 +77,14 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Categoria:',
                       color: orange,
                       controller: state.controllerCategory,
                       validator: (value) =>
                           state.name(state.controllerCategory.text),
                     ),
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Custo da Diária:',
                       color: orange,
                       controller: state.controllerDailyCost,
@@ -97,7 +97,7 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Quilometragem Atual:',
                       color: orange,
                       controller: state.controllerMileage,
@@ -105,7 +105,7 @@ class VehicleRegistration extends StatelessWidget {
                           state.name(state.controllerMileage.text),
                       inputType: TextInputType.number,
                     ),
-                    TextFormFieldVehicles(
+                    TextFormFieldModel(
                       title: 'Cor:',
                       color: orange,
                       controller: state.controllerColor,
@@ -168,8 +168,10 @@ class VehicleRegistration extends StatelessWidget {
                             style: ButtonStyle(
                               backgroundColor: WidgetStatePropertyAll(orange),
                             ),
-                            onPressed: () {
-                              if(state.keyFormVehicle.currentState!.validate()) {
+                            onPressed: () async {
+                              if (state.keyFormVehicle.currentState!
+                                  .validate()) {
+                                await state.insertVehicle();
                                 Navigator.pop(context);
                               }
                             },

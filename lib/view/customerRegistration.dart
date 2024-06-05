@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/textFormFieldVehicles.dart';
+import 'widgets/textFormFieldModel.dart';
 
 class CustomerRegistration extends StatelessWidget {
   const CustomerRegistration({super.key});
@@ -36,22 +36,22 @@ class CustomerRegistration extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'Nome da Empresa:', color: orange),
-              TextFormFieldVehicles(title: 'Cidade:', color: orange),
+              TextFormFieldModel(title: 'Nome da Empresa:', color: orange),
+              TextFormFieldModel(title: 'Cidade:', color: orange),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'CNPJ:', color: orange),
-              TextFormFieldVehicles(title: 'Estado:', color: orange),
+              TextFormFieldModel(title: 'CNPJ:', color: orange),
+              TextFormFieldModel(title: 'Estado:', color: orange),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'E-mail:', color: blu),
-              TextFormFieldVehicles(title: 'Telefone:', color: blu),
+              TextFormFieldModel(title: 'E-mail:', color: blu),
+              TextFormFieldModel(title: 'Telefone:', color: blu),
             ],
           ),
           SizedBox(

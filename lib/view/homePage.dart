@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ss_auto/view/widgets/myBottomAppBar.dart';
 import 'package:ss_auto/view/widgets/centerContainersHomePage.dart';
+import 'package:ss_auto/view/widgets/myFloatingActionButton.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -146,80 +148,10 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        backgroundColor: blue,
-        onPressed: () {
-          Navigator.of(context).pushNamed('/addOptionsScreen');
-        },
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        shape: CircleBorder(),
+      floatingActionButton: MyFloatingActionButton(
+        color: blue,
       ),
-      bottomNavigationBar: Container(
-        height: 75,
-        child: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 3,
-          color: blue,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 6.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 20,
-                      icon: const Icon(Icons.home),
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 20,
-                      icon: const Icon(Icons.directions_car),
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 20,
-                      icon: const Icon(Icons.key),
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      iconSize: 20,
-                      icon: const Icon(Icons.dashboard),
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar: const MyBottomAppBar(),
     );
   }
 }

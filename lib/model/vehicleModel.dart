@@ -28,13 +28,17 @@ class Vehicle {
 class VehicleTable {
   static const String createTable = '''
     CREATE TABLE $tableName(
-      $brand        INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $id           INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $brand        TEXT NOT NULL,
       $model        TEXT NOT NULL,
       $licensePlate TEXT NOT NULL,
       $year         TEXT NOT NULL,
       $category     TEXT NOT NULL,
       $dailyCost    TEXT NOT NULL,
-      $mileage      TEXT NOT NULL
+      $mileage      TEXT NOT NULL,
+      $color        TEXT NOT NULL,
+      $air          TEXT NOT NULL,
+      $sensor       TEXT NOT NULL
     );
     ''';
 
@@ -47,6 +51,9 @@ class VehicleTable {
   static const String category = 'category';
   static const String dailyCost = 'dailyCost';
   static const String mileage = 'mileage';
+  static const String color = 'color';
+  static const String air = 'air';
+  static const String sensor = 'sensor';
 
   static Map<String, dynamic> toMap(Vehicle vehicle) {
     final map = <String, dynamic>{};
@@ -58,6 +65,9 @@ class VehicleTable {
     map[VehicleTable.category] = vehicle.category;
     map[VehicleTable.dailyCost] = vehicle.dailyCost;
     map[VehicleTable.mileage] = vehicle.mileage;
+    map[VehicleTable.color] = vehicle.color;
+    map[VehicleTable.air] = vehicle.air;
+    map[VehicleTable.sensor] = vehicle.sensor;
 
     return map;
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/widgets/textFormFieldVehicles.dart';
+import 'package:ss_auto/view/widgets/textFormFieldModel.dart';
 
 class ManagerRegistration extends StatelessWidget {
   const ManagerRegistration({super.key});
@@ -35,22 +35,22 @@ class ManagerRegistration extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'Nome Completo:', color: orange),
-              TextFormFieldVehicles(title: 'Cidade:', color: orange),
+              TextFormFieldModel(title: 'Nome Completo:', color: orange),
+              TextFormFieldModel(title: 'Cidade:', color: orange),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'CPF:', color: orange),
-              TextFormFieldVehicles(title: 'Estado:', color: orange),
+              TextFormFieldModel(title: 'CPF:', color: orange),
+              TextFormFieldModel(title: 'Estado:', color: orange),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextFormFieldVehicles(title: 'E-mail:', color: blu),
-              TextFormFieldVehicles(title: 'Telefone:', color: blu),
+              TextFormFieldModel(title: 'E-mail:', color: blu),
+              TextFormFieldModel(title: 'Telefone:', color: blu),
             ],
           ),
           SizedBox(

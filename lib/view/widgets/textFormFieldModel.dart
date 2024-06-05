@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TextFormFieldVehicles extends StatelessWidget {
+class TextFormFieldModel extends StatelessWidget {
   final String title;
   final Color color;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final TextInputType? inputType;
 
-  const TextFormFieldVehicles(
+  const TextFormFieldModel(
       {super.key,
       required this.title,
       required this.color,

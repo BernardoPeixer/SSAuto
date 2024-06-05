@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ss_auto/view/widgets/listTileAddOptionsScreen.dart';
 
+import 'widgets/myBottomAppBar.dart';
+import 'widgets/myFloatingActionButton.dart';
+
 class AddOptionsScreen extends StatelessWidget {
   const AddOptionsScreen({super.key});
 
@@ -36,6 +39,11 @@ class AddOptionsScreen extends StatelessWidget {
               icon: Icons.person_add_alt_1),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: MyFloatingActionButton(
+        color: blue,
+      ),
+      bottomNavigationBar: const MyBottomAppBar(),
     );
   }
 }
