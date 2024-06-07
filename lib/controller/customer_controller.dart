@@ -1,4 +1,4 @@
-import '../model/customerModel.dart';
+import '../model/customer_model.dart';
 import '../database/database.dart';
 
 class CustomerController {

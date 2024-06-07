@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ss_auto/controller/vehicleController.dart';
+import 'package:ss_auto/controller/vehicle_controller.dart';
 
-import '../model/vehicleModel.dart';
+import '../model/vehicle_model.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState({this.vehicle});
@@ -56,6 +56,7 @@ class VehicleRegistrationState with ChangeNotifier {
     if (value == null || value.length < 5) {
       return 'O nome deve conter mais de 5 letras';
     }
+    return null;
   }
 
   void pressedNoButton() {

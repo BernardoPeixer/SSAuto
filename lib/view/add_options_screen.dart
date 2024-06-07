@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/widgets/listTileAddOptionsScreen.dart';
+import 'package:ss_auto/view/widgets/list_tile_add_options_widget.dart';
 
-import 'widgets/myBottomAppBar.dart';
-import 'widgets/myFloatingActionButton.dart';
+import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/floating_action_button_widget.dart';
 
 class AddOptionsScreen extends StatelessWidget {
   const AddOptionsScreen({super.key});
@@ -16,21 +16,21 @@ class AddOptionsScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ListTileAddOptionsScreen(
+          ListTileAddOptionsWidget(
               onTap: () {
                 Navigator.of(context).pushNamed('/vehicleRegistration');
               },
               title: 'ADICIONAR CARRO',
               color: orange,
               icon: Icons.directions_car),
-          ListTileAddOptionsScreen(
+          ListTileAddOptionsWidget(
               onTap: () {
                 Navigator.of(context).pushNamed('/managerRegistration');
               },
               title: 'CADASTRAR GERENTE',
               color: orange,
               icon: Icons.supervisor_account),
-          ListTileAddOptionsScreen(
+          ListTileAddOptionsWidget(
               onTap: () {
                 Navigator.of(context).pushNamed('/customerRegistration');
               },
@@ -40,10 +40,10 @@ class AddOptionsScreen extends StatelessWidget {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: MyFloatingActionButton(
+      floatingActionButton: FloatingActionButtonWidget(
         color: blue,
       ),
-      bottomNavigationBar: const MyBottomAppBar(),
+      bottomNavigationBar: const BottomAppBarWidget(),
     );
   }
 }

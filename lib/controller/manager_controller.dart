@@ -1,4 +1,4 @@
-import '../model/managerModel.dart';
+import '../model/manager_model.dart';
 import '../database/database.dart';
 
 class ManagerController {

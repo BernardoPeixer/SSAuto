@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TextFormFieldModel extends StatelessWidget {
+class TextFormFieldWidget extends StatelessWidget {
   final String title;
   final Color color;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final TextInputType? inputType;
 
-  const TextFormFieldModel(
+  const TextFormFieldWidget(
       {super.key,
       required this.title,
       required this.color,

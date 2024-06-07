@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/vehicleRegistrationState.dart';
+import 'package:ss_auto/states/vehicle_registration_state.dart';
 
-class OptionYesNo extends StatelessWidget {
+class YesNoSelectionWidget extends StatelessWidget {
   final String title;
 
-  OptionYesNo({
+  YesNoSelectionWidget({
+    super.key,
     required this.title,
   });
 
@@ -46,7 +47,7 @@ class OptionYesNo extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10.0,
                 ),
                 SizedBox(
@@ -57,7 +58,7 @@ class OptionYesNo extends StatelessWidget {
                       backgroundColor: WidgetStateProperty.all(
                           state.isPressedNoButton ? Colors.green : orange),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Não',
                       style: TextStyle(color: Colors.white),
                     ),

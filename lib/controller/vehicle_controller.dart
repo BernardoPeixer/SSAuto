@@ -1,4 +1,4 @@
-import '../model/vehicleModel.dart';
+import '../model/vehicle_model.dart';
 import '../database/database.dart';
 
 class VehicleController {

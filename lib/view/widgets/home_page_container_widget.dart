@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CenterContainersHomePage extends StatelessWidget {
+class HomePageContainerWidget extends StatelessWidget {
   final String title;
   final String statistic;
   final String subtitle;
@@ -11,7 +11,7 @@ class CenterContainersHomePage extends StatelessWidget {
   final double subtitleFontSize;
   final double statisticFontSize;
 
-  const CenterContainersHomePage(
+  const HomePageContainerWidget(
       {super.key, required this.title,
       required this.statistic,
       required this.subtitle,

@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/widgets/myBottomAppBar.dart';
-import 'package:ss_auto/view/widgets/centerContainersHomePage.dart';
-import 'package:ss_auto/view/widgets/myFloatingActionButton.dart';
+import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
+import 'package:ss_auto/view/widgets/home_page_container_widget.dart';
+import 'package:ss_auto/view/widgets/floating_action_button_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -86,7 +85,7 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CenterContainersHomePage(
+                    HomePageContainerWidget(
                       title: 'Aluguéis:',
                       statistic: '197',
                       subtitle: 'Automóveis',
@@ -97,7 +96,7 @@ class HomePage extends StatelessWidget {
                       subtitleFontSize: 16,
                       statisticFontSize: 25,
                     ),
-                    CenterContainersHomePage(
+                    HomePageContainerWidget(
                       title: 'Receita Estimada:',
                       statistic: 'R\$198.879',
                       subtitle: 'Pendente',
@@ -148,10 +147,10 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: MyFloatingActionButton(
+      floatingActionButton: FloatingActionButtonWidget(
         color: blue,
       ),
-      bottomNavigationBar: const MyBottomAppBar(),
+      bottomNavigationBar: const BottomAppBarWidget(),
     );
   }
 }

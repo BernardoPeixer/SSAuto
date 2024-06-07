@@ -1,8 +1,8 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:ss_auto/model/customerModel.dart';
-import 'package:ss_auto/model/managerModel.dart';
-import 'package:ss_auto/model/vehicleModel.dart';
+import 'package:ss_auto/model/customer_model.dart';
+import 'package:ss_auto/model/manager_model.dart';
+import 'package:ss_auto/model/vehicle_model.dart';
 
 Future<Database> getDatabase() async {
   final String databasesPath = await getDatabasesPath();

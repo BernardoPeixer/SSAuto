@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MyFloatingActionButton extends StatelessWidget {
+class FloatingActionButtonWidget extends StatelessWidget {
 
   final Color color;
 
-  const MyFloatingActionButton({super.key, required this.color});
+  const FloatingActionButtonWidget({super.key, required this.color});
 
   @override
   Widget build(BuildContext context) {

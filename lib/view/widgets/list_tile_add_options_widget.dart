@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ListTileAddOptionsScreen extends StatelessWidget {
+class ListTileAddOptionsWidget extends StatelessWidget {
   final Color color;
   final IconData icon;
   final String title;
   VoidCallback? onTap;
 
-  ListTileAddOptionsScreen(
-      {required this.title,
+  ListTileAddOptionsWidget(
+      {super.key,
+      required this.title,
       required this.color,
       required this.icon,
       required this.onTap});

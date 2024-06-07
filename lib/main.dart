@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/vehicleRegistration.dart';
-import 'view/addOptionsScreen.dart';
-import 'view/homePage.dart';
-import 'view/managerRegistration.dart';
-import 'view/customerRegistration.dart';
+import 'package:ss_auto/view/vehicle_registration.dart';
+import 'view/add_options_screen.dart';
+import 'view/home_page.dart';
+import 'view/manager_registration.dart';
+import 'view/customer_registration.dart';
 
 void main() {
   runApp(const MyApp());

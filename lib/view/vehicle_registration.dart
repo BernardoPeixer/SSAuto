@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/states/vehicleRegistrationState.dart';
-import 'package:ss_auto/view/widgets/optionYesNo.dart';
-import 'package:ss_auto/view/widgets/textFormFieldModel.dart';
+import 'package:ss_auto/states/vehicle_registration_state.dart';
+import 'package:ss_auto/view/widgets/yes_no_selection_widget.dart';
+import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
 
 class VehicleRegistration extends StatelessWidget {
@@ -39,14 +39,14 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Marca:',
                       color: orange,
                       controller: state.controllerBrand,
                       validator: (value) =>
                           state.name(state.controllerBrand.text),
                     ),
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Modelo:',
                       color: orange,
                       controller: state.controllerModel,
@@ -58,14 +58,14 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Placa:',
                       color: orange,
                       controller: state.controllerLicensePlate,
                       validator: (value) =>
                           state.name(state.controllerLicensePlate.text),
                     ),
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Ano:',
                       color: orange,
                       controller: state.controllerYear,
@@ -77,14 +77,14 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Categoria:',
                       color: orange,
                       controller: state.controllerCategory,
                       validator: (value) =>
                           state.name(state.controllerCategory.text),
                     ),
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Custo da Diária:',
                       color: orange,
                       controller: state.controllerDailyCost,
@@ -97,7 +97,7 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Quilometragem Atual:',
                       color: orange,
                       controller: state.controllerMileage,
@@ -105,7 +105,7 @@ class VehicleRegistration extends StatelessWidget {
                           state.name(state.controllerMileage.text),
                       inputType: TextInputType.number,
                     ),
-                    TextFormFieldModel(
+                    TextFormFieldWidget(
                       title: 'Cor:',
                       color: orange,
                       controller: state.controllerColor,
@@ -118,10 +118,10 @@ class VehicleRegistration extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    OptionYesNo(
+                    YesNoSelectionWidget(
                       title: 'Ar Condicionado:',
                     ),
-                    OptionYesNo(
+                    YesNoSelectionWidget(
                       title: 'Sensor:',
                     ),
                   ],
