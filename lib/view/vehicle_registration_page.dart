@@ -4,8 +4,8 @@ import 'package:ss_auto/view/widgets/yes_no_selection_widget.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
 
-class VehicleRegistration extends StatelessWidget {
-  const VehicleRegistration({super.key});
+class VehicleRegistrationPage extends StatelessWidget {
+  const VehicleRegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {

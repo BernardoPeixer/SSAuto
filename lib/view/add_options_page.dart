@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ss_auto/view/widgets/list_tile_add_options_widget.dart';
-
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/floating_action_button_widget.dart';
 
-class AddOptionsScreen extends StatelessWidget {
-  const AddOptionsScreen({super.key});
+class AddOptionsPage extends StatelessWidget {
+  const AddOptionsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +17,21 @@ class AddOptionsScreen extends StatelessWidget {
         children: [
           ListTileAddOptionsWidget(
               onTap: () {
-                Navigator.of(context).pushNamed('/vehicleRegistration');
+                Navigator.of(context).pushNamed('/vehicleRegistrationPage');
               },
               title: 'ADICIONAR CARRO',
               color: orange,
               icon: Icons.directions_car),
           ListTileAddOptionsWidget(
               onTap: () {
-                Navigator.of(context).pushNamed('/managerRegistration');
+                Navigator.of(context).pushNamed('/managerRegistrationPage');
               },
               title: 'CADASTRAR GERENTE',
               color: orange,
               icon: Icons.supervisor_account),
           ListTileAddOptionsWidget(
               onTap: () {
-                Navigator.of(context).pushNamed('/customerRegistration');
+                Navigator.of(context).pushNamed('/customerRegistrationPage');
               },
               title: 'CADASTRAR CLIENTE',
               color: orange,

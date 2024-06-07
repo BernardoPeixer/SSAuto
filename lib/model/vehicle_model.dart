@@ -10,6 +10,7 @@ class Vehicle {
     required this.color,
     required this.air,
     required this.sensor,
+    this.id,
   });
 
   final String brand;

@@ -6,7 +6,9 @@ import 'package:ss_auto/controller/vehicle_controller.dart';
 import '../model/vehicle_model.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
-  VehicleRegistrationState({this.vehicle});
+  VehicleRegistrationState({this.vehicle}) {
+    loadVehicle();
+  }
 
   bool isPressedYesButton = false;
   bool isPressedNoButton = false;
@@ -52,6 +54,10 @@ class VehicleRegistrationState with ChangeNotifier {
 
   final Vehicle? vehicle;
 
+  final _listVehicles = <Vehicle>[];
+
+  List<Vehicle> get listVehicles => _listVehicles;
+
   String? name(String? value) {
     if (value == null || value.length < 5) {
       return 'O nome deve conter mais de 5 letras';
@@ -60,14 +66,14 @@ class VehicleRegistrationState with ChangeNotifier {
   }
 
   void pressedNoButton() {
-    isPressedNoButton = isPressedNoButton = true;
-    isPressedYesButton = isPressedYesButton = false;
+    isPressedNoButton = true;
+    isPressedYesButton = false;
     notifyListeners();
   }
 
   void pressedYesButton() {
-    isPressedYesButton = isPressedYesButton = true;
-    isPressedNoButton = isPressedNoButton = false;
+    isPressedYesButton = true;
+    isPressedNoButton = false;
     notifyListeners();
   }
 
@@ -96,5 +102,22 @@ class VehicleRegistrationState with ChangeNotifier {
     controllerColor.clear();
     notifyListeners();
     print('insert concluido');
+  }
+
+  void addVehicle(Vehicle vehicle) {
+    _listVehicles.add(vehicle);
+    notifyListeners();
+  }
+
+  void deleteVehicle(Vehicle vehicle) {
+    _listVehicles.remove(vehicle);
+    notifyListeners();
+  }
+
+  Future<void> loadVehicle() async {
+    final list = await controllerVehicle.selectVehicles();
+    _listVehicles.clear();
+    _listVehicles.addAll(list);
+    notifyListeners();
   }
 }

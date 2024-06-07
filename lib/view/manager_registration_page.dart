@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/customer_registration_state.dart';
+import 'package:ss_auto/states/manager_registration_state.dart';
+import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 
-import 'widgets/text_form_field_widget.dart';
-
-class CustomerRegistration extends StatelessWidget {
-  const CustomerRegistration({super.key});
+class ManagerRegistrationPage extends StatelessWidget {
+  const ManagerRegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class CustomerRegistration extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         title: const Text(
-          'Cadastro de Cliente',
+          'Cadastro de Gerente',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -28,30 +27,30 @@ class CustomerRegistration extends StatelessWidget {
         ),
       ),
       body: ChangeNotifierProvider(
-        create: (context) => CustomerRegistrationState(),
-        child: Consumer<CustomerRegistrationState>(
-          builder: (_, state, __) {
+        create: (context) => ManagerRegistrationState(),
+        child: Consumer<ManagerRegistrationState>(
+          builder: (_,state,__) {
             return Form(
-              key: state.keyFormCustomer,
+              key: state.keyFormManager,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   const Icon(
-                    Icons.person,
+                    Icons.supervisor_account,
                     size: 150,
                     color: Colors.white,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextFormFieldWidget(title: 'Nome da Empresa:', color: orange),
+                      TextFormFieldWidget(title: 'Nome Completo:', color: orange),
                       TextFormFieldWidget(title: 'Cidade:', color: orange),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextFormFieldWidget(title: 'CNPJ:', color: orange),
+                      TextFormFieldWidget(title: 'CPF:', color: orange),
                       TextFormFieldWidget(title: 'Estado:', color: orange),
                     ],
                   ),
@@ -69,9 +68,9 @@ class CustomerRegistration extends StatelessWidget {
                         backgroundColor: WidgetStatePropertyAll(orange),
                       ),
                       onPressed: () async {
-                        if (state.keyFormCustomer.currentState!
+                        if (state.keyFormManager.currentState!
                             .validate()) {
-                          await state.insertCustomer();
+                          await state.insertManager();
                           Navigator.pop(context);
                         }
                       },

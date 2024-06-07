@@ -12,7 +12,7 @@ class FloatingActionButtonWidget extends StatelessWidget {
       mini: true,
       backgroundColor: color,
       onPressed: () {
-        Navigator.of(context).pushNamed('/addOptionsScreen');
+        Navigator.of(context).pushNamed('/addOptionsPage');
       },
       shape: const CircleBorder(),
       child: const Icon(

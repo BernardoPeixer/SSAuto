@@ -25,7 +25,9 @@ class BottomAppBarWidget extends StatelessWidget {
                 color: Colors.white,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).popAndPushNamed('/fleetPage');
+                },
                 iconSize: 20,
                 icon: const Icon(Icons.directions_car),
                 color: Colors.white,
