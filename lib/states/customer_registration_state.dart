@@ -3,6 +3,7 @@ import 'package:ss_auto/controller/customer_controller.dart';
 import '../model/customer_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomerRegistrationState with ChangeNotifier {
   CustomerRegistrationState({this.customer});
@@ -14,6 +15,7 @@ class CustomerRegistrationState with ChangeNotifier {
   final controllerCustomer = CustomerController();
 
   final TextEditingController _controllerCnpj = TextEditingController();
+
   TextEditingController get controllerCnpj => _controllerCnpj;
 
   final Customer? customer;
@@ -47,10 +49,10 @@ class CustomerRegistrationState with ChangeNotifier {
   //   print('insert concluido');
   // }
 
-
-
   Future<Customer?> getCompanyDetails(String cnpj) async {
     try {
+      final unmaskedCnpj = maskFormatterCnpj.getUnmaskedText();
+      controllerCnpj.text = unmaskedCnpj;
       final response = await http.get(
         Uri.parse(
             'https://brasilapi.com.br/api/cnpj/v1/${controllerCnpj.text}'),
@@ -79,12 +81,11 @@ class CustomerRegistrationState with ChangeNotifier {
     }
   }
 
-
-
   Future<void> setCompanyDetails() async {
     if (controllerCnpj.text.isNotEmpty) {
       final customerDetails = await getCompanyDetails(controllerCnpj.text);
       if (customerDetails != null) {
+        visible = true;
         customerCompanyName = customerDetails.company ?? 'Não informado';
         customerCompanyPhone = customerDetails.phone ?? 'Não informado';
         customerCompanyCnpj = customerDetails.cnpj ?? 'Não informado';
@@ -96,4 +97,9 @@ class CustomerRegistrationState with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  MaskTextInputFormatter maskFormatterCnpj = MaskTextInputFormatter(
+    mask: '##.###.###/####-##',
+    type: MaskAutoCompletionType.lazy,
+  );
 }

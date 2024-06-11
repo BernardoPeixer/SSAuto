@@ -55,10 +55,11 @@ class CustomerRegistrationPage extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.2,
                       child: TextFormField(
+                        inputFormatters: [state.maskFormatterCnpj],
                         keyboardType: TextInputType.number,
                         controller: state.controllerCnpj,
                         decoration: InputDecoration(
-                          hintText: '000.000.00/0000-00',
+                          hintText: '00.000.000/0000-00',
                           filled: true,
                           fillColor: orange,
                           border: OutlineInputBorder(
@@ -77,7 +78,7 @@ class CustomerRegistrationPage extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () async {
-                        state.setCompanyDetails();
+                        await state.setCompanyDetails();
                       },
                       icon: const Icon(
                         Icons.search,
@@ -92,44 +93,47 @@ class CustomerRegistrationPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 2.3,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          state.customerCompanyName,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'CNPJ: ${state.customerCompanyCnpj}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                        ),
-                        Text(
-                          'Fone: ${state.customerCompanyPhone}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                        ),
-                        Text(
-                          'Cidade: ${state.customerCompanyCity} / ${state.customerCompanyState}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                        ),
-                        Text(
-                          'Status: ${state.customerCompanyActivity}',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                        ),
-                      ],
+                  child: Visibility(
+                    visible: state.visible,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 2.3,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            state.customerCompanyName,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'CNPJ: ${state.customerCompanyCnpj}',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                          Text(
+                            'Fone: ${state.customerCompanyPhone}',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                          Text(
+                            'Cidade: ${state.customerCompanyCity} / ${state.customerCompanyState}',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                          Text(
+                            'Status: ${state.customerCompanyActivity}',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
