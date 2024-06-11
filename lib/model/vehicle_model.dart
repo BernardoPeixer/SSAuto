@@ -24,6 +24,8 @@ class Vehicle {
   final String air;
   final String sensor;
   late int? id;
+
+
 }
 
 class VehicleTable {

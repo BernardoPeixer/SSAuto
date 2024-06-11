@@ -6,7 +6,10 @@ class Customer {
     required this.state,
     required this.email,
     required this.phone,
+    required this.activity,
+    this.id,
   });
+
 
   final String company;
   final String city;
@@ -14,6 +17,7 @@ class Customer {
   final String state;
   final String email;
   final String phone;
+  final String activity;
   late int? id;
 }
 
@@ -51,4 +55,6 @@ class CustomerTable {
 
     return map;
   }
+
+
 }

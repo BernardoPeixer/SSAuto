@@ -1,5 +1,7 @@
 import '../model/vehicle_model.dart';
 import '../database/database.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class VehicleController {
   Future<void> insert(Vehicle vehicle) async {
@@ -35,4 +37,22 @@ class VehicleController {
     }
     return list;
   }
+
+  // Future<void> getApi() async {
+  //   final modelsBrandsRespondes = await http.get(
+  //     Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands/7/models'),
+  //     headers: {},
+  //   );
+  //
+  //   print(modelsBrandsRespondes.body);
+  //
+  //   final decoded = jsonDecode(modelsBrandsRespondes.body);
+  //   final list = <Vehicle>[];
+  //
+  //   for (final it in decoded) {
+  //     list.add(Vehicle.fromJson(it));
+  //   }
+  //
+  //   print(list);
+  // }
 }

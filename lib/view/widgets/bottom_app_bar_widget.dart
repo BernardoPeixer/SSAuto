@@ -18,7 +18,7 @@ class BottomAppBarWidget extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).popAndPushNamed('/homePage');
+                  Navigator.of(context).pushReplacementNamed('/homePage');
                 },
                 iconSize: 20,
                 icon: const Icon(Icons.home),
@@ -26,7 +26,7 @@ class BottomAppBarWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).popAndPushNamed('/fleetPage');
+                  Navigator.of(context).pushReplacementNamed('/fleetPage');
                 },
                 iconSize: 20,
                 icon: const Icon(Icons.directions_car),
