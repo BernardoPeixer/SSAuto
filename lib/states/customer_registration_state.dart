@@ -27,6 +27,8 @@ class CustomerRegistrationState with ChangeNotifier {
   String customerCompanyState = '';
   String customerCompanyActivity = '';
 
+  bool? isValid;
+
   // Future<void> insertCustomer() async {
   //   print('chamando insert');
   //   final customer = Customer(
@@ -81,17 +83,29 @@ class CustomerRegistrationState with ChangeNotifier {
     }
   }
 
+  Future<void> validatorCnpj() async {
+    final companyDetails = await getCompanyDetails(controllerCnpj.text);
+    if (companyDetails == null) {
+      isValid = false;
+      controllerCnpj.clear();
+    } else {
+      isValid = true;
+      await setCompanyDetails();
+    }
+    notifyListeners();
+  }
+
   Future<void> setCompanyDetails() async {
     if (controllerCnpj.text.isNotEmpty) {
       final customerDetails = await getCompanyDetails(controllerCnpj.text);
       if (customerDetails != null) {
         visible = true;
-        customerCompanyName = customerDetails.company ?? 'Não informado';
-        customerCompanyPhone = customerDetails.phone ?? 'Não informado';
-        customerCompanyCnpj = customerDetails.cnpj ?? 'Não informado';
-        customerCompanyCity = customerDetails.city ?? 'Não informado';
-        customerCompanyState = customerDetails.state ?? 'Não informado';
-        customerCompanyActivity = customerDetails.activity ?? 'Não informado';
+        customerCompanyName = customerDetails.company;
+        customerCompanyPhone = customerDetails.phone;
+        customerCompanyCnpj = customerDetails.cnpj;
+        customerCompanyCity = customerDetails.city;
+        customerCompanyState = customerDetails.state;
+        customerCompanyActivity = customerDetails.activity;
         controllerCnpj.clear();
       }
     }
@@ -100,6 +114,6 @@ class CustomerRegistrationState with ChangeNotifier {
 
   MaskTextInputFormatter maskFormatterCnpj = MaskTextInputFormatter(
     mask: '##.###.###/####-##',
-    type: MaskAutoCompletionType.lazy,
+    type: MaskAutoCompletionType.eager,
   );
 }
