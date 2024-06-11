@@ -29,27 +29,20 @@ class CustomerRegistrationState with ChangeNotifier {
 
   bool? isValid;
 
-  // Future<void> insertCustomer() async {
-  //   print('chamando insert');
-  //   final customer = Customer(
-  //     company: controllerCustomerCompany.text,
-  //     city: controllerCustomerCity.text,
-  //     cnpj: controllerCustomerCnpj.text,
-  //     state: controllerCustomerState.text,
-  //     email: controllerCustomerEmail.text,
-  //     phone: controllerCustomerPhone.text,
-  //     ati
-  //   );
-  //   await controllerCustomer.insert(customer);
-  //   controllerCustomerCompany.clear();
-  //   controllerCustomerCity.clear();
-  //   controllerCustomerCnpj.clear();
-  //   controllerCustomerState.clear();
-  //   controllerCustomerEmail.clear();
-  //   controllerCustomerPhone.clear();
-  //   notifyListeners();
-  //   print('insert concluido');
-  // }
+  Future<void> insertCustomer() async {
+    print('chamando insert');
+    final customer = Customer(
+      company: customerCompanyName,
+      city: customerCompanyCity,
+      cnpj: customerCompanyCnpj,
+      state: customerCompanyState,
+      phone: customerCompanyPhone,
+      activity: customerCompanyActivity,
+    );
+    await controllerCustomer.insert(customer);
+    notifyListeners();
+    print('insert concluido');
+  }
 
   Future<Customer?> getCompanyDetails(String cnpj) async {
     try {
@@ -66,7 +59,6 @@ class CustomerRegistrationState with ChangeNotifier {
       final cnpj = decoded['cnpj'];
       final city = decoded['municipio'];
       final state = decoded['uf'];
-      final email = decoded['porte'];
       final phone = decoded['ddd_telefone_1'];
       final activity = decoded['descricao_situacao_cadastral'];
 
@@ -75,7 +67,6 @@ class CustomerRegistrationState with ChangeNotifier {
           city: city,
           cnpj: cnpj,
           state: state,
-          email: email,
           phone: phone,
           activity: activity);
     } catch (error) {

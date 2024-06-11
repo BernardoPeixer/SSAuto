@@ -75,7 +75,9 @@ class CustomerRegistrationPage extends StatelessWidget {
                               vertical: 0.0, horizontal: 6.0),
                         ),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.white, ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     IconButton(
@@ -151,7 +153,11 @@ class CustomerRegistrationPage extends StatelessWidget {
                           height: 10,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await state.insertCustomer();
+                            Navigator.of(context)
+                                .pushNamed('/managerCustomerPage');
+                          },
                           child: const Text('Cadastrar'),
                         ),
                       ],

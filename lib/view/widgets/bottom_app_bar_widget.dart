@@ -26,6 +26,14 @@ class BottomAppBarWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/');
+                },
+                iconSize: 20,
+                icon: const Icon(Icons.monetization_on),
+                color: Colors.white,
+              ),
+              IconButton(
+                onPressed: () {
                   Navigator.of(context).pushReplacementNamed('/fleetPage');
                 },
                 iconSize: 20,
@@ -33,15 +41,12 @@ class BottomAppBarWidget extends StatelessWidget {
                 color: Colors.white,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/managerCustomerPage');
+                },
                 iconSize: 20,
-                icon: const Icon(Icons.key),
-                color: Colors.white,
-              ),
-              IconButton(
-                onPressed: () {},
-                iconSize: 20,
-                icon: const Icon(Icons.dashboard),
+                icon: const Icon(Icons.supervised_user_circle),
                 color: Colors.white,
               ),
             ],

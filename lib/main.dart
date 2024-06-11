@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ss_auto/view/fleet_page.dart';
+import 'package:ss_auto/view/manager_customer_page.dart';
 import 'package:ss_auto/view/vehicle_registration_page.dart';
 import 'view/add_options_page.dart';
 import 'view/home_page.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/managerRegistrationPage': (context) =>
             const ManagerRegistrationPage(),
         '/fleetPage': (context) => const FleetPage(),
+        '/managerCustomerPage':(context) => const ManagerCustomerPage(),
       },
     );
   }

@@ -4,7 +4,6 @@ class Customer {
     required this.city,
     required this.cnpj,
     required this.state,
-    required this.email,
     required this.phone,
     required this.activity,
     this.id,
@@ -15,7 +14,6 @@ class Customer {
   final String city;
   final String cnpj;
   final String state;
-  final String email;
   final String phone;
   final String activity;
   late int? id;
@@ -29,8 +27,8 @@ class CustomerTable {
       $city          TEXT NOT NULL,
       $cnpj          TEXT NOT NULL,
       $state         TEXT NOT NULL,
-      $email         TEXT NOT NULL,
-      $phone         TEXT NOT NULL
+      $phone         TEXT NOT NULL,
+      $activity      TEXT NOT NULL
     );
     ''';
 
@@ -40,8 +38,8 @@ class CustomerTable {
   static const String city = 'city';
   static const String cnpj = 'cnpj';
   static const String state = 'state';
-  static const String email = 'email';
   static const String phone = 'phone';
+  static const String activity = 'activity';
 
   static Map<String, dynamic> toMap(Customer customer) {
     final map = <String, dynamic>{};
@@ -50,8 +48,8 @@ class CustomerTable {
     map[CustomerTable.city] = customer.city;
     map[CustomerTable.cnpj] = customer.cnpj;
     map[CustomerTable.state] = customer.state;
-    map[CustomerTable.email] = customer.email;
     map[CustomerTable.phone] = customer.phone;
+    map[CustomerTable.activity] = customer.activity;
 
     return map;
   }

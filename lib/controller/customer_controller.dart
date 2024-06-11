@@ -13,15 +13,4 @@ class CustomerController {
 
     return;
   }
-
-  Future<void> getBrasilApi() async {
-    final cnpjRequest = await http.get(
-      Uri.parse('https://brasilapi.com.br/api/cnpj/v1/36127778000103'),
-      headers: {},
-    );
-
-    print(cnpjRequest.body);
-  }
-
-
 }
