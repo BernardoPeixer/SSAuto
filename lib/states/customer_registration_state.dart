@@ -6,7 +6,9 @@ import 'dart:convert';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomerRegistrationState with ChangeNotifier {
-  CustomerRegistrationState({this.customer});
+  CustomerRegistrationState({this.customer}) {
+    loadCustomers();
+  }
 
   bool visible = false;
 
@@ -19,6 +21,10 @@ class CustomerRegistrationState with ChangeNotifier {
   TextEditingController get controllerCnpj => _controllerCnpj;
 
   final Customer? customer;
+
+  final _customerList = <Customer>[];
+
+  List<Customer> get customerList => _customerList;
 
   String customerCompanyName = '';
   String customerCompanyCnpj = '';
@@ -40,6 +46,7 @@ class CustomerRegistrationState with ChangeNotifier {
       activity: customerCompanyActivity,
     );
     await controllerCustomer.insert(customer);
+    customerList.add(customer);
     notifyListeners();
     print('insert concluido');
   }
@@ -100,6 +107,15 @@ class CustomerRegistrationState with ChangeNotifier {
         controllerCnpj.clear();
       }
     }
+    notifyListeners();
+  }
+
+  Future<void> loadCustomers() async {
+    final list = await controllerCustomer.selectCustomers();
+
+    _customerList.clear();
+    _customerList.addAll(list);
+
     notifyListeners();
   }
 
