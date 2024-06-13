@@ -43,22 +43,22 @@ class ManagerRegistrationPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextFormFieldWidget(title: 'Nome Completo:', color: orange),
-                      TextFormFieldWidget(title: 'Cidade:', color: orange),
+                      TextFormFieldWidget(title: 'Nome Completo:', color: orange,controller: state.controllerManagerName),
+                      TextFormFieldWidget(title: 'Cidade:', color: orange,controller: state.controllerManagerCity),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextFormFieldWidget(title: 'CPF:', color: orange),
-                      TextFormFieldWidget(title: 'Estado:', color: orange),
+                      TextFormFieldWidget(title: 'CPF:', color: orange, controller: state.controllerManagerCpf),
+                      TextFormFieldWidget(title: 'Estado:', color: orange,controller: state.controllerManagerState),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextFormFieldWidget(title: 'E-mail:', color: blu),
-                      TextFormFieldWidget(title: 'Telefone:', color: blu),
+                      TextFormFieldWidget(title: 'E-mail:', color: blu, controller: state.controllerManagerEmail,),
+                      TextFormFieldWidget(title: 'Telefone:', color: blu,controller: state.controllerManagerPhone),
                     ],
                   ),
                   SizedBox(
@@ -68,11 +68,10 @@ class ManagerRegistrationPage extends StatelessWidget {
                         backgroundColor: WidgetStatePropertyAll(orange),
                       ),
                       onPressed: () async {
-                        if (state.keyFormManager.currentState!
-                            .validate()) {
+
                           await state.insertManager();
-                          Navigator.pop(context);
-                        }
+                          Navigator.of(context).pushReplacementNamed('/managerCustomerPage');
+
                       },
                       child: const Text(
                         'Salvar',

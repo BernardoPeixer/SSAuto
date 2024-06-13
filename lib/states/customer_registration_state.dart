@@ -119,6 +119,8 @@ class CustomerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+
+
   MaskTextInputFormatter maskFormatterCnpj = MaskTextInputFormatter(
     mask: '##.###.###/####-##',
     type: MaskAutoCompletionType.eager,

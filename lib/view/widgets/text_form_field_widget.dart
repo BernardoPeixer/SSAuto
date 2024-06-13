@@ -4,16 +4,13 @@ class TextFormFieldWidget extends StatelessWidget {
   final String title;
   final Color color;
   final TextEditingController? controller;
-  final String? Function(String?)? validator;
-  final TextInputType? inputType;
 
   const TextFormFieldWidget(
       {super.key,
       required this.title,
       required this.color,
-      this.controller,
-      this.validator,
-      this.inputType});
+      required this.controller,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +28,7 @@ class TextFormFieldWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width / 2.2,
           height: 30,
           child: TextFormField(
-            keyboardType: inputType,
-            validator: validator,
+
             controller: controller,
             decoration: InputDecoration(
               filled: true,

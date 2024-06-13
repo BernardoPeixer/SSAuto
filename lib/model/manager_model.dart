@@ -6,6 +6,7 @@ class Manager {
     required this.state,
     required this.email,
     required this.phone,
+    this.id,
   });
 
   final String name;
