@@ -26,33 +26,11 @@ class VehicleController {
           model: item[VehicleTable.model],
           licensePlate: item[VehicleTable.licensePlate],
           year: item[VehicleTable.year],
-          category: item[VehicleTable.category],
           dailyCost: item[VehicleTable.dailyCost],
-          mileage: item[VehicleTable.mileage],
-          color: item[VehicleTable.color],
-          air: item[VehicleTable.air],
-          sensor: item[VehicleTable.sensor],
+          id: item[VehicleTable.id],
         ),
       );
     }
     return list;
   }
-
-  // Future<void> getApi() async {
-  //   final modelsBrandsRespondes = await http.get(
-  //     Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands/7/models'),
-  //     headers: {},
-  //   );
-  //
-  //   print(modelsBrandsRespondes.body);
-  //
-  //   final decoded = jsonDecode(modelsBrandsRespondes.body);
-  //   final list = <Vehicle>[];
-  //
-  //   for (final it in decoded) {
-  //     list.add(Vehicle.fromJson(it));
-  //   }
-  //
-  //   print(list);
-  // }
 }

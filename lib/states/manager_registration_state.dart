@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../controller/manager_controller.dart';
 import '../model/manager_model.dart';
 
@@ -28,6 +29,11 @@ class ManagerRegistrationState with ChangeNotifier {
   final ManagerController controllerManager = ManagerController();
 
   final Manager? manager;
+
+  MaskTextInputFormatter maskFormatterCpf = MaskTextInputFormatter(
+    mask: '###.###.###-##',
+    type: MaskAutoCompletionType.eager,
+  );
 
   Future<void> insertManager() async {
     print('Chamando insertManager');

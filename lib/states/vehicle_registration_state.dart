@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:ss_auto/controller/vehicle_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../model/vehicle_model.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState({this.vehicle}) {
@@ -87,22 +88,10 @@ class VehicleRegistrationState with ChangeNotifier {
       model: controllerModel.text,
       licensePlate: controllerLicensePlate.text,
       year: controllerYear.text,
-      category: controllerCategory.text,
       dailyCost: controllerDailyCost.text,
-      mileage: controllerMileage.text,
-      color: controllerColor.text,
-      air: controllerAir,
-      sensor: controllerSensor,
     );
+
     await controllerVehicle.insert(vehicle);
-    controllerBrand.clear();
-    controllerModel.clear();
-    controllerLicensePlate.clear();
-    controllerYear.clear();
-    controllerCategory.clear();
-    controllerDailyCost.clear();
-    controllerMileage.clear();
-    controllerColor.clear();
     notifyListeners();
     print('insert concluido');
   }
@@ -124,4 +113,81 @@ class VehicleRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+  List<File> carImages = [];
+
+  Future<void> getImage(ImageSource source) async {
+    ImagePicker picker = ImagePicker();
+    ImageCropper cropper = ImageCropper();
+    XFile? image = await picker.pickImage(source: source);
+
+    if (image != null) {
+      CroppedFile? croppedFile = await cropper.cropImage(
+        sourcePath: image.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        compressQuality: 100,
+        maxHeight: 100,
+        maxWidth: 100,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+
+      if (croppedFile != null) {
+        carImages.add(File(croppedFile.path));
+      }
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> saveImageFile() async {
+    final appDocumentsDir = await getApplicationSupportDirectory();
+
+    final pathImages = '${appDocumentsDir.path}/images';
+    final directoryImages = Directory(pathImages);
+
+    if (!directoryImages.existsSync()) {
+      await directoryImages.create();
+    }
+
+    final pathCars = '${appDocumentsDir.path}/images/cars';
+    final directoryCars = Directory(pathCars);
+
+    if (!directoryCars.existsSync()) {
+      await directoryCars.create();
+    }
+
+    final directoryNameVehicle = _controllerLicensePlate.text.trim();
+
+    final pathIdCars = '${directoryCars.path}/$directoryNameVehicle';
+
+    final directoryCarsId = Directory(pathIdCars);
+
+    if (!directoryCarsId.existsSync()) {
+      await directoryCarsId.create();
+    }
+
+    try {
+      for (int i = 0; i < carImages.length; i++) {
+        final carImage = carImages[i];
+        final fileCar = File('${directoryCarsId.path}/$i.png');
+
+        final bytes = await carImage.readAsBytes();
+
+        await fileCar.writeAsBytes(bytes);
+      }
+    } catch (e, trace) {
+      print('error: $e, $trace');
+    }
+  }
+
+  void removeCarImage(int index) {
+    carImages.removeAt(index);
+    notifyListeners();
+  }
+
+  String? validatorAno(controller) {
+    if(controller) {
+
+    }
+    return null;
+  }
 }

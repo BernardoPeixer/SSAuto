@@ -28,65 +28,100 @@ class ManagerRegistrationPage extends StatelessWidget {
       ),
       body: ChangeNotifierProvider(
         create: (context) => ManagerRegistrationState(),
-        child: Consumer<ManagerRegistrationState>(
-          builder: (_,state,__) {
-            return Form(
-              key: state.keyFormManager,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Icon(
-                    Icons.supervisor_account,
-                    size: 150,
-                    color: Colors.white,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Consumer<ManagerRegistrationState>(builder: (_, state, __) {
+          return Scaffold(
+            backgroundColor: blue,
+            body: SingleChildScrollView(
+              child: Form(
+                key: state.keyFormManager,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TextFormFieldWidget(title: 'Nome Completo:', color: orange,controller: state.controllerManagerName),
-                      TextFormFieldWidget(title: 'Cidade:', color: orange,controller: state.controllerManagerCity),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextFormFieldWidget(title: 'CPF:', color: orange, controller: state.controllerManagerCpf),
-                      TextFormFieldWidget(title: 'Estado:', color: orange,controller: state.controllerManagerState),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextFormFieldWidget(title: 'E-mail:', color: blu, controller: state.controllerManagerEmail,),
-                      TextFormFieldWidget(title: 'Telefone:', color: blu,controller: state.controllerManagerPhone),
-                    ],
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(orange),
+                      const Icon(
+                        Icons.supervisor_account,
+                        size: 150,
+                        color: Colors.white,
                       ),
-                      onPressed: () async {
-
-                          await state.insertManager();
-                          Navigator.of(context).pushReplacementNamed('/managerCustomerPage');
-
-                      },
-                      child: const Text(
-                        'Salvar',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
+                      TextFormFieldWidget(
+                          title: 'Nome Completo:',
+                          color: orange,
+                          controller: state.controllerManagerName),
+                      TextFormFieldWidget(
+                          title: 'Cidade:',
+                          color: orange,
+                          controller: state.controllerManagerCity),
+                      const Text(
+                        'CPF:',
+                        style: const TextStyle(
+                            fontSize: 14.0, color: Colors.white),
                       ),
-                    ),
-                  )
-                ],
+                      const SizedBox(
+                        height: 5.0,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 30,
+                        child: TextFormField(
+                          inputFormatters: [state.maskFormatterCpf],
+                          controller: state.controllerManagerCpf,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: orange,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0.0, horizontal: 6.0),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      TextFormFieldWidget(
+                          title: 'Estado:',
+                          color: orange,
+                          controller: state.controllerManagerState),
+                      TextFormFieldWidget(
+                        title: 'E-mail:',
+                        color: blu,
+                        controller: state.controllerManagerEmail,
+                      ),
+                      TextFormFieldWidget(
+                          title: 'Telefone:',
+                          color: blu,
+                          controller: state.controllerManagerPhone),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(orange),
+                          ),
+                          onPressed: () async {
+                            await state.insertManager();
+                            Navigator.of(context)
+                                .pushReplacementNamed('/managerCustomerPage');
+                          },
+                          child: const Text(
+                            'Salvar',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
-            );
-          }
-        ),
+            ),
+          );
+        }),
       ),
     );
   }
