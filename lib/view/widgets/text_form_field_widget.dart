@@ -5,12 +5,12 @@ class TextFormFieldWidget extends StatelessWidget {
   final Color color;
   final TextEditingController? controller;
 
-  const TextFormFieldWidget(
-      {super.key,
-      required this.title,
-      required this.color,
-      required this.controller,
-      });
+  const TextFormFieldWidget({
+    super.key,
+    required this.title,
+    required this.color,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,9 @@ class TextFormFieldWidget extends StatelessWidget {
           height: 5.0,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width / 2.2,
+          width: MediaQuery.of(context).size.width / 1.2,
           height: 30,
           child: TextFormField(
-
             controller: controller,
             decoration: InputDecoration(
               filled: true,

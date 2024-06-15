@@ -15,7 +15,15 @@ class CustomerListWidget extends StatelessWidget {
         if (state.listCustomer.isEmpty) {
           return const Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('Nenhum cliente cadastrado')],
+            children: [
+              Text(
+                'Nenhum cliente cadastrado',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+            ],
           );
         }
         return ListView.builder(

@@ -13,7 +13,15 @@ class ManagerListWidget extends StatelessWidget {
         if (state.listManager.isEmpty) {
           return const Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('Nenhum gerente cadastrado')],
+            children: [
+              Text(
+                'Nenhum gerente cadastrado',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              )
+            ],
           );
         }
         return ListView.builder(

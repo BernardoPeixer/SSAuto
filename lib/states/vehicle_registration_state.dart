@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ss_auto/controller/vehicle_controller.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../model/vehicle_model.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
@@ -120,4 +123,5 @@ class VehicleRegistrationState with ChangeNotifier {
     _listVehicles.addAll(list);
     notifyListeners();
   }
+
 }

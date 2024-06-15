@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         '/customerRegistrationPage': (context) =>
             const CustomerRegistrationPage(),
         '/addOptionsPage': (context) => const AddOptionsPage(),
-        // '/vehicleRegistrationPage': (context) =>
-        //     const VehicleRegistrationPage(),
+        '/vehicleRegistrationPage': (context) =>
+            const VehicleRegistrationPage(),
         '/managerRegistrationPage': (context) =>
             const ManagerRegistrationPage(),
         '/fleetPage': (context) => const FleetPage(),
