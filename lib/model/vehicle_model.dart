@@ -14,8 +14,6 @@ class Vehicle {
   final String year;
   final String dailyCost;
   late int? id;
-
-
 }
 
 class VehicleTable {

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,7 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
 import '../model/vehicle_model.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:http/http.dart' as http;
 
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState({this.vehicle}) {
@@ -184,10 +189,4 @@ class VehicleRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
-  String? validatorAno(controller) {
-    if(controller) {
-
-    }
-    return null;
-  }
 }
