@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:ss_auto/view/widgets/type_ahead_widget.dart';
 
 class VehicleRegistrationPage extends StatelessWidget {
   const VehicleRegistrationPage({
@@ -75,6 +76,15 @@ class VehicleRegistrationPage extends StatelessWidget {
                             const Divider(
                               color: Colors.black,
                             ),
+                            Text('Marca:', style: TextStyle(fontSize: 14.0, color: Colors.white),),
+                            SizedBox(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width,
+                              child: TypeAheadWidget(),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                            ),
                             TextFormFieldWidget(
                               title: 'Modelo:',
                               color: blue,
@@ -101,112 +111,9 @@ class VehicleRegistrationPage extends StatelessWidget {
                                           2.5,
                                       height: 30,
                                       child: TextFormField(
-                                        controller: state.controllerLicensePlate,
+                                        controller:
+                                            state.controllerLicensePlate,
                                         decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: blue,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.blue, width: 2.0),
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 0.0,
-                                                  horizontal: 6.0),
-                                        ),
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4),
-                                ),
-                                Column(
-                                  children: [
-                                    const Text(
-                                      'Marca:',
-                                      style: TextStyle(
-                                          fontSize: 14.0, color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      height: 30,
-                                      child: TextFormField(
-                                        controller: state.controllerBrand,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: blue,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.blue, width: 2.0),
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 0.0,
-                                                  horizontal: 6.0),
-                                        ),
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 4),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: [
-                                    const Text(
-                                      'Custo da Diária:',
-                                      style: TextStyle(
-                                          fontSize: 14.0, color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      height: 30,
-                                      child: TextFormField(
-                                        controller: state.controllerDailyCost,
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          prefixIcon: const Padding(
-                                            padding: EdgeInsets.only(left: 8.0),
-                                            child: Text(
-                                              "R\$",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16),
-                                            ),
-                                          ),
-                                          prefixIconConstraints:
-                                              const BoxConstraints(
-                                                  minWidth: 0, minHeight: 0),
                                           filled: true,
                                           fillColor: blue,
                                           border: OutlineInputBorder(
@@ -274,6 +181,14 @@ class VehicleRegistrationPage extends StatelessWidget {
                                   ],
                                 ),
                               ],
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                            ),
+                            TextFormFieldWidget(
+                              title: 'Custo da diária:',
+                              color: blue,
+                              controller: state.controllerDailyCost,
                             ),
                           ],
                         ),

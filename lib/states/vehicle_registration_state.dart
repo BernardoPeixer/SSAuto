@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,6 +16,7 @@ import 'package:http/http.dart' as http;
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState({this.vehicle}) {
     loadVehicle();
+    getBrands();
   }
 
   bool isPressedYesButton = false;
@@ -189,4 +189,56 @@ class VehicleRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<Map<String, String>> getBrands() async {
+    final response = await http.get(
+      Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands'),
+      headers: {},
+    );
+
+    final decoded = jsonDecode(response.body);
+
+    Map<String, String> brandMap = {};
+
+    for (var brand in decoded) {
+      String brandCode = brand['code'];
+      String brandName = brand['name'];
+      brandMap[brandCode] = brandName;
+    }
+
+    print('Mapa de Marcas:');
+    brandMap.forEach((code, name) {
+      print('$code: $name');
+    });
+
+    return brandMap;
+  }
+
+  Future<List<String>> getBrandsTest(String pattern) async {
+    final response = await http.get(
+      Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands'),
+      headers: {},
+    );
+
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+
+      List<String> brands = [];
+
+      for (var brand in decoded) {
+        String brandName = brand['name'];
+        if (brandName.toLowerCase().contains(pattern.toLowerCase())) {
+          brands.add(brandName);
+        }
+      }
+
+      return brands;
+    } else {
+      throw Exception('Failed to load brands');
+    }
+  }
+
+  void setControllerBrand(brand) {
+   controllerBrand == brand;
+   notifyListeners();
+  }
 }
