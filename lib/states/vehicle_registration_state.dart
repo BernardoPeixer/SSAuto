@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,15 +7,15 @@ import 'package:ss_auto/controller/vehicle_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
+import '../model/brands_model.dart';
+import '../model/models_model.dart';
 import '../model/vehicle_model.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:http/http.dart' as http;
 
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState({this.vehicle}) {
     loadVehicle();
-    getBrands();
+
   }
 
   bool isPressedYesButton = false;
@@ -189,56 +188,61 @@ class VehicleRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, String>> getBrands() async {
+  Brands? selectedBrand;
+  Models? selectedModel;
+  List<Brands> brandsList = [];
+  List<Models> modelsList = [];
+
+  Future<void> getBrands() async {
+    brandsList.clear();
+
     final response = await http.get(
       Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands'),
-      headers: {},
-    );
-
-    final decoded = jsonDecode(response.body);
-
-    Map<String, String> brandMap = {};
-
-    for (var brand in decoded) {
-      String brandCode = brand['code'];
-      String brandName = brand['name'];
-      brandMap[brandCode] = brandName;
-    }
-
-    print('Mapa de Marcas:');
-    brandMap.forEach((code, name) {
-      print('$code: $name');
-    });
-
-    return brandMap;
-  }
-
-  Future<List<String>> getBrandsTest(String pattern) async {
-    final response = await http.get(
-      Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands'),
-      headers: {},
     );
 
     if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-
-      List<String> brands = [];
-
-      for (var brand in decoded) {
-        String brandName = brand['name'];
-        if (brandName.toLowerCase().contains(pattern.toLowerCase())) {
-          brands.add(brandName);
-        }
+      final List<dynamic> listJson = jsonDecode(response.body);
+      for (final it in listJson) {
+        brandsList.add(Brands.fromJson(it));
       }
-
-      return brands;
+      notifyListeners();
     } else {
       throw Exception('Failed to load brands');
     }
   }
 
-  void setControllerBrand(brand) {
-   controllerBrand == brand;
-   notifyListeners();
+  Future<void> getModels() async {
+    if (selectedBrand == null || selectedBrand!.code == null) {
+      throw Exception('Selected brand or brand code is null');
+    }
+
+    modelsList.clear();
+
+    final response = await http.get(
+      Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models'),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> listJson = jsonDecode(response.body);
+      for (final it in listJson) {
+        modelsList.add(Models.fromJson(it));
+      }
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load models');
+    }
+  }
+
+  void onSelectedBrand(Brands suggestion) {
+    controllerModel.text = '';
+    controllerBrand.text = suggestion.name!.toUpperCase();
+    selectedBrand = suggestion;
+    notifyListeners();
+  }
+
+  void onSelectedModel(Models suggestion) {
+    controllerModel.text = suggestion.name!.toUpperCase();
+    selectedModel = suggestion;
+    notifyListeners();
   }
 }

@@ -3,7 +3,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/view/widgets/type_ahead_widget.dart';
+import 'package:ss_auto/view/widgets/type_ahead_brands_widget.dart';
+
+import 'widgets/type_ahead_models_widget.dart';
 
 class VehicleRegistrationPage extends StatelessWidget {
   const VehicleRegistrationPage({
@@ -76,19 +78,28 @@ class VehicleRegistrationPage extends StatelessWidget {
                             const Divider(
                               color: Colors.black,
                             ),
-                            Text('Marca:', style: TextStyle(fontSize: 14.0, color: Colors.white),),
+                            const Text(
+                              'Marca:',
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.white),
+                            ),
                             SizedBox(
                               height: 40,
                               width: MediaQuery.of(context).size.width,
-                              child: TypeAheadWidget(),
+                              child: TypeAheadBrandsWidget(),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 4),
                             ),
-                            TextFormFieldWidget(
-                              title: 'Modelo:',
-                              color: blue,
-                              controller: state.controllerModel,
+                            const Text(
+                              'Modelo:',
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.white),
+                            ),
+                            SizedBox(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width,
+                              child: TypeAheadModelsWidget(),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 4),
