@@ -13,10 +13,7 @@ import '../model/vehicle_model.dart';
 import 'package:http/http.dart' as http;
 
 class VehicleRegistrationState with ChangeNotifier {
-  VehicleRegistrationState({this.vehicle}) {
-    loadVehicle();
-
-  }
+  VehicleRegistrationState({this.vehicle});
 
   bool isPressedYesButton = false;
   bool isPressedNoButton = false;
@@ -62,9 +59,7 @@ class VehicleRegistrationState with ChangeNotifier {
 
   final Vehicle? vehicle;
 
-  final _listVehicles = <Vehicle>[];
 
-  List<Vehicle> get listVehicles => _listVehicles;
 
   String? name(String? value) {
     if (value == null || value.length < 5) {
@@ -100,22 +95,8 @@ class VehicleRegistrationState with ChangeNotifier {
     print('insert concluido');
   }
 
-  void addVehicle(Vehicle vehicle) {
-    _listVehicles.add(vehicle);
-    notifyListeners();
-  }
 
-  void deleteVehicle(Vehicle vehicle) {
-    _listVehicles.remove(vehicle);
-    notifyListeners();
-  }
 
-  Future<void> loadVehicle() async {
-    final list = await controllerVehicle.selectVehicles();
-    _listVehicles.clear();
-    _listVehicles.addAll(list);
-    notifyListeners();
-  }
 
   List<File> carImages = [];
 
@@ -193,22 +174,71 @@ class VehicleRegistrationState with ChangeNotifier {
   List<Brands> brandsList = [];
   List<Models> modelsList = [];
 
+  // Future<void> getBrands() async {
+  //   brandsList.clear();
+  //
+  //   final response = await http.get(
+  //     Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands'),
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     final List<dynamic> listJson = jsonDecode(response.body);
+  //     for (final it in listJson) {
+  //       brandsList.add(Brands.fromJson(it));
+  //     }
+  //     notifyListeners();
+  //   } else {
+  //     throw Exception('Failed to load brands');
+  //   }
+  // }
+  //
+  // Future<void> getModels() async {
+  //   if (selectedBrand == null || selectedBrand!.code == null) {
+  //     throw Exception('Selected brand or brand code is null');
+  //   }
+  //
+  //   modelsList.clear();
+  //
+  //   final response = await http.get(
+  //     Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models'),
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     final List<dynamic> listJson = jsonDecode(response.body);
+  //     for (final it in listJson) {
+  //       modelsList.add(Models.fromJson(it));
+  //     }
+  //     notifyListeners();
+  //   } else {
+  //     throw Exception('Failed to load models');
+  //   }
+  // }
+
+  var apiKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NDU3MTU4Ny00ZDEzLTRmNWQtYjQ4Yy0xNGIyYWExZmUzMjciLCJlbWFpbCI6ImJlcm5hcmRvLnBlaXhlci5zdGFoZWxpbkBnbWFpbC5jb20iLCJpYXQiOjE3MTg4MzI5MzZ9.0yGJUuYgbdR5axItgB9ehoeJgtSifvi-g8iKQ7MgLeU';
+
   Future<void> getBrands() async {
     brandsList.clear();
 
     final response = await http.get(
       Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands'),
+      headers: {
+        'Authorization': 'Bearer $apiKey',
+      },
     );
 
     if (response.statusCode == 200) {
       final List<dynamic> listJson = jsonDecode(response.body);
       for (final it in listJson) {
         brandsList.add(Brands.fromJson(it));
+        print(response.body);
       }
-      notifyListeners();
     } else {
+      print(response.body);
       throw Exception('Failed to load brands');
     }
+
+    notifyListeners();
   }
 
   Future<void> getModels() async {
@@ -219,7 +249,11 @@ class VehicleRegistrationState with ChangeNotifier {
     modelsList.clear();
 
     final response = await http.get(
-      Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models'),
+      Uri.parse(
+          'https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models'),
+      headers: {
+        'Authorization': 'Bearer $apiKey',
+      },
     );
 
     if (response.statusCode == 200) {
@@ -227,10 +261,11 @@ class VehicleRegistrationState with ChangeNotifier {
       for (final it in listJson) {
         modelsList.add(Models.fromJson(it));
       }
-      notifyListeners();
     } else {
       throw Exception('Failed to load models');
     }
+
+    notifyListeners();
   }
 
   void onSelectedBrand(Brands suggestion) {
@@ -241,7 +276,7 @@ class VehicleRegistrationState with ChangeNotifier {
   }
 
   void onSelectedModel(Models suggestion) {
-    controllerModel.text = suggestion.name!.toUpperCase();
+    controllerModel.text = suggestion.name.toUpperCase();
     selectedModel = suggestion;
     notifyListeners();
   }

@@ -1,7 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-class Cartao extends StatelessWidget {
-  Cartao({Key? key}) : super(key: key);
+import '../../model/vehicle_model.dart';
+
+class CardFleetWidget extends StatelessWidget {
+
+  final String imagePath;
+
+  CardFleetWidget({
+    super.key,
+    required this.imagePath,
+  });
+
+  Color blue = const Color(0xff011329);
+  Color orange = const Color(0xffD3393A);
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +22,7 @@ class Cartao extends StatelessWidget {
       margin: const EdgeInsets.all(16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.yellow,
+        color: orange,
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
@@ -23,7 +36,7 @@ class Cartao extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Disponível",
             style: TextStyle(
               fontSize: 24.0,
@@ -31,19 +44,30 @@ class Cartao extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image.asset(),
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.file(File(imagePath)),
+                    ),
+                  ),
                 ],
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: const [
+                children: [
                   Text(
                     "R\$799,99",
                     style: TextStyle(

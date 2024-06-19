@@ -5,6 +5,8 @@ import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/view/widgets/type_ahead_brands_widget.dart';
 
+import '../model/brands_model.dart';
+import '../model/models_model.dart';
 import 'widgets/type_ahead_models_widget.dart';
 
 class VehicleRegistrationPage extends StatelessWidget {
@@ -86,7 +88,16 @@ class VehicleRegistrationPage extends StatelessWidget {
                             SizedBox(
                               height: 40,
                               width: MediaQuery.of(context).size.width,
-                              child: TypeAheadBrandsWidget(),
+                              child: TypeAheadBrandsWidget(
+                                controller: state.controllerBrand,
+                                getBrands: state.getBrands,
+                                getModels: state.getModels,
+                                onBrandSelected: (Brands brand) {
+                                  state.selectedBrand = brand;
+                                  state.getModels();
+                                },
+                                brandsList: state.brandsList,
+                              ),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 4),
@@ -99,7 +110,14 @@ class VehicleRegistrationPage extends StatelessWidget {
                             SizedBox(
                               height: 40,
                               width: MediaQuery.of(context).size.width,
-                              child: TypeAheadModelsWidget(),
+                              child: TypeAheadModelsWidget(
+                                controller: state.controllerModel,
+                                modelsList: state.modelsList,
+                                getModels: state.getModels,
+                                onModelSelected: (Models model) {
+                                  state.selectedModel = model;
+                                },
+                              ),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 4),

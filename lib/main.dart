@@ -20,24 +20,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => VehicleRegistrationState(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/homePage',
-        routes: {
-          '/homePage': (context) => const HomePage(),
-          '/customerRegistrationPage': (context) =>
-              const CustomerRegistrationPage(),
-          '/addOptionsPage': (context) => const AddOptionsPage(),
-          '/vehicleRegistrationPage': (context) =>
-              const VehicleRegistrationPage(),
-          '/managerRegistrationPage': (context) =>
-              const ManagerRegistrationPage(),
-          '/fleetPage': (context) => const FleetPage(),
-          '/managerCustomerPage': (context) => const ManagerCustomerPage(),
-        },
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/homePage',
+      routes: {
+        '/homePage': (context) => const HomePage(),
+        '/customerRegistrationPage': (context) =>
+            const CustomerRegistrationPage(),
+        '/addOptionsPage': (context) => const AddOptionsPage(),
+        '/vehicleRegistrationPage': (context) =>
+            const VehicleRegistrationPage(),
+        '/managerRegistrationPage': (context) =>
+            const ManagerRegistrationPage(),
+        '/fleetPage': (context) => const FleetPage(),
+        '/managerCustomerPage': (context) => const ManagerCustomerPage(),
+      },
     );
   }
 }

@@ -6,10 +6,17 @@ import 'package:ss_auto/states/vehicle_registration_state.dart';
 import '../../model/models_model.dart';
 
 class TypeAheadModelsWidget extends StatelessWidget {
-  final List<Models> list = [];
+  final TextEditingController controller;
+  final List<Models> modelsList;
+  final Future<void> Function() getModels;
+  final Function(Models) onModelSelected;
 
   TypeAheadModelsWidget({
     super.key,
+    required this.controller,
+    required this.modelsList,
+    required this.getModels,
+    required this.onModelSelected,
   });
 
   Color blue = const Color(0xff011329);
@@ -20,15 +27,14 @@ class TypeAheadModelsWidget extends StatelessWidget {
     return Consumer<VehicleRegistrationState>(
       builder: (_, state, __) {
         return TypeAheadField<Models>(
-          controller: state.controllerModel,
+          controller: controller,
           suggestionsCallback: (pattern) async {
-            if (state.modelsList.isEmpty) {
-              await state.getModels();
+            if (modelsList.isEmpty) {
+              await getModels();
             }
-            await state.getModels();
-            return list
+            return modelsList
                 .where((models) =>
-                    models.name!.toLowerCase().contains(pattern.toLowerCase()))
+                models.name!.toLowerCase().contains(pattern.toLowerCase()))
                 .toList();
           },
           builder: (context, controller, focusNode) {
@@ -57,7 +63,8 @@ class TypeAheadModelsWidget extends StatelessWidget {
             );
           },
           onSelected: (Models suggestion) {
-            state.onSelectedModel(suggestion);
+            controller.text = suggestion.name!.toUpperCase();
+            onModelSelected(suggestion);
           },
         );
       },
