@@ -7,7 +7,7 @@ class Models {
     required this.name,
   });
 
-  factory Models.fromJson(Map<String, dynamic> json) {
+  static fromJson(Map<String, dynamic> json) {
     return Models(
       code: json['code'],
       name: json['name'],

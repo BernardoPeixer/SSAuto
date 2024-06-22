@@ -19,7 +19,7 @@ class TypeAheadBrandsWidget extends StatelessWidget {
     required this.getBrands,
     required this.getModels,
     required this.onBrandSelected,
-    required this.brandsList
+    required this.brandsList,
   });
 
   Color blue = const Color(0xff011329);
@@ -31,7 +31,7 @@ class TypeAheadBrandsWidget extends StatelessWidget {
       controller: controller,
       suggestionsCallback: (pattern) async {
         if (pattern.isEmpty) {
-          await getBrands(); // Carrega as marcas quando o campo estiver vazio
+          await getBrands();
           return brandsList;
         }
         return brandsList

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/fleet_page_state.dart'; // Importe seu estado aqui
+import 'package:ss_auto/view/widgets/card_fleet_new_widget.dart';
 import 'package:ss_auto/view/widgets/card_fleet_widget.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/floating_action_button_widget.dart';
@@ -15,7 +16,7 @@ class FleetPage extends StatelessWidget {
 
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => FleetPageState(), // Instancie seu estado aqui
+        create: (context) => FleetPageState(),
         child: Consumer<FleetPageState>(
           builder: (_, state, __) {
             return ListView.builder(
@@ -26,13 +27,20 @@ class FleetPage extends StatelessWidget {
                       state.listVehicles[index].licensePlate),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); // Ou outro widget de carregamento
+                      return CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Erro: ${snapshot.error}');
                     } else if (!snapshot.hasData) {
                       return Text('Sem dados');
                     } else {
-                      return CardFleetWidget(imagePath: snapshot.data!);
+                      return CarCard(
+                        brand: state.listVehicles[index].brand,
+                        imagePath: snapshot.data!,
+                        year: state.listVehicles[index].year,
+                        model: state.listVehicles[index].model,
+                        price: state.listVehicles[index].dailyCost,
+                        status: 'Ativo',
+                      );
                     }
                   },
                 );

@@ -1,5 +1,5 @@
 class Brands {
-  final String code;
+  String? code;
   final String? name;
 
   Brands({
@@ -7,7 +7,7 @@ class Brands {
     required this.name,
   });
 
-  factory Brands.fromJson(Map<String, dynamic> json) {
+  static fromJson(Map<String, dynamic> json) {
     return Brands(
       code: json['code'],
       name: json['name'],

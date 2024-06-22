@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/manager_registration_state.dart';
@@ -44,9 +45,11 @@ class ManagerRegistrationPage extends StatelessWidget {
                         color: Colors.white,
                       ),
                       TextFormFieldWidget(
-                          title: 'Nome Completo:',
-                          color: orange,
-                          controller: state.controllerManagerName),
+                        title: 'Nome Completo:',
+                        color: orange,
+                        controller: state.controllerManagerName,
+
+                      ),
                       TextFormFieldWidget(
                           title: 'Cidade:',
                           color: orange,

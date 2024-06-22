@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
@@ -7,6 +8,7 @@ import 'package:ss_auto/view/widgets/type_ahead_brands_widget.dart';
 
 import '../model/brands_model.dart';
 import '../model/models_model.dart';
+
 import 'widgets/type_ahead_models_widget.dart';
 
 class VehicleRegistrationPage extends StatelessWidget {
@@ -93,10 +95,11 @@ class VehicleRegistrationPage extends StatelessWidget {
                                 getBrands: state.getBrands,
                                 getModels: state.getModels,
                                 onBrandSelected: (Brands brand) {
-                                  state.selectedBrand = brand;
+                                  state.setBrand(brand);
                                   state.getModels();
                                 },
                                 brandsList: state.brandsList,
+
                               ),
                             ),
                             const Padding(
