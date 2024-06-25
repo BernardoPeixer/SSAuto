@@ -21,13 +21,13 @@ class CustomerController {
     for (final item in result) {
       list.add(
         Customer(
-          id: item[CustomerTable.id],
-          company: item[CustomerTable.company],
-          cnpj: item[CustomerTable.cnpj],
-          phone: item[CustomerTable.phone],
-          city: item[CustomerTable.city],
-          state: item[CustomerTable.state],
-          activity: item[CustomerTable.activity],
+          customerId: item[CustomerTable.customerId],
+          customerName: item[CustomerTable.customerName],
+          customerCnpj: item[CustomerTable.customerCnpj],
+          customerPhone: item[CustomerTable.customerPhone],
+          customerCity: item[CustomerTable.customerCity],
+          customerState: item[CustomerTable.customerState],
+          customerStats: item[CustomerTable.customerStats],
         ),
       );
     }

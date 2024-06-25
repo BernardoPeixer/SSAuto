@@ -21,13 +21,12 @@ class ManagerController {
     for (final item in result) {
       list.add(
         Manager(
-          id: item[ManagerTable.id],
-          name: item[ManagerTable.name],
-          cpf: item[ManagerTable.cpf],
-          phone: item[ManagerTable.phone],
-          city: item[ManagerTable.city],
-          state: item[ManagerTable.state],
-          email: item[ManagerTable.email],
+          managerId: item[ManagerTable.managerId],
+          managerName: item[ManagerTable.managerName],
+          managerCpf: item[ManagerTable.managerCpf],
+          managerPhone: item[ManagerTable.managerPhone],
+          managerCity: item[ManagerTable.managerCity],
+          managerState: item[ManagerTable.managerState],
         ),
       );
     }

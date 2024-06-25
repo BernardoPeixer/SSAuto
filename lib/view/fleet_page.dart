@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/fleet_page_state.dart'; // Importe seu estado aqui
-import 'package:ss_auto/view/widgets/card_fleet_new_widget.dart';
-import 'package:ss_auto/view/widgets/card_fleet_widget.dart';
+import 'package:ss_auto/states/fleet_page_state.dart';
+import 'package:ss_auto/view/arguments/car_arguments.dart';
+import 'package:ss_auto/view/widgets/car_card_widget.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/floating_action_button_widget.dart';
 
 class FleetPage extends StatelessWidget {
-  const FleetPage({Key? key});
+  const FleetPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     Color blue = const Color(0xff011329);
-    Color orange = const Color(0xffD3393A);
 
     return Scaffold(
       body: ChangeNotifierProvider(
@@ -22,23 +21,34 @@ class FleetPage extends StatelessWidget {
             return ListView.builder(
               itemCount: state.listVehicles.length,
               itemBuilder: (context, index) {
+                var vehicle = state.listVehicles[index];
                 return FutureBuilder<String>(
                   future: state.getPathImagesCars(
-                      state.listVehicles[index].licensePlate),
+                      state.listVehicles[index].vehicleLicensePlate),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Erro: ${snapshot.error}');
                     } else if (!snapshot.hasData) {
-                      return Text('Sem dados');
+                      return const Text(
+                        'Sem dados',
+                        style: TextStyle(color: Colors.black),
+                      );
                     } else {
                       return CarCard(
-                        brand: state.listVehicles[index].brand,
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            '/fleetDetailsPage',
+                            arguments: CarArguments(
+                                vehicle: vehicle, imagePath: snapshot.data!),
+                          );
+                        },
+                        brand: vehicle.vehicleBrand,
                         imagePath: snapshot.data!,
-                        year: state.listVehicles[index].year,
-                        model: state.listVehicles[index].model,
-                        price: state.listVehicles[index].dailyCost,
+                        year: vehicle.vehicleYear,
+                        model: vehicle.vehicleModel,
+                        price: vehicle.vehicleDailyCost,
                         status: 'Ativo',
                       );
                     }

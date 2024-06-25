@@ -35,9 +35,9 @@ class CustomerListWidget extends StatelessWidget {
                 Card(
                   child: ExpansionTile(
                     title: Text(
-                      state.listCustomer[index].company.length > 17
-                          ? '${state.listCustomer[index].company.substring(0, 17)}...'
-                          : state.listCustomer[index].company,
+                      state.listCustomer[index].customerName.length > 17
+                          ? '${state.listCustomer[index].customerName.substring(0, 17)}...'
+                          : state.listCustomer[index].customerName,
                       style: const TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
@@ -46,11 +46,11 @@ class CustomerListWidget extends StatelessWidget {
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Fone: ${state.listCustomer[index].phone}'),
+                            Text('Fone: ${state.listCustomer[index].customerPhone}'),
                             Text(
-                                '${state.listCustomer[index].city} / ${state.listCustomer[index].state}'),
-                            Text('Gerente: ${state.listCustomer[index].phone}'),
-                            Text('Cnpj: ${state.listCustomer[index].cnpj}'),
+                                '${state.listCustomer[index].customerCity} / ${state.listCustomer[index].customerState}'),
+                            Text('Gerente: ${state.listCustomer[index].customerPhone}'),
+                            Text('Cnpj: ${state.listCustomer[index].customerCnpj}'),
                           ],
                         ),
                         leading: const Icon(Icons.car_rental),

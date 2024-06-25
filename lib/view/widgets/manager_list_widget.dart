@@ -33,9 +33,9 @@ class ManagerListWidget extends StatelessWidget {
                 Card(
                   child: ExpansionTile(
                     title: Text(
-                      state.listManager[index].name.length > 17
-                          ? '${state.listManager[index].name.substring(0, 17)}...'
-                          : state.listManager[index].name,
+                      state.listManager[index].managerName.length > 17
+                          ? '${state.listManager[index].managerName.substring(0, 17)}...'
+                          : state.listManager[index].managerName,
                       style: const TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
@@ -44,11 +44,10 @@ class ManagerListWidget extends StatelessWidget {
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Fone: ${state.listManager[index].phone}'),
+                            Text('Fone: ${state.listManager[index].managerPhone}'),
                             Text(
-                                '${state.listManager[index].city} / ${state.listManager[index].state}'),
-                            Text('Email: ${state.listManager[index].email}'),
-                            Text('Cpf: ${state.listManager[index].cpf}'),
+                                '${state.listManager[index].managerCity} / ${state.listManager[index].managerState}'),
+                            Text('Cpf: ${state.listManager[index].managerCpf}'),
                           ],
                         ),
                         leading: const Column(

@@ -83,11 +83,11 @@ class VehicleRegistrationState with ChangeNotifier {
   Future<void> insertVehicle() async {
     print('chamando insert');
     final vehicle = Vehicle(
-      brand: controllerBrand.text,
-      model: controllerModel.text,
-      licensePlate: controllerLicensePlate.text,
-      year: controllerYear.text,
-      dailyCost: controllerDailyCost.text,
+      vehicleBrand: controllerBrand.text,
+      vehicleModel: controllerModel.text,
+      vehicleLicensePlate: controllerLicensePlate.text,
+      vehicleYear: controllerYear.text,
+      vehicleDailyCost: controllerDailyCost.text,
     );
 
     await controllerVehicle.insert(vehicle);
@@ -105,20 +105,16 @@ class VehicleRegistrationState with ChangeNotifier {
     if (image != null) {
       CroppedFile? croppedFile = await cropper.cropImage(
         sourcePath: image.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
         compressQuality: 100,
-        maxHeight: 100,
-        maxWidth: 100,
         compressFormat: ImageCompressFormat.jpg,
       );
-
       if (croppedFile != null) {
         carImages.add(File(croppedFile.path));
       }
-
       notifyListeners();
     }
   }
+
 
   Future<void> saveImageFile() async {
     final appDocumentsDir = await getApplicationSupportDirectory();
@@ -228,4 +224,37 @@ class VehicleRegistrationState with ChangeNotifier {
     selectedModel = suggestion;
     notifyListeners();
   }
+
+  Future<void> showImageSourceDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Escolha a origem da imagem'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Câmera'),
+                onTap: () async {
+                  await getImage(ImageSource.camera);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Galeria'),
+                onTap: () async{
+                  await getImage(ImageSource.gallery);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 }

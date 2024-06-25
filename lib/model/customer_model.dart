@@ -1,55 +1,55 @@
 class Customer {
   Customer({
-    required this.company,
-    required this.city,
-    required this.cnpj,
-    required this.state,
-    required this.phone,
-    required this.activity,
-    this.id,
+    required this.customerName,
+    required this.customerCity,
+    required this.customerCnpj,
+    required this.customerState,
+    required this.customerPhone,
+    required this.customerStats,
+    this.customerId,
   });
 
 
-  final String company;
-  final String city;
-  final String cnpj;
-  final String state;
-  final String phone;
-  final String activity;
-  late int? id;
+  final String customerName;
+  final String customerCity;
+  final String customerCnpj;
+  final String customerState;
+  final String customerPhone;
+  final String customerStats;
+  late int? customerId;
 }
 
 class CustomerTable {
   static const String createTable = '''
     CREATE TABLE $tableName(
-      $id            INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $company       TEXT NOT NULL,
-      $city          TEXT NOT NULL,
-      $cnpj          TEXT NOT NULL,
-      $state         TEXT NOT NULL,
-      $phone         TEXT NOT NULL,
-      $activity      TEXT NOT NULL
+      $customerId         INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $customerName       TEXT NOT NULL,
+      $customerCity       TEXT NOT NULL,
+      $customerState      TEXT NOT NULL,
+      $customerCnpj       TEXT NOT NULL,
+      $customerPhone      TEXT NOT NULL,
+      $customerStats      TEXT NOT NULL
     );
     ''';
 
-  static const String tableName = 'customer';
-  static const String id = 'id';
-  static const String company = 'company';
-  static const String city = 'city';
-  static const String cnpj = 'cnpj';
-  static const String state = 'state';
-  static const String phone = 'phone';
-  static const String activity = 'activity';
+  static const String tableName = 'CustomerTable';
+  static const String customerId = 'customerId';
+  static const String customerName = 'customerName';
+  static const String customerCity = 'customerCity';
+  static const String customerCnpj = 'customerCnpj';
+  static const String customerState = 'customerState';
+  static const String customerPhone = 'customerPhone';
+  static const String customerStats = 'customerStats';
 
   static Map<String, dynamic> toMap(Customer customer) {
     final map = <String, dynamic>{};
 
-    map[CustomerTable.company] = customer.company;
-    map[CustomerTable.city] = customer.city;
-    map[CustomerTable.cnpj] = customer.cnpj;
-    map[CustomerTable.state] = customer.state;
-    map[CustomerTable.phone] = customer.phone;
-    map[CustomerTable.activity] = customer.activity;
+    map[CustomerTable.customerName] = customer.customerName;
+    map[CustomerTable.customerCity] = customer.customerCity;
+    map[CustomerTable.customerCnpj] = customer.customerCnpj;
+    map[CustomerTable.customerState] = customer.customerState;
+    map[CustomerTable.customerPhone] = customer.customerPhone;
+    map[CustomerTable.customerStats] = customer.customerStats;
 
     return map;
   }

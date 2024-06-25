@@ -9,21 +9,27 @@ class ManagerRegistrationState with ChangeNotifier {
   final GlobalKey<FormState> keyFormManager = GlobalKey<FormState>();
 
   final TextEditingController _controllerManagerName = TextEditingController();
+
   TextEditingController get controllerManagerName => _controllerManagerName;
 
   final TextEditingController _controllerManagerCity = TextEditingController();
+
   TextEditingController get controllerManagerCity => _controllerManagerCity;
 
   final TextEditingController _controllerManagerCpf = TextEditingController();
+
   TextEditingController get controllerManagerCpf => _controllerManagerCpf;
 
   final TextEditingController _controllerManagerState = TextEditingController();
+
   TextEditingController get controllerManagerState => _controllerManagerState;
 
   final TextEditingController _controllerManagerEmail = TextEditingController();
+
   TextEditingController get controllerManagerEmail => _controllerManagerEmail;
 
   final TextEditingController _controllerManagerPhone = TextEditingController();
+
   TextEditingController get controllerManagerPhone => _controllerManagerPhone;
 
   final ManagerController controllerManager = ManagerController();
@@ -38,12 +44,11 @@ class ManagerRegistrationState with ChangeNotifier {
   Future<void> insertManager() async {
     print('Chamando insertManager');
     final manager = Manager(
-      name: controllerManagerName.text,
-      city: controllerManagerCity.text,
-      cpf:  controllerManagerCpf.text,
-      state: controllerManagerState.text,
-      email: controllerManagerEmail.text,
-      phone: controllerManagerPhone.text,
+      managerName: controllerManagerName.text,
+      managerCity: controllerManagerCity.text,
+      managerCpf: controllerManagerCpf.text,
+      managerState: controllerManagerState.text,
+      managerPhone: controllerManagerPhone.text,
     );
 
     await controllerManager.insert(manager);

@@ -19,7 +19,8 @@ class ManagerListState with ChangeNotifier {
     _listManager.clear();
     _listManager.addAll(list);
     for (final manager in _listManager) {
-      print('Nome: ${manager.name}, Telefone: ${manager.phone}, Cidade: ${manager.city}, Estado: ${manager.state}, Email: ${manager.email}, CPF: ${manager.cpf}');
+      print(
+          'Nome: ${manager.managerName}, Telefone: ${manager.managerPhone}, Cidade: ${manager.managerCity}, Estado: ${manager.managerState},CPF: ${manager.managerCpf}');
     }
     notifyListeners();
   }

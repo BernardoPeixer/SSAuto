@@ -22,12 +22,12 @@ class VehicleController {
     for (final item in result) {
       list.add(
         Vehicle(
-          brand: item[VehicleTable.brand],
-          model: item[VehicleTable.model],
-          licensePlate: item[VehicleTable.licensePlate],
-          year: item[VehicleTable.year],
-          dailyCost: item[VehicleTable.dailyCost],
-          id: item[VehicleTable.id],
+          vehicleBrand: item[VehicleTable.vehicleBrand],
+          vehicleModel: item[VehicleTable.vehicleModel],
+          vehicleLicensePlate: item[VehicleTable.vehicleLicensePlate],
+          vehicleYear: item[VehicleTable.vehicleYear],
+          vehicleDailyCost: item[VehicleTable.vehicleDailyCost],
+          vehicleId: item[VehicleTable.vehicleId],
         ),
       );
     }

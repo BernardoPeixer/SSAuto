@@ -1,55 +1,57 @@
+import 'agency_model.dart';
+
 class Manager {
   Manager({
-    required this.name,
-    required this.city,
-    required this.cpf,
-    required this.state,
-    required this.email,
-    required this.phone,
-    this.id,
+    required this.managerName,
+    required this.managerCity,
+    required this.managerCpf,
+    required this.managerState,
+    required this.managerPhone,
+    this.managerId,
+    this.agencyCode,
   });
 
-  final String name;
-  final String city;
-  final String cpf;
-  final String state;
-  final String email;
-  final String phone;
-  late int? id;
+  final String managerName;
+  final String managerCity;
+  final String managerCpf;
+  final String managerState;
+  final String managerPhone;
+  late int? managerId;
+  int? agencyCode;
 }
 
 class ManagerTable {
   static const String createTable = '''
     CREATE TABLE $tableName(
-      $id     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $name   TEXT NOT NULL,
-      $city   TEXT NOT NULL,
-      $cpf    TEXT NOT NULL,
-      $state  TEXT NOT NULL,
-      $email  TEXT NOT NULL,
-      $phone  TEXT NOT NULL
+      $managerId     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $managerName   TEXT NOT NULL,
+      $managerCity   TEXT NOT NULL,
+      $managerCpf    TEXT NOT NULL,
+      $managerState  TEXT NOT NULL,
+      $managerPhone  TEXT NOT NULL,
+      $agencyCode    INTEGER NOT NULL,
+      FOREIGN KEY($agencyCode) REFERENCES ${AgencyTable.tableName}(${AgencyTable.agencyId})
     );
     ''';
 
-  static const String tableName = 'manager';
-  static const String id = 'id';
-  static const String name = 'name';
-  static const String city = 'city';
-  static const String cpf = 'cpf';
-  static const String state = 'state';
-  static const String email = 'email';
-  static const String phone = 'phone';
+  static const String tableName = 'ManagerTable';
+  static const String managerId = 'managerId';
+  static const String managerName = 'managerName';
+  static const String managerCity = 'managerCity';
+  static const String managerCpf = 'managerCpf';
+  static const String managerState = 'managerState';
+  static const String managerPhone = 'managerPhone';
+  static const String agencyCode = 'agencyCode';
 
   static Map<String, dynamic> toMap(Manager manager) {
     final map = <String, dynamic>{};
 
-    map[ManagerTable.name] = manager.name;
-    map[ManagerTable.city] = manager.city;
-    map[ManagerTable.cpf] = manager.cpf;
-    map[ManagerTable.state] = manager.state;
-    map[ManagerTable.email] = manager.email;
-    map[ManagerTable.phone] = manager.phone;
-
+    map[ManagerTable.managerName] = manager.managerName;
+    map[ManagerTable.managerCity] = manager.managerCity;
+    map[ManagerTable.managerCpf] = manager.managerCpf;
+    map[ManagerTable.managerState] = manager.managerState;
+    map[ManagerTable.managerPhone] = manager.managerPhone;
+    map[ManagerTable.agencyCode] = manager.agencyCode;
     return map;
   }
 }

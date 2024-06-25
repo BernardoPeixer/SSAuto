@@ -38,12 +38,12 @@ class CustomerRegistrationState with ChangeNotifier {
   Future<void> insertCustomer() async {
     print('chamando insert');
     final customer = Customer(
-      company: customerCompanyName,
-      city: customerCompanyCity,
-      cnpj: customerCompanyCnpj,
-      state: customerCompanyState,
-      phone: customerCompanyPhone,
-      activity: customerCompanyActivity,
+      customerName: customerCompanyName,
+      customerCity: customerCompanyCity,
+      customerCnpj: customerCompanyCnpj,
+      customerState: customerCompanyState,
+      customerPhone: customerCompanyPhone,
+      customerStats: customerCompanyActivity,
     );
     await controllerCustomer.insert(customer);
     customerList.add(customer);
@@ -70,12 +70,12 @@ class CustomerRegistrationState with ChangeNotifier {
       final activity = decoded['descricao_situacao_cadastral'];
 
       return Customer(
-          company: company,
-          city: city,
-          cnpj: cnpj,
-          state: state,
-          phone: phone,
-          activity: activity);
+          customerName: company,
+          customerCity: city,
+          customerCnpj: cnpj,
+          customerState: state,
+          customerPhone: phone,
+          customerStats: activity);
     } catch (error) {
       return null;
     }
@@ -98,12 +98,12 @@ class CustomerRegistrationState with ChangeNotifier {
       final customerDetails = await getCompanyDetails(controllerCnpj.text);
       if (customerDetails != null) {
         visible = true;
-        customerCompanyName = customerDetails.company;
-        customerCompanyPhone = customerDetails.phone;
-        customerCompanyCnpj = customerDetails.cnpj;
-        customerCompanyCity = customerDetails.city;
-        customerCompanyState = customerDetails.state;
-        customerCompanyActivity = customerDetails.activity;
+        customerCompanyName = customerDetails.customerName;
+        customerCompanyPhone = customerDetails.customerPhone;
+        customerCompanyCnpj = customerDetails.customerCnpj;
+        customerCompanyCity = customerDetails.customerCity;
+        customerCompanyState = customerDetails.customerState;
+        customerCompanyActivity = customerDetails.customerStats;
         controllerCnpj.clear();
       }
     }

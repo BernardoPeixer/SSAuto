@@ -9,6 +9,7 @@ class CarCard extends StatelessWidget {
   final String year;
   final String status;
   final String price;
+  final Function() onTap;
 
   const CarCard({
     super.key,
@@ -18,15 +19,17 @@ class CarCard extends StatelessWidget {
     required this.year,
     required this.status,
     required this.price,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onTap,
       child: Card(
         margin: const EdgeInsets.all(16.0),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         child: Column(
           children: [
             ClipRRect(
@@ -35,7 +38,9 @@ class CarCard extends StatelessWidget {
                 topRight: Radius.circular(16.0),
               ),
               child: Image.file(
-                File(imagePath,),
+                File(
+                  imagePath,
+                ),
                 height: 150.0,
                 fit: BoxFit.cover,
               ),
@@ -86,5 +91,4 @@ class CarCard extends StatelessWidget {
       ),
     );
   }
-
 }

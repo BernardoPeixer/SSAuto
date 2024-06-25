@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
@@ -99,7 +98,6 @@ class VehicleRegistrationPage extends StatelessWidget {
                                   state.getModels();
                                 },
                                 brandsList: state.brandsList,
-
                               ),
                             ),
                             const Padding(
@@ -239,7 +237,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                         ),
                         state.carImages.isNotEmpty
                             ? SizedBox(
-                                height: 90,
+                                height: 100,
                                 width: MediaQuery.of(context).size.width,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -249,13 +247,23 @@ class VehicleRegistrationPage extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     if (state.carImages.length < 5 &&
                                         index >= state.carImages.length) {
-                                      return IconButton(
-                                        icon: const Icon(Icons.add),
-                                        color: Colors.white,
-                                        onPressed: () async {
-                                          await state
-                                              .getImage(ImageSource.camera);
-                                        },
+                                      return Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          color: orange,
+                                          borderRadius: BorderRadius.circular(
+                                            30,
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                          icon: const Icon(Icons.add),
+                                          color: Colors.white,
+                                          onPressed: () async {
+                                            await state
+                                                .showImageSourceDialog(context);
+                                          },
+                                        ),
                                       );
                                     }
 
@@ -265,14 +273,16 @@ class VehicleRegistrationPage extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 4.0),
                                       child: SizedBox(
-                                        width: 80,
-                                        height: 80,
+                                        width: 100,
+                                        height: 100,
                                         child: Stack(
                                           children: [
-                                            Hero(
-                                              tag: 'image$index',
+                                            Center(
                                               child: Image.file(
                                                 carImage,
+                                                fit: BoxFit.cover,
+                                                width: 100,
+                                                height: 100,
                                               ),
                                             ),
                                             Align(
@@ -305,7 +315,8 @@ class VehicleRegistrationPage extends StatelessWidget {
                                   color: orange,
                                   child: IconButton(
                                     onPressed: () async {
-                                      await state.getImage(ImageSource.camera);
+                                      await state
+                                          .showImageSourceDialog(context);
                                     },
                                     icon: const Icon(
                                       Icons.add,
@@ -331,7 +342,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                             onPressed: () async {
                               await state.insertVehicle();
                               await state.saveImageFile();
-                              Navigator.pop(context);
+                              Navigator.pushNamed(context, '/fleetPage');
                             },
                             child: const Text(
                               'Salvar',
