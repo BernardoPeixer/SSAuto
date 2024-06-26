@@ -18,10 +18,6 @@ class CustomerListState with ChangeNotifier {
 
     _listCustomer.clear();
     _listCustomer.addAll(list);
-    for (final customer in _listCustomer) {
-      print(
-          'Nome: ${customer.customerName}, Telefone: ${customer.customerPhone}, Cidade: ${customer.customerCity}, Estado: ${customer.customerState}, CNPJ: ${customer.customerCnpj}');
-    }
     notifyListeners();
   }
 }

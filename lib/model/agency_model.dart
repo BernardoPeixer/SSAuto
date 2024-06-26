@@ -18,7 +18,7 @@ class AgencyTable {
       $agencyId     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $agencyName   TEXT NOT NULL,
       $agencyState  TEXT NOT NULL,
-      $agencyCity   TEXT NOT NULL,
+      $agencyCity   TEXT NOT NULL
     );
     ''';
 

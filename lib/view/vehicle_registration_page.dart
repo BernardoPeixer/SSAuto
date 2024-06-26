@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
+import 'package:ss_auto/view/widgets/agency_dropdown_widget.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/view/widgets/type_ahead_brands_widget.dart';
 
+import '../model/agency_model.dart';
 import '../model/brands_model.dart';
 import '../model/models_model.dart';
 
@@ -87,7 +89,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                                   fontSize: 14.0, color: Colors.white),
                             ),
                             SizedBox(
-                              height: 40,
+                              height: 30,
                               width: MediaQuery.of(context).size.width,
                               child: TypeAheadBrandsWidget(
                                 controller: state.controllerBrand,
@@ -109,7 +111,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                                   fontSize: 14.0, color: Colors.white),
                             ),
                             SizedBox(
-                              height: 40,
+                              height: 30,
                               width: MediaQuery.of(context).size.width,
                               child: TypeAheadModelsWidget(
                                 controller: state.controllerModel,
@@ -120,11 +122,8 @@ class VehicleRegistrationPage extends StatelessWidget {
                                 },
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 4),
-                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
                                   children: [
@@ -132,9 +131,6 @@ class VehicleRegistrationPage extends StatelessWidget {
                                       'Placa:',
                                       style: TextStyle(
                                           fontSize: 14.0, color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 5.0,
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -167,18 +163,12 @@ class VehicleRegistrationPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4),
-                                ),
                                 Column(
                                   children: [
                                     const Text(
                                       'Ano:',
                                       style: TextStyle(
                                           fontSize: 14.0, color: Colors.white),
-                                    ),
-                                    const SizedBox(
-                                      height: 5.0,
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -212,13 +202,18 @@ class VehicleRegistrationPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 4),
-                            ),
+
                             TextFormFieldWidget(
                               title: 'Custo da diária:',
                               color: blue,
                               controller: state.controllerDailyCost,
+                            ),
+                            AgencyDropdownWidget(
+                              list: state.listAgency,
+                              onChanged: (Agency? newAgency) {
+                                state.onChangedDropdown(newAgency);
+                              },
+                              selectedItem: state.selectedItem,
                             ),
                           ],
                         ),
@@ -310,8 +305,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width / 1.3,
-                                  height:
-                                      MediaQuery.of(context).size.height / 5.5,
+                                  height: 100,
                                   color: orange,
                                   child: IconButton(
                                     onPressed: () async {

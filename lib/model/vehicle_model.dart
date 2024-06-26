@@ -17,7 +17,7 @@ class Vehicle {
   final String vehicleYear;
   final String vehicleDailyCost;
   late int? vehicleId;
-  int? agencyCode;
+  late int? agencyCode;
 }
 
 class VehicleTable {
@@ -29,7 +29,7 @@ class VehicleTable {
       $vehicleLicensePlate TEXT NOT NULL,
       $vehicleYear         TEXT NOT NULL,
       $vehicleDailyCost    TEXT NOT NULL,
-      $agencyCode   INTEGER NOT NULL,
+      $agencyCode          INTEGER NOT NULL,
       FOREIGN KEY($agencyCode) REFERENCES ${AgencyTable.tableName}(${AgencyTable.agencyId})
     );
     ''';

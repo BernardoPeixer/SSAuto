@@ -3,17 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ss_auto/controller/agency_controller.dart';
 import 'package:ss_auto/controller/vehicle_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
+import '../model/agency_model.dart';
 import '../model/brands_model.dart';
 import '../model/models_model.dart';
 import '../model/vehicle_model.dart';
 import 'package:http/http.dart' as http;
 
 class VehicleRegistrationState with ChangeNotifier {
-  VehicleRegistrationState({this.vehicle});
+  VehicleRegistrationState({this.vehicle}) {
+    loadAgency();
+  }
 
   bool isPressedYesButton = false;
   bool isPressedNoButton = false;
@@ -58,8 +62,6 @@ class VehicleRegistrationState with ChangeNotifier {
   final controllerVehicle = VehicleController();
 
   final Vehicle? vehicle;
-
-
 
   String? name(String? value) {
     if (value == null || value.length < 5) {
@@ -114,7 +116,6 @@ class VehicleRegistrationState with ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   Future<void> saveImageFile() async {
     final appDocumentsDir = await getApplicationSupportDirectory();
@@ -193,7 +194,8 @@ class VehicleRegistrationState with ChangeNotifier {
     modelsList.clear();
 
     final response = await http.get(
-      Uri.parse('https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models'),
+      Uri.parse(
+          'https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models'),
     );
 
     if (response.statusCode == 200) {
@@ -245,7 +247,7 @@ class VehicleRegistrationState with ChangeNotifier {
               ListTile(
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Galeria'),
-                onTap: () async{
+                onTap: () async {
                   await getImage(ImageSource.gallery);
                   Navigator.pop(context);
                 },
@@ -257,4 +259,23 @@ class VehicleRegistrationState with ChangeNotifier {
     );
   }
 
+  final controllerAgency = AgencyController();
+  final _listAgency = <Agency>[];
+  List<Agency> get listAgency => _listAgency;
+
+  Future<void> loadAgency() async {
+    final list = await controllerAgency.selectAgency();
+    _listAgency.clear();
+    _listAgency.addAll(list);
+    notifyListeners();
+  }
+
+  Agency? _selectedItem;
+
+  Agency? get selectedItem => _selectedItem;
+
+  void onChangedDropdown(Agency? agency) {
+    _selectedItem = agency;
+    notifyListeners();
+  }
 }
