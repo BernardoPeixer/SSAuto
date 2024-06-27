@@ -25,7 +25,7 @@ class TextFormFieldWidget extends StatelessWidget {
           height: 5.0,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width / 1.2,
+          width: MediaQuery.of(context).size.width / 1,
           height: 30,
           child: TextFormField(
             controller: controller,
@@ -33,7 +33,7 @@ class TextFormFieldWidget extends StatelessWidget {
               filled: true,
               fillColor: color,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(10.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: Colors.blue, width: 2.0),

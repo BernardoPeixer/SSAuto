@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/customer_registration_state.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
+import 'package:ss_auto/view/car_rental_page.dart';
 import 'package:ss_auto/view/fleet_details_page.dart';
 import 'package:ss_auto/view/fleet_page.dart';
 import 'package:ss_auto/view/manager_customer_page.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/fleetPage': (context) => const FleetPage(),
         '/fleetDetailsPage': (context) => const FleetDetailsPage(),
         '/managerCustomerPage': (context) => const ManagerCustomerPage(),
+        '/carRentalPage': (context) => const CarRentalPage(),
       },
     );
   }

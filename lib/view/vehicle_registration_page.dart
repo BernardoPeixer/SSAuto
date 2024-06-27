@@ -10,6 +10,7 @@ import '../model/agency_model.dart';
 import '../model/brands_model.dart';
 import '../model/models_model.dart';
 
+import '../model/year_model.dart';
 import 'widgets/type_ahead_models_widget.dart';
 
 class VehicleRegistrationPage extends StatelessWidget {
@@ -119,6 +120,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                                 getModels: state.getModels,
                                 onModelSelected: (Models model) {
                                   state.selectedModel = model;
+                                  state.getYears();
                                 },
                               ),
                             ),
@@ -170,50 +172,71 @@ class VehicleRegistrationPage extends StatelessWidget {
                                       style: TextStyle(
                                           fontSize: 14.0, color: Colors.white),
                                     ),
-                                    SizedBox(
+                                    Container(
+                                      height: 30,
                                       width: MediaQuery.of(context).size.width /
                                           2.5,
-                                      height: 30,
-                                      child: TextFormField(
-                                        controller: state.controllerYear,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: blue,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.blue, width: 2.0),
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 0.0,
-                                                  horizontal: 6.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          30,
                                         ),
-                                        style: const TextStyle(
-                                            color: Colors.white),
+                                        color: blue,
+                                      ),
+                                      child: Center(
+                                        child: DropdownButton<Year>(
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          value: state.selectedYear,
+                                          dropdownColor: blue,
+                                          underline:
+                                              const DropdownButtonHideUnderline(
+                                            child: Text(''),
+                                          ),
+                                          iconEnabledColor: Colors.white,
+                                          onChanged: (Year? year) {
+                                            state.onSelectedYear(year!);
+
+                                          },
+                                          items: [
+                                            ...state.yearList.map((Year year) {
+                                              return DropdownMenuItem<Year>(
+                                                value: year,
+                                                child: Text(year.name),
+                                              );
+                                            }),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-
                             TextFormFieldWidget(
                               title: 'Custo da diária:',
                               color: blue,
                               controller: state.controllerDailyCost,
                             ),
-                            AgencyDropdownWidget(
-                              list: state.listAgency,
-                              onChanged: (Agency? newAgency) {
-                                state.onChangedDropdown(newAgency);
-                              },
-                              selectedItem: state.selectedItem,
+                            Column(
+                              children: [
+                                const Text(
+                                  'Selecione a agência:',
+                                  style: TextStyle(
+                                      fontSize: 14.0, color: Colors.white),
+                                ),
+                                AgencyDropdownWidget(
+                                  list: state.listAgency,
+                                  onChanged: (Agency? newAgency) {
+                                    state.onChangedDropdown(newAgency);
+                                  },
+                                  selectedItem: state.selectedItem,
+                                ),
+                              ],
                             ),
                           ],
                         ),

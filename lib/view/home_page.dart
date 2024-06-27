@@ -150,7 +150,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButtonWidget(
         color: blue,
       ),
-      bottomNavigationBar: const BottomAppBarWidget(),
+      bottomNavigationBar: BottomAppBarWidget(),
     );
   }
 }

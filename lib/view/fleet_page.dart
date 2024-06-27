@@ -27,7 +27,7 @@ class FleetPage extends StatelessWidget {
                       state.listVehicles[index].vehicleLicensePlate),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Erro: ${snapshot.error}');
                     } else if (!snapshot.hasData) {
@@ -63,7 +63,7 @@ class FleetPage extends StatelessWidget {
       floatingActionButton: FloatingActionButtonWidget(
         color: blue,
       ),
-      bottomNavigationBar: const BottomAppBarWidget(),
+      bottomNavigationBar: BottomAppBarWidget(),
     );
   }
 }

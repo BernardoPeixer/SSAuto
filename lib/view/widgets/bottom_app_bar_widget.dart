@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ss_auto/view/widgets/calendar_alert_dialog_widget.dart';
 
 class BottomAppBarWidget extends StatelessWidget {
-  const BottomAppBarWidget({super.key});
+
+  void Function()? function;
+
+  BottomAppBarWidget({super.key, this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,8 @@ class BottomAppBarWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/');
+                  Navigator.of(context).pushReplacementNamed('/carRentalPage');
+                  function;
                 },
                 iconSize: 20,
                 icon: const Icon(Icons.monetization_on),

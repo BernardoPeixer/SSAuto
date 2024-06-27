@@ -14,6 +14,8 @@ import '../model/models_model.dart';
 import '../model/vehicle_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/year_model.dart';
+
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState({this.vehicle}) {
     loadAgency();
@@ -90,6 +92,7 @@ class VehicleRegistrationState with ChangeNotifier {
       vehicleLicensePlate: controllerLicensePlate.text,
       vehicleYear: controllerYear.text,
       vehicleDailyCost: controllerDailyCost.text,
+      agencyCode: selectedItem?.agencyId,
     );
 
     await controllerVehicle.insert(vehicle);
@@ -165,8 +168,10 @@ class VehicleRegistrationState with ChangeNotifier {
 
   Brands? selectedBrand;
   Models? selectedModel;
+  Year? selectedYear;
   List<Brands> brandsList = [];
   List<Models> modelsList = [];
+  List<Year> yearList = [];
 
   Future<void> getBrands() async {
     brandsList.clear();
@@ -209,6 +214,29 @@ class VehicleRegistrationState with ChangeNotifier {
     }
   }
 
+  Future<void> getYears() async {
+    if (selectedModel == null || selectedModel!.code == null) {
+      throw Exception('Selected brand or brand code is null');
+    }
+
+    yearList.clear();
+
+    final response = await http.get(
+      Uri.parse(
+          'https://fipe.parallelum.com.br/api/v2/cars/brands/${selectedBrand!.code}/models/${selectedModel!.code}/years'),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> listJson = jsonDecode(response.body);
+      for (final it in listJson) {
+        yearList.add(Year.fromJson(it));
+      }
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load years');
+    }
+  }
+
   void setBrand(brand) {
     selectedBrand = brand;
     notifyListeners();
@@ -224,6 +252,12 @@ class VehicleRegistrationState with ChangeNotifier {
   void onSelectedModel(Models suggestion) {
     controllerModel.text = suggestion.name.toUpperCase();
     selectedModel = suggestion;
+    notifyListeners();
+  }
+
+  void onSelectedYear(Year suggestion) {
+    selectedYear = suggestion;
+    controllerYear.text = selectedYear!.name;
     notifyListeners();
   }
 
@@ -261,6 +295,7 @@ class VehicleRegistrationState with ChangeNotifier {
 
   final controllerAgency = AgencyController();
   final _listAgency = <Agency>[];
+
   List<Agency> get listAgency => _listAgency;
 
   Future<void> loadAgency() async {

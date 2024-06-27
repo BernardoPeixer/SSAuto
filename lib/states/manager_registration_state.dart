@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import '../controller/agency_controller.dart';
 import '../controller/manager_controller.dart';
+import '../model/agency_model.dart';
 import '../model/manager_model.dart';
 
 class ManagerRegistrationState with ChangeNotifier {
-  ManagerRegistrationState({this.manager});
+  ManagerRegistrationState({this.manager}) {
+    loadAgency();
+  }
 
   final GlobalKey<FormState> keyFormManager = GlobalKey<FormState>();
 
@@ -49,10 +53,31 @@ class ManagerRegistrationState with ChangeNotifier {
       managerCpf: controllerManagerCpf.text,
       managerState: controllerManagerState.text,
       managerPhone: controllerManagerPhone.text,
+      agencyCode: selectedItem?.agencyId,
     );
 
     await controllerManager.insert(manager);
     print('Insert concluído');
+    notifyListeners();
+  }
+
+  final controllerAgency = AgencyController();
+  final _listAgency = <Agency>[];
+  List<Agency> get listAgency => _listAgency;
+
+  Future<void> loadAgency() async {
+    final list = await controllerAgency.selectAgency();
+    _listAgency.clear();
+    _listAgency.addAll(list);
+    notifyListeners();
+  }
+
+  Agency? _selectedItem;
+
+  Agency? get selectedItem => _selectedItem;
+
+  void onChangedDropdown(Agency? agency) {
+    _selectedItem = agency;
     notifyListeners();
   }
 }

@@ -2,6 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/manager_registration_state.dart';
+import 'package:ss_auto/view/widgets/agency_dropdown_widget.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 
 class ManagerRegistrationPage extends StatelessWidget {
@@ -48,7 +49,6 @@ class ManagerRegistrationPage extends StatelessWidget {
                         title: 'Nome Completo:',
                         color: orange,
                         controller: state.controllerManagerName,
-
                       ),
                       TextFormFieldWidget(
                           title: 'Cidade:',
@@ -98,6 +98,11 @@ class ManagerRegistrationPage extends StatelessWidget {
                           title: 'Telefone:',
                           color: blu,
                           controller: state.controllerManagerPhone),
+                      AgencyDropdownWidget(
+                        list: state.listAgency,
+                        selectedItem: state.selectedItem,
+                        onChanged: state.onChangedDropdown,
+                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: ElevatedButton(

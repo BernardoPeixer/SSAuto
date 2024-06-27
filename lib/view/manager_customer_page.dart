@@ -74,7 +74,7 @@ class ManagerCustomerPage extends StatelessWidget {
         floatingActionButton: FloatingActionButtonWidget(
           color: blue,
         ),
-        bottomNavigationBar: const BottomAppBarWidget(),
+        bottomNavigationBar: BottomAppBarWidget(),
       ),
     );
   }

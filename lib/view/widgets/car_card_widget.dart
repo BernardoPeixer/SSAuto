@@ -70,7 +70,7 @@ class CarCard extends StatelessWidget {
                     children: [
                       Text(
                         'Status: $status',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                         ),
                       ),

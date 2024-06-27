@@ -24,49 +24,46 @@ class TypeAheadModelsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<VehicleRegistrationState>(
-      builder: (_, state, __) {
-        return TypeAheadField<Models>(
+    return TypeAheadField<Models>(
+      controller: controller,
+      suggestionsCallback: (pattern) async {
+        if (modelsList.isEmpty) {
+          await getModels();
+        }
+        return modelsList
+            .where((models) =>
+            models.name!.toLowerCase().contains(pattern.toLowerCase()))
+            .toList();
+      },
+      builder: (context, controller, focusNode) {
+        return TextField(
           controller: controller,
-          suggestionsCallback: (pattern) async {
-            if (modelsList.isEmpty) {
-              await getModels();
-            }
-            return modelsList
-                .where((models) =>
-                models.name!.toLowerCase().contains(pattern.toLowerCase()))
-                .toList();
-          },
-          builder: (context, controller, focusNode) {
-            return TextField(
-              controller: controller,
-              focusNode: focusNode,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: blue,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 6.0),
-              ),
-            );
-          },
-          itemBuilder: (context, Models suggestion) {
-            return ListTile(
-              title: Text(suggestion.name!.toUpperCase()),
-            );
-          },
-          onSelected: (Models suggestion) {
-            controller.text = suggestion.name!.toUpperCase();
-            onModelSelected(suggestion);
-          },
+          focusNode: focusNode,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: blue,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0.0, horizontal: 6.0),
+          ),
         );
+      },
+      itemBuilder: (context, Models suggestion) {
+        return ListTile(
+          title: Text(suggestion.name!.toUpperCase()),
+        );
+      },
+      onSelected: (Models suggestion) {
+        controller.text = suggestion.name!.toUpperCase();
+        onModelSelected(suggestion);
+
       },
     );
   }

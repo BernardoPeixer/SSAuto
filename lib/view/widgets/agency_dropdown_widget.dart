@@ -16,19 +16,40 @@ class AgencyDropdownWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Color blue = const Color(0xff011329);
     Color orange = const Color(0xffD3393A);
-    return DropdownButton<Agency>(
-      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-      value: selectedItem,
-      dropdownColor: blue,
-      onChanged: onChanged,
-      items: [
-        ...list.map((Agency agency) {
-          return DropdownMenuItem<Agency>(
-            value: agency,
-            child: Text(agency.agencyName),
-          );
-        }),
-      ],
+    return Container(
+      height: 30,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          30,
+        ),
+        color: blue,
+      ),
+      child: Center(
+        child: DropdownButton<Agency>(
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          value: selectedItem,
+          dropdownColor: blue,
+          underline: const DropdownButtonHideUnderline(
+            child: Text(''),
+          ),
+          iconEnabledColor: Colors.white,
+          onChanged: onChanged,
+          items: [
+            ...list.map((Agency agency) {
+              return DropdownMenuItem<Agency>(
+                value: agency,
+                child: Text(agency.agencyName),
+              );
+            }),
+          ],
+        ),
+      ),
     );
   }
 }
