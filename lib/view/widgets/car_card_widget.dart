@@ -8,7 +8,7 @@ class CarCard extends StatelessWidget {
   final String model;
   final String year;
   final String status;
-  final String price;
+  final double price;
   final Function() onTap;
 
   const CarCard({

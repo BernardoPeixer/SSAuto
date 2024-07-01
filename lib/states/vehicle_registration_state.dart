@@ -85,13 +85,14 @@ class VehicleRegistrationState with ChangeNotifier {
   }
 
   Future<void> insertVehicle() async {
+    double? dailyCost = double.tryParse(controllerDailyCost.text);
     print('chamando insert');
     final vehicle = Vehicle(
       vehicleBrand: controllerBrand.text,
       vehicleModel: controllerModel.text,
       vehicleLicensePlate: controllerLicensePlate.text,
       vehicleYear: controllerYear.text,
-      vehicleDailyCost: controllerDailyCost.text,
+      vehicleDailyCost: dailyCost!,
       agencyCode: selectedItem?.agencyId,
     );
 
