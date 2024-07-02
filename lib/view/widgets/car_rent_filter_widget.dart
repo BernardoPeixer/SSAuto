@@ -5,11 +5,10 @@ import '../../model/agency_model.dart';
 import '../../states/car_rent_filter_state.dart';
 
 class CarRentFilterWidget extends StatelessWidget {
-  CarRentFilterWidget();
+  const CarRentFilterWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String selectedBrand = 'Todas';
     String selectedModel = 'Todos';
     double selectedMinPrice = 0;
     double selectedMaxPrice = 10000;
@@ -50,7 +49,7 @@ class CarRentFilterWidget extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 16.0),
-                Text('Preços:'),
+                const Text('Preços:'),
                 RangeSlider(
                   values: RangeValues(selectedMinPrice, selectedMaxPrice),
                   min: 0.0,

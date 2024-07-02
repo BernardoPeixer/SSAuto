@@ -7,7 +7,7 @@ import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/floating_action_button_widget.dart';
 
 class FleetPage extends StatelessWidget {
-  const FleetPage({super.key});
+  const FleetPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +22,29 @@ class FleetPage extends StatelessWidget {
               itemCount: state.listVehicles.length,
               itemBuilder: (context, index) {
                 var vehicle = state.listVehicles[index];
-                return FutureBuilder<String>(
-                  future: state.getPathImagesCars(
+                return FutureBuilder<List<String>>(
+                  future: state.getListPathImagesCars(
                       state.listVehicles[index].vehicleLicensePlate),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return Text('Erro: ${snapshot.error}');
-                    } else if (!snapshot.hasData) {
-                      return const Text(
-                        'Sem dados',
-                        style: TextStyle(color: Colors.black),
-                      );
+                      return Center(child: Text('Erro: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(child: Text('Sem imagens disponíveis'));
                     } else {
                       return CarCard(
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             '/fleetDetailsPage',
                             arguments: CarArguments(
-                                vehicle: vehicle, imagePath: snapshot.data!),
+                              vehicle: vehicle,
+                              imagePath: snapshot.data!,
+                            ),
                           );
                         },
                         brand: vehicle.vehicleBrand,
-                        imagePath: snapshot.data!,
+                        imagePath: snapshot.data![0],
                         year: vehicle.vehicleYear,
                         model: vehicle.vehicleModel,
                         price: vehicle.vehicleDailyCost,

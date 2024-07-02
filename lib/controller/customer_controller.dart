@@ -11,6 +11,21 @@ class CustomerController {
     return;
   }
 
+  Future<int?> getCustomerIdByName(String customerName) async {
+    final database = await getDatabase();
+
+    List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT ${CustomerTable.customerId} FROM ${CustomerTable.tableName} WHERE ${CustomerTable.customerName} = ?',
+      [customerName],
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['customerId'] as int;
+    } else {
+      return null;
+    }
+  }
+
   Future<List<Customer>> selectCustomers() async {
     final database = await getDatabase();
 

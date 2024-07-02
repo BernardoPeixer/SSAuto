@@ -3,29 +3,25 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/car_rental_state.dart';
+import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
 import 'package:ss_auto/view/widgets/floating_action_button_widget.dart';
 
 import '../model/vehicle_model.dart';
 import 'arguments/car_arguments.dart';
-import 'widgets/bottom_app_bar_widget.dart';
 
 class CarRentalPage extends StatelessWidget {
-  const CarRentalPage({Key? key});
+  const CarRentalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     Color blue = const Color(0xff011329);
-    Color blu = const Color(0xff052b57);
-    Color orange = const Color(0xffD3393A);
-
     return ChangeNotifierProvider(
       create: (context) => CarRentalState(),
       child: Consumer<CarRentalState>(builder: (_, state, __) {
         return Scaffold(
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -49,12 +45,11 @@ class CarRentalPage extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Search here...',
                               hintStyle: TextStyle(color: Colors.grey),
-                              prefixIcon:
-                                  Icon(Icons.search, color: Colors.grey),
+                              prefixIcon: Icon(Icons.search, color: Colors.grey),
                             ),
                           ),
                         ),
@@ -74,13 +69,19 @@ class CarRentalPage extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   itemCount: state.listVehicles.length,
-                  scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int index) {
                     Vehicle vehicle = state.listVehicles[index];
-                    return FutureBuilder<String>(
-                      future:
-                          state.getPathImagesCars(vehicle.vehicleLicensePlate),
+                    return FutureBuilder<List<String>>(
+                      future: state.getListPathImagesCars(vehicle.vehicleLicensePlate),
                       builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        }
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+                        List<String> imagePaths = snapshot.data ?? [];
+
                         return Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Container(
@@ -111,7 +112,7 @@ class CarRentalPage extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.file(
-                                        File(snapshot.data!),
+                                        File(imagePaths.isNotEmpty ? imagePaths[0] : ''),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -119,11 +120,9 @@ class CarRentalPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           vehicle.vehicleModel,
@@ -136,9 +135,7 @@ class CarRentalPage extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 4,
-                                          ),
+                                          padding: EdgeInsets.symmetric(vertical: 4),
                                         ),
                                         Text(
                                           'Ano: ${vehicle.vehicleYear}',
@@ -156,30 +153,24 @@ class CarRentalPage extends StatelessWidget {
                                           ),
                                         ),
                                         const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 4,
-                                          ),
+                                          padding: EdgeInsets.symmetric(vertical: 4),
                                         ),
                                         Row(
                                           children: [
                                             SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
+                                              width: MediaQuery.of(context).size.width / 2.5,
                                               child: ElevatedButton.icon(
                                                 onPressed: () {
                                                   Navigator.pushNamed(
                                                     context,
                                                     '/rentalCompletionPage',
                                                     arguments: CarArguments(
-                                                        vehicle: vehicle,
-                                                        imagePath:
-                                                            snapshot.data!),
+                                                      vehicle: vehicle,
+                                                      imagePath: imagePaths,
+                                                    ),
                                                   );
                                                 },
-                                                icon: const Icon(
-                                                    Icons.shopping_cart),
+                                                icon: const Icon(Icons.shopping_cart),
                                                 label: const Text('Alugar'),
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor: blue,
@@ -190,34 +181,28 @@ class CarRentalPage extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.5,
+                                          width: MediaQuery.of(context).size.width / 2.5,
                                           child: TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pushNamed(
                                                 '/fleetDetailsPage',
                                                 arguments: CarArguments(
-                                                    vehicle: vehicle,
-                                                    imagePath: snapshot.data!),
+                                                  vehicle: vehicle,
+                                                  imagePath: imagePaths,
+                                                ),
                                               );
                                             },
                                             child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   'Mostrar detalhes',
                                                   style: TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 12,
-                                                    decoration: TextDecoration
-                                                        .underline,
+                                                    decoration: TextDecoration.underline,
                                                     decorationThickness: 1.5,
-                                                    decorationStyle:
-                                                        TextDecorationStyle
-                                                            .dotted,
+                                                    decorationStyle: TextDecorationStyle.dotted,
                                                   ),
                                                 ),
                                               ],
@@ -239,8 +224,7 @@ class CarRentalPage extends StatelessWidget {
               ),
             ],
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButtonWidget(color: blue),
           bottomNavigationBar: BottomAppBarWidget(),
         );

@@ -20,9 +20,9 @@ class Rental {
   int? customerCode;
   int? agencyCode;
   int? vehicleCode;
-  final DateTime rentalRegisterDate;
-  final DateTime rentalStart;
-  final DateTime rentalEnd;
+  final String rentalRegisterDate;
+  final String rentalStart;
+  final String rentalEnd;
   final double rentalCost;
   final String rentalStats;
   final String rentalPaymentStats;

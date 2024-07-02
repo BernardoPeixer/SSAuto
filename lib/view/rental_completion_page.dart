@@ -1,9 +1,9 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
+import 'package:ss_auto/view/widgets/type_ahead_customers_widget.dart';
 
+import '../model/customer_model.dart';
 import '../states/rental_completion_state.dart';
 import 'arguments/car_arguments.dart';
 
@@ -13,219 +13,189 @@ class RentalCompletionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CarArguments args =
-        ModalRoute.of(context)!.settings.arguments as CarArguments;
+    ModalRoute.of(context)!.settings.arguments as CarArguments;
     final vehicle = args.vehicle;
     return ChangeNotifierProvider(
       create: (context) => RentalCompletionState(),
       child: Consumer<RentalCompletionState>(builder: (_, state, __) {
         return Scaffold(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text(
               'Pagamento',
+              style: TextStyle(color: Colors.black),
             ),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            iconTheme: const IconThemeData(color: Colors.black),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                decoration: const BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(
-                      20,
-                    ),
-                    bottomRight: Radius.circular(
-                      20,
-                    ),
-                  ),
-                  child: Image.file(
-                    File(args.imagePath),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    vehicle.vehicleModel,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                  CarouselSliderWidget(imagesPath: args.imagePath),
+                  const SizedBox(height: 24.0),
+                  Center(
+                    child: Text(
+                      vehicle.vehicleModel,
+                      style: const TextStyle(
+                        color: Color(0xff052b57),
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: TextFormField(
-                        controller: state.dateControllerPickUp,
-                        decoration: const InputDecoration(
-                          label: Text('Retirada'),
-                          filled: true,
-                          prefix: Icon(Icons.calendar_today),
-                          enabledBorder:
-                              OutlineInputBorder(borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ),
+                  const SizedBox(height: 24.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: state.dateControllerPickUp,
+                          decoration: const InputDecoration(
+                            labelText: 'Retirada',
+                            prefixIcon: Icon(Icons.calendar_today),
+                            border: OutlineInputBorder(),
                           ),
+                          style: const TextStyle(fontSize: 14),
+                          readOnly: true,
+                          onTap: () async => state.selectDatePickUp(context),
                         ),
-                        readOnly: true,
-                        onTap: () async => state.selectDatePickUp(context),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: TextFormField(
-                        controller: state.dateControllerDeliver,
-                        decoration: const InputDecoration(
-                          label: Text('Entrega'),
-                          filled: true,
-                          prefix: Icon(Icons.calendar_today),
-                          enabledBorder:
-                              OutlineInputBorder(borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: TextFormField(
+                          controller: state.dateControllerDeliver,
+                          decoration: const InputDecoration(
+                            labelText: 'Entrega',
+                            prefixIcon: Icon(Icons.calendar_today),
+                            border: OutlineInputBorder(),
                           ),
-                        ),
-                        readOnly: true,
-                        onTap: () async {
-                          state.selectDateDeliver(
-                            context,
-                            vehicle.vehicleDailyCost,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                'Total: ${state.totalRent ?? ''}',
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(
-                        20,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Agência: ${vehicle.agencyCode}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                          readOnly: true,
+                          style: const TextStyle(fontSize: 14),
+                          onTap: () async {
+                            state.selectDateDeliver(
+                              context,
+                              vehicle.vehicleDailyCost,
+                            );
+                          },
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(
-                        20,
+                  const SizedBox(height: 12.0),
+                  TypeAheadCustomersWidget(
+                    controller: state.controllerDropDownCustomer,
+                    customerList: state.customerList,
+                  ),
+                  const SizedBox(height: 12.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildInfoContainer(
+                        context,
+                        'Agência: ${state.getAgencyName(vehicle.agencyCode)}',
+                        const Color(0xff011329),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
+                      _buildInfoContainer(
+                        context,
                         'Ano: ${vehicle.vehicleYear}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
+                        const Color(0xff011329),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(
-                        20,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
+                  const SizedBox(height: 24.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildInfoContainerHighlighted(
+                        context,
                         'Diária: R\$${vehicle.vehicleDailyCost}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                        const Color(0xff011329),
+                      ),
+                      _buildInfoContainerHighlighted(
+                        context,
+                        'Total: R\$${state.totalRent ?? ''}',
+                        const Color(0xffD3393A),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24.0),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color(0xff052b57),
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(
-                        20,
+                      onPressed: () async{
+                        await state.insertRental();
+                      },
+                      child: const Text(
+                        'Registrar aluguel',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Ano: 2020',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
+                  )
                 ],
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.5,
-                height: 50,
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor:
-                        WidgetStatePropertyAll<Color>(Colors.blueGrey),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    'Registrar aluguél!',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildInfoContainer(BuildContext context, String text, Color color) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2.3,
+      height: 70,
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoContainerHighlighted(
+      BuildContext context, String text, Color color) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2.3,
+      height: 70,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

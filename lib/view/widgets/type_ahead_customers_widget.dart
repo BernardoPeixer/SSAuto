@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+
+import '../../model/customer_model.dart';
+import '../../model/models_model.dart';
+
+class TypeAheadCustomersWidget extends StatelessWidget {
+  final TextEditingController controller;
+  final List<Customer> customerList;
+
+  TypeAheadCustomersWidget({
+    super.key,
+    required this.controller,
+    required this.customerList,
+  });
+
+  Color blue = const Color(0xff011329);
+  Color orange = const Color(0xffD3393A);
+
+  @override
+  Widget build(BuildContext context) {
+    return TypeAheadField<Customer>(
+      controller: controller,
+      suggestionsCallback: (pattern) async {
+        return customerList
+            .where((customer) =>
+            customer.customerName.toLowerCase().contains(pattern.toLowerCase()))
+            .toList();
+      },
+      builder: (context, controller, focusNode) {
+        return TextField(
+          controller: controller,
+          focusNode: focusNode,
+
+          style: const TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+            hintText: 'Selecione um cliente',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 0.0, horizontal: 6.0),
+            icon: const Icon(Icons.person),
+          ),
+        );
+      },
+      itemBuilder: (context, Customer suggestion) {
+        return ListTile(
+          title: Text(suggestion.customerName.toUpperCase()),
+        );
+      },
+      onSelected: (Customer suggestion) {
+        controller.text = suggestion.customerName.toUpperCase();
+      },
+    );
+  }
+}

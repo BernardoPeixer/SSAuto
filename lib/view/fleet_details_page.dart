@@ -32,7 +32,7 @@ class FleetDetailsPage extends StatelessWidget {
                   bottomRight: Radius.circular(16.0),
                 ),
                 child: Image.file(
-                  File(args.imagePath),
+                  File(args.imagePath[0]),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 3,
                   fit: BoxFit.cover,

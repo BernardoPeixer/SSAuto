@@ -2,7 +2,7 @@ import '../../model/vehicle_model.dart';
 
 class CarArguments {
   final Vehicle vehicle;
-  final String imagePath;
+  final List<String> imagePath;
 
   const CarArguments({
     required this.vehicle,
