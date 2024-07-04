@@ -93,7 +93,7 @@ class VehicleRegistrationState with ChangeNotifier {
       vehicleLicensePlate: controllerLicensePlate.text,
       vehicleYear: controllerYear.text,
       vehicleDailyCost: dailyCost!,
-      agencyCode: selectedItem?.agencyId,
+      agencyCode: selectedItem!.agencyId!,
     );
 
     await controllerVehicle.insert(vehicle);

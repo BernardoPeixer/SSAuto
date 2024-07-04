@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
+import 'package:ss_auto/view/widgets/info_container_widget.dart';
+import 'package:ss_auto/view/widgets/large_info_container_widget.dart';
 import 'package:ss_auto/view/widgets/type_ahead_customers_widget.dart';
 
 import '../model/customer_model.dart';
@@ -13,7 +15,7 @@ class RentalCompletionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CarArguments args =
-    ModalRoute.of(context)!.settings.arguments as CarArguments;
+        ModalRoute.of(context)!.settings.arguments as CarArguments;
     final vehicle = args.vehicle;
     return ChangeNotifierProvider(
       create: (context) => RentalCompletionState(),
@@ -94,15 +96,13 @@ class RentalCompletionPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildInfoContainer(
-                        context,
-                        'Agência: ${state.getAgencyName(vehicle.agencyCode)}',
-                        const Color(0xff011329),
+                      const InfoContainerWidget(
+                        text: 'Agência: SSAuto',
+                        color: Color(0xff011329),
                       ),
-                      _buildInfoContainer(
-                        context,
-                        'Ano: ${vehicle.vehicleYear}',
-                        const Color(0xff011329),
+                      InfoContainerWidget(
+                        text: 'Ano: ${vehicle.vehicleYear}',
+                        color: const Color(0xff011329),
                       ),
                     ],
                   ),
@@ -110,15 +110,13 @@ class RentalCompletionPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildInfoContainerHighlighted(
-                        context,
-                        'Diária: R\$${vehicle.vehicleDailyCost}',
-                        const Color(0xff011329),
+                      LargeInfoContainerWidget(
+                        text: 'Diária: R\$${vehicle.vehicleDailyCost}',
+                        color: const Color(0xff011329),
                       ),
-                      _buildInfoContainerHighlighted(
-                        context,
-                        'Total: R\$${state.totalRent ?? ''}',
-                        const Color(0xffD3393A),
+                      LargeInfoContainerWidget(
+                        text: 'Total: R\$${state.totalRent ?? ''}',
+                        color: const Color(0xffD3393A),
                       ),
                     ],
                   ),
@@ -132,8 +130,12 @@ class RentalCompletionPage extends StatelessWidget {
                           const Color(0xff052b57),
                         ),
                       ),
-                      onPressed: () async{
-                        await state.insertRental();
+                      onPressed: () async {
+                        await state.insertRental(
+                            vehicle.vehicleId!, vehicle.agencyCode!);
+                        final pdfFile =
+                            await state.generateCenteredText('Sample text');
+                        await state.openFile(pdfFile);
                       },
                       child: const Text(
                         'Registrar aluguel',
@@ -147,55 +149,6 @@ class RentalCompletionPage extends StatelessWidget {
           ),
         );
       }),
-    );
-  }
-
-  Widget _buildInfoContainer(BuildContext context, String text, Color color) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2.3,
-      height: 70,
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoContainerHighlighted(
-      BuildContext context, String text, Color color) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2.3,
-      height: 70,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
     );
   }
 }

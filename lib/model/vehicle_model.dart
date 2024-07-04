@@ -8,7 +8,7 @@ class Vehicle {
     required this.vehicleYear,
     required this.vehicleDailyCost,
     this.vehicleId,
-    this.agencyCode,
+    required this.agencyCode,
   });
 
   final String vehicleBrand;
@@ -17,7 +17,7 @@ class Vehicle {
   final String vehicleYear;
   final double vehicleDailyCost;
   late int? vehicleId;
-  late int? agencyCode;
+  int agencyCode;
 }
 
 class VehicleTable {

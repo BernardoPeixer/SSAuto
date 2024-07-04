@@ -1,4 +1,10 @@
+import 'dart:io';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart';
 import 'package:ss_auto/controller/customer_controller.dart';
 import 'package:ss_auto/controller/rental_controller.dart';
 import 'package:ss_auto/model/rental_model.dart';
@@ -145,7 +151,7 @@ class RentalCompletionState with ChangeNotifier {
     }
   }
 
-  Future<void> insertRental() async {
+  Future<void> insertRental(int vehicleCode, int agencyCode) async {
     int? customerCode = await controllerCustomer
         .getCustomerIdByName(controllerDropDownCustomer.text);
     final rent = Rental(
@@ -156,11 +162,45 @@ class RentalCompletionState with ChangeNotifier {
       rentalStats: getRentalStats(selectedDateDeliver!, rentalPaymentStats),
       rentalPaymentStats: getRentalPaymentStats(),
       customerCode: customerCode,
-      agencyCode: 1,
-      vehicleCode: 1,
+      agencyCode: agencyCode,
+      vehicleCode: vehicleCode,
     );
     await controllerRental.insert(rent);
     notifyListeners();
     print('insert concluido');
+  }
+
+  Future<File> generateCenteredText(String text) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Center(
+            child: pw.Text(text),
+          );
+        },
+      ),
+    );
+
+    return saveDocument(name: 'Example.com', pdf: pdf);
+  }
+
+  Future<File> saveDocument(
+      {required String name, required Document pdf}) async {
+    final bytes = await pdf.save();
+
+    final dir = await getApplicationSupportDirectory();
+    final file = File('${dir.path}/$name');
+
+    await file.writeAsBytes(bytes);
+
+    return file;
+  }
+
+  Future<void> openFile(File file) async {
+    final url = file.path;
+
+    await OpenFile.open(url);
   }
 }

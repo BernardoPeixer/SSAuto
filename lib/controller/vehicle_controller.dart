@@ -28,6 +28,7 @@ class VehicleController {
           vehicleYear: item[VehicleTable.vehicleYear],
           vehicleDailyCost: item[VehicleTable.vehicleDailyCost],
           vehicleId: item[VehicleTable.vehicleId],
+          agencyCode: item[VehicleTable.agencyCode]
         ),
       );
     }

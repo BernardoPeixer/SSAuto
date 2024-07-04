@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:ss_auto/states/customer_registration_state.dart';
-import 'package:ss_auto/states/vehicle_registration_state.dart';
 import 'package:ss_auto/view/car_rental_page.dart';
 import 'package:ss_auto/view/fleet_details_page.dart';
 import 'package:ss_auto/view/fleet_page.dart';
 import 'package:ss_auto/view/manager_customer_page.dart';
 import 'package:ss_auto/view/rental_completion_page.dart';
+import 'package:ss_auto/view/step_by_step_page.dart';
 import 'package:ss_auto/view/vehicle_registration_page.dart';
-import 'states/manager_registration_state.dart';
 import 'view/add_options_page.dart';
 import 'view/home_page.dart';
 import 'view/manager_registration_page.dart';
@@ -40,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/managerCustomerPage': (context) => const ManagerCustomerPage(),
         '/carRentalPage': (context) => const CarRentalPage(),
         '/rentalCompletionPage': (context) => const RentalCompletionPage(),
+        '/stepByStepPage': (context) => const StepByStepPage(),
       },
     );
   }

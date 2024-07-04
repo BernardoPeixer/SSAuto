@@ -30,7 +30,7 @@ class BottomAppBarWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/carRentalPage');
+                  Navigator.of(context).pushReplacementNamed('/stepByStepPage');
                   function;
                 },
                 iconSize: 20,
