@@ -6,6 +6,7 @@ import 'package:ss_auto/states/car_rental_state.dart';
 import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
 import 'package:ss_auto/view/widgets/floating_action_button_widget.dart';
 
+import '../model/agency_model.dart';
 import '../model/vehicle_model.dart';
 import 'arguments/car_arguments.dart';
 
@@ -14,9 +15,10 @@ class CarRentalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Agency agency = ModalRoute.of(context)!.settings.arguments as Agency;
     Color blue = const Color(0xff011329);
     return ChangeNotifierProvider(
-      create: (context) => CarRentalState(),
+      create: (context) => CarRentalState(agency.agencyId!),
       child: Consumer<CarRentalState>(builder: (_, state, __) {
         return Scaffold(
           body: Column(
@@ -55,14 +57,6 @@ class CarRentalPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    IconButton(
-                      onPressed: () async {
-                        await state.showAlertDialog(context);
-                      },
-                      icon: const Icon(Icons.filter_list),
-                      color: Colors.grey,
-                    ),
                   ],
                 ),
               ),
@@ -75,7 +69,7 @@ class CarRentalPage extends StatelessWidget {
                       future: state.getListPathImagesCars(vehicle.vehicleLicensePlate),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');

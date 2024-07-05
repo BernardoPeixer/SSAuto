@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:ss_auto/view/widgets/type_ahead_agencys_widget.dart';
 import '../states/step_by_step_state.dart';
-import 'arguments/car_arguments.dart';
+import 'widgets/type_ahead_customers_widget.dart';
 
 class StepByStepPage extends StatelessWidget {
   const StepByStepPage({super.key});
@@ -19,10 +19,12 @@ class StepByStepPage extends StatelessWidget {
           body: Stepper(
             elevation: 0,
             type: StepperType.horizontal,
-            onStepContinue: state.onStepContinue,
+            onStepContinue: () {
+              state.onStepContinue(context,);
+            },
             onStepCancel: state.onStepCancel,
             currentStep: state.currentSteps,
-            onStepTapped: state.onStapTapped,
+            onStepTapped: state.onStepTapped,
             steps: [
               Step(
                 isActive: state.currentSteps >= 0,
@@ -74,7 +76,10 @@ class StepByStepPage extends StatelessWidget {
                 title: Text(''),
                 content: Column(
                   children: [
-                    Text('Customer here'),
+                    TypeAheadCustomersWidget(
+                      controller: state.customerControllerTypeAhead,
+                      customerList: state.listCustomer,
+                    ),
                   ],
                 ),
               ),
@@ -83,7 +88,11 @@ class StepByStepPage extends StatelessWidget {
                 title: Text(''),
                 content: Column(
                   children: [
-                    Text('Agency here'),
+                    TypeAheadAgencysWidget(
+                      controller: state.agencyControllerTypeAhead,
+                      agencyList: state.listAgency,
+                      onAgencySelect: state.onAgencySelect,
+                    ),
                   ],
                 ),
               ),

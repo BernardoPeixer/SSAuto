@@ -16,8 +16,6 @@ class RentalCompletionState with ChangeNotifier {
   RentalCompletionState() {
     loadAgency();
     loadCustomers();
-    print(_customerList);
-    print(_listAgency);
   }
 
   TextEditingController dateControllerPickUp = TextEditingController();
@@ -101,27 +99,6 @@ class RentalCompletionState with ChangeNotifier {
     _customerList.clear();
     _customerList.addAll(list);
     notifyListeners();
-  }
-
-  String? getAgencyName(int? agencyCode) {
-    if (agencyCode == null) return null;
-
-    Agency? agency = listAgency.firstWhere(
-      (agency) => agency.agencyId == agencyCode,
-      orElse: () => Agency(
-          agencyId: -1,
-          agencyName: 'Desconhecida',
-          agencyState: '',
-          agencyCity: ''),
-    );
-    notifyListeners();
-
-    if (agency != null) {
-      notifyListeners();
-      return agency.agencyName;
-    } else {
-      return null;
-    }
   }
 
   final controllerRental = RentalController();
