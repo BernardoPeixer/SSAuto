@@ -6,8 +6,11 @@ import 'package:ss_auto/controller/rental_controller.dart';
 import '../model/vehicle_model.dart';
 
 class CarRentalState with ChangeNotifier {
-  CarRentalState(int agencyId) {
-    loadVehicles(agencyId);
+  CarRentalState(int agencyId, String rentalStart, String rentalEnd) {
+    print(rentalStart);
+    print(rentalEnd);
+    loadVehicles(agencyId, rentalStart, rentalEnd);
+
   }
 
   var _listVehicles = <Vehicle>[];
@@ -45,8 +48,10 @@ class CarRentalState with ChangeNotifier {
 
   final rentalController = RentalController();
 
-  Future<void> loadVehicles(int agencyId) async {
-    _listVehicles = await rentalController.selectCars(agencyId);
+  Future<void> loadVehicles(
+      int agencyId, String rentalStart, String rentalEnd) async {
+    _listVehicles = await rentalController.selectFilteredVehicles(
+        agencyId, rentalStart, rentalEnd);
     notifyListeners();
   }
 }

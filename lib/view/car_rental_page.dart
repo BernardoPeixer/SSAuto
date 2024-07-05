@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/car_rental_state.dart';
+import 'package:ss_auto/view/arguments/rental_arguments.dart';
 import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
 import 'package:ss_auto/view/widgets/floating_action_button_widget.dart';
 
 import '../model/agency_model.dart';
+import '../model/rental_model.dart';
 import '../model/vehicle_model.dart';
 import 'arguments/car_arguments.dart';
 
@@ -15,10 +17,13 @@ class CarRentalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Agency agency = ModalRoute.of(context)!.settings.arguments as Agency;
+    final RentalArguments args =
+        ModalRoute.of(context)!.settings.arguments as RentalArguments;
+    final Agency? agency = args.selectedAgency;
     Color blue = const Color(0xff011329);
     return ChangeNotifierProvider(
-      create: (context) => CarRentalState(agency.agencyId!),
+      create: (context) => CarRentalState(
+          agency!.agencyId!, args.rentalStart, args.rentalEnd),
       child: Consumer<CarRentalState>(builder: (_, state, __) {
         return Scaffold(
           body: Column(
@@ -51,7 +56,8 @@ class CarRentalPage extends StatelessWidget {
                               border: InputBorder.none,
                               hintText: 'Search here...',
                               hintStyle: TextStyle(color: Colors.grey),
-                              prefixIcon: Icon(Icons.search, color: Colors.grey),
+                              prefixIcon:
+                                  Icon(Icons.search, color: Colors.grey),
                             ),
                           ),
                         ),
@@ -66,9 +72,11 @@ class CarRentalPage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     Vehicle vehicle = state.listVehicles[index];
                     return FutureBuilder<List<String>>(
-                      future: state.getListPathImagesCars(vehicle.vehicleLicensePlate),
+                      future: state
+                          .getListPathImagesCars(vehicle.vehicleLicensePlate),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         }
                         if (snapshot.hasError) {
@@ -106,7 +114,9 @@ class CarRentalPage extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.file(
-                                        File(imagePaths.isNotEmpty ? imagePaths[0] : ''),
+                                        File(imagePaths.isNotEmpty
+                                            ? imagePaths[0]
+                                            : ''),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -114,9 +124,11 @@ class CarRentalPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           vehicle.vehicleModel,
@@ -129,7 +141,8 @@ class CarRentalPage extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         const Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 4),
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 4),
                                         ),
                                         Text(
                                           'Ano: ${vehicle.vehicleYear}',
@@ -147,12 +160,16 @@ class CarRentalPage extends StatelessWidget {
                                           ),
                                         ),
                                         const Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 4),
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 4),
                                         ),
                                         Row(
                                           children: [
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
                                               child: ElevatedButton.icon(
                                                 onPressed: () {
                                                   Navigator.pushNamed(
@@ -164,7 +181,8 @@ class CarRentalPage extends StatelessWidget {
                                                     ),
                                                   );
                                                 },
-                                                icon: const Icon(Icons.shopping_cart),
+                                                icon: const Icon(
+                                                    Icons.shopping_cart),
                                                 label: const Text('Alugar'),
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor: blue,
@@ -175,7 +193,10 @@ class CarRentalPage extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width / 2.5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.5,
                                           child: TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pushNamed(
@@ -187,16 +208,20 @@ class CarRentalPage extends StatelessWidget {
                                               );
                                             },
                                             child: const Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   'Mostrar detalhes',
                                                   style: TextStyle(
                                                     color: Colors.blue,
                                                     fontSize: 12,
-                                                    decoration: TextDecoration.underline,
+                                                    decoration: TextDecoration
+                                                        .underline,
                                                     decorationThickness: 1.5,
-                                                    decorationStyle: TextDecorationStyle.dotted,
+                                                    decorationStyle:
+                                                        TextDecorationStyle
+                                                            .dotted,
                                                   ),
                                                 ),
                                               ],
@@ -218,7 +243,8 @@ class CarRentalPage extends StatelessWidget {
               ),
             ],
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButtonWidget(color: blue),
           bottomNavigationBar: BottomAppBarWidget(),
         );

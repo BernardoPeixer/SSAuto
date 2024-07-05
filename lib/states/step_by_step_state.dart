@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:ss_auto/view/arguments/rental_arguments.dart';
+import 'package:intl/intl.dart';
 import '../controller/agency_controller.dart';
 import '../controller/customer_controller.dart';
 import '../model/agency_model.dart';
@@ -42,6 +43,8 @@ class StepByStepState with ChangeNotifier {
 
   List<Agency> get listAgency => _listAgency;
 
+  String formatedDatePickUp = '';
+
   Future<void> selectDatePickUp(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
@@ -53,9 +56,14 @@ class StepByStepState with ChangeNotifier {
     if (picked != null) {
       dateControllerPickUp.text = picked.toString().split(' ')[0];
       selectedDatePickUp = picked;
+      formatedDatePickUp =
+          DateFormat('yyyy-MM-dd').format(selectedDatePickUp!);
       notifyListeners();
     }
   }
+
+  String formatedDateDeliver = '';
+
 
   Future<void> selectDateDeliver(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -68,6 +76,8 @@ class StepByStepState with ChangeNotifier {
     if (picked != null) {
       dateControllerDeliver.text = picked.toString().split(' ')[0];
       selectedDateDeliver = picked;
+      formatedDateDeliver =
+          DateFormat('yyyy-MM-dd').format(selectedDateDeliver!);
       notifyListeners();
     }
   }
@@ -79,7 +89,15 @@ class StepByStepState with ChangeNotifier {
       currentSteps += 1;
       notifyListeners();
     } else {
-      Navigator.pushNamed(context, '/carRentalPage', arguments: selectedAgency);
+      Navigator.pushNamed(
+        context,
+        '/carRentalPage',
+        arguments: RentalArguments(
+          rentalStart: formatedDatePickUp,
+          rentalEnd: formatedDateDeliver,
+          selectedAgency: selectedAgency,
+        ),
+      );
     }
   }
 
