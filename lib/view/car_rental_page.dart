@@ -15,12 +15,12 @@ class CarRentalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final RentalArguments args =
-    ModalRoute.of(context)!.settings.arguments as RentalArguments;
+        ModalRoute.of(context)!.settings.arguments as RentalArguments;
     final Agency? agency = args.selectedAgency;
 
     return ChangeNotifierProvider(
-      create: (context) => CarRentalState(
-          agency!.agencyId!, args.rentalStart, args.rentalEnd),
+      create: (context) =>
+          CarRentalState(agency!.agencyId!, args.rentalStart, args.rentalEnd),
       child: Consumer<CarRentalState>(
         builder: (_, state, __) {
           return Scaffold(
@@ -53,52 +53,60 @@ class CarRentalPage extends StatelessWidget {
             ),
             body: state.filtredVehicles.isEmpty
                 ? const Center(
-              child: Text(
-                'Nenhum veículo encontrado',
-                style: TextStyle(fontSize: 20),
-              ),
-            )
+                    child: Text(
+                      'Nenhum veículo encontrado',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )
                 : ListView.builder(
-              itemCount: state.filtredVehicles.length,
-              itemBuilder: (BuildContext context, int index) {
-                Vehicle vehicle = state.filtredVehicles[index];
-                return FutureBuilder<List<String>>(
-                  future: state.getListPathImagesCars(
-                      vehicle.vehicleLicensePlate),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                          child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      List<String> imagePaths =
-                          snapshot.data ?? [];
-                      return RentalCardCarWidget(
-                        vehicleModel: vehicle.vehicleModel,
-                        imagePath: imagePaths.isNotEmpty
-                            ? imagePaths[0]
-                            : '',
-                        vehicleDailyCost: vehicle.vehicleDailyCost,
-                        vehicleYear: vehicle.vehicleYear,
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            '/rentalCompletionPage',
-                            arguments: CarArguments(
-                              vehicle: vehicle,
-                              imagePath: imagePaths,
-                            ),
-                          );
+                    itemCount: state.filtredVehicles.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Vehicle vehicle = state.filtredVehicles[index];
+                      return FutureBuilder<List<String>>(
+                        future: state
+                            .getListPathImagesCars(vehicle.vehicleLicensePlate),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            List<String> imagePaths = snapshot.data ?? [];
+                            return RentalCardCarWidget(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/rentalCompletionPage',
+                                  arguments: CarArguments(
+                                    vehicle: vehicle,
+                                    imagePath: imagePaths,
+                                  ),
+                                );
+                              },
+                              vehicleModel: vehicle.vehicleModel,
+                              imagePath:
+                                  imagePaths.isNotEmpty ? imagePaths[0] : '',
+                              vehicleDailyCost: vehicle.vehicleDailyCost,
+                              vehicleYear: vehicle.vehicleYear,
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                  '/rentalCompletionPage',
+                                  arguments: CarArguments(
+                                    vehicle: vehicle,
+                                    imagePath: imagePaths,
+                                  ),
+                                );
+                              },
+                            );
+                          }
                         },
                       );
-                    }
-                  },
-                );
-              },
-            ),
+                    },
+                  ),
             bottomNavigationBar: Container(
               color: const Color(0xFFca122e),
               height: 80,
@@ -110,4 +118,3 @@ class CarRentalPage extends StatelessWidget {
     );
   }
 }
-

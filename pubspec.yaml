@@ -81,7 +81,12 @@ flutter:
     - assets/images/
     - assets/images/splash/logo2.png
     - assets/images/splash/logo_300x529-removebg-preview.png
-    - assets/images/logo/ss_horizontal_logo.png
+    - assets/images/splash/splash_logo.png
+    - assets/images/logo/ss_teste.png
+    - assets/images/logo/ss_simples_logo.png
+    - assets/images/logo/ss_simples_menor.png
+    - assets/images/logo/ss_simples_maior.png
+    - assets/images/logo/ss_bg.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -124,7 +129,7 @@ flutter_native_splash:
   # of your splash screen to a solid color.  Use background_image to set the background of your
   # splash screen to a png image.  This is useful for gradients. The image will be stretch to the
   # size of the app. Only one parameter can be used, color and background_image cannot both be set.
-  color: "#011329"
+  color: "#ca122e"
   #background_image: "assets/background.png"
 
   # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
@@ -132,7 +137,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/images/splash/logo_300x529-removebg-preview.png
+  image: assets/images/splash/splash_logo.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -164,10 +169,10 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    image: assets/images/splash/logo_300x529-removebg-preview.png
+    image: assets/images/logo/ss_bg.png
 
     # Splash screen background color.
-    color: "#011329"
+    color: "#ca122e"
 
   # App icon background color.
   #icon_background_color: "#111111"

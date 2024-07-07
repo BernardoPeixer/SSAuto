@@ -4,6 +4,7 @@ import 'package:ss_auto/view/fleet_details_page.dart';
 import 'package:ss_auto/view/fleet_page.dart';
 import 'package:ss_auto/view/manager_customer_page.dart';
 import 'package:ss_auto/view/rental_completion_page.dart';
+import 'package:ss_auto/view/rental_filters_page.dart';
 import 'package:ss_auto/view/step_by_step_page.dart';
 import 'package:ss_auto/view/vehicle_registration_page.dart';
 import 'view/add_options_page.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/carRentalPage': (context) => const CarRentalPage(),
         '/rentalCompletionPage': (context) => const RentalCompletionPage(),
         '/stepByStepPage': (context) => const StepByStepPage(),
+        '/rentalFiltersPage': (context) => const RentalFiltersPage(),
       },
       home: const HomePage(),
     );

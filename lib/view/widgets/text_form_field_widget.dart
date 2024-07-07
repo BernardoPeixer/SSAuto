@@ -31,13 +31,13 @@ class TextFormFieldWidget extends StatelessWidget {
             controller: controller,
             decoration: InputDecoration(
               filled: true,
-              fillColor: color,
+              fillColor: Colors.white,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(5.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Colors.black, width: 1.0),
+                borderRadius: BorderRadius.circular(5.0),
               ),
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 0.0, horizontal: 6.0),

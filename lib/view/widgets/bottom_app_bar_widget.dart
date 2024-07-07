@@ -3,6 +3,7 @@ import 'package:ss_auto/view/add_options_page.dart';
 import 'package:ss_auto/view/fleet_page.dart';
 import 'package:ss_auto/view/home_page.dart';
 import 'package:ss_auto/view/manager_customer_page.dart';
+import 'package:ss_auto/view/rental_filters_page.dart';
 
 import '../step_by_step_page.dart';
 
@@ -66,7 +67,7 @@ class BottomAppBarWidget extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        const StepByStepPage(),
+                        const RentalFiltersPage(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(

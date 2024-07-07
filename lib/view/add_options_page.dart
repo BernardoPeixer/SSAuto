@@ -11,32 +11,56 @@ class AddOptionsPage extends StatelessWidget {
     Color blue = const Color(0xff011329);
     Color orange = const Color(0xffD3393A);
     return Scaffold(
-      backgroundColor: blue,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ListTileAddOptionsWidget(
-              onTap: () {
-                Navigator.of(context).pushNamed('/vehicleRegistrationPage');
-              },
-              title: 'ADICIONAR CARRO',
-              color: orange,
-              icon: Icons.directions_car),
-          ListTileAddOptionsWidget(
-              onTap: () {
-                Navigator.of(context).pushNamed('/managerRegistrationPage');
-              },
-              title: 'CADASTRAR GERENTE',
-              color: orange,
-              icon: Icons.supervisor_account),
-          ListTileAddOptionsWidget(
-              onTap: () {
-                Navigator.of(context).pushNamed('/customerRegistrationPage');
-              },
-              title: 'CADASTRAR CLIENTE',
-              color: orange,
-              icon: Icons.person_add_alt_1),
+      backgroundColor: const Color(0xFFca122e),
+      appBar: AppBar(
+        toolbarHeight: 80,
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFFca122e),
+        actions: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset(
+                    'assets/images/logo/ss_horizontal_logo.png',
+                    height: 80,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ListTileAddOptionsWidget(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/vehicleRegistrationPage');
+                },
+                title: 'ADICIONAR CARRO',
+                color: Colors.white,
+                icon: Icons.directions_car_outlined),
+            ListTileAddOptionsWidget(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/managerRegistrationPage');
+                },
+                title: 'CADASTRAR GERENTE',
+                color: Colors.white,
+                icon: Icons.supervisor_account_outlined),
+            ListTileAddOptionsWidget(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/customerRegistrationPage');
+                },
+                title: 'CADASTRAR CLIENTE',
+                color: Colors.white,
+                icon: Icons.person_add_alt_1_outlined),
+          ],
+        ),
       ),
       bottomNavigationBar: SizedBox(
         height: 80,

@@ -21,8 +21,8 @@ class ListTileAddOptionsWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
         ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 4.5,
+        width: MediaQuery.of(context).size.width ,
+        height: 100,
         child: ElevatedButton(
           style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(
@@ -30,7 +30,7 @@ class ListTileAddOptionsWidget extends StatelessWidget {
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                 ),
               )),
           onPressed: onTap,
@@ -38,24 +38,20 @@ class ListTileAddOptionsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Icon(
                     icon,
-                    size: 60,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                    size: 40,
+                    color: Colors.black,
+                  ),
+                  SizedBox(width: 20,),
                   Text(
                     title,
                     style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 25),
+                        fontSize: 20),
                   ),
                 ],
               ),

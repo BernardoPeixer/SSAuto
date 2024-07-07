@@ -19,10 +19,7 @@ class FleetDetailsPage extends StatelessWidget {
         final vehicle = args.vehicle;
         return Scaffold(
           backgroundColor: blue,
-          appBar: AppBar(
-            title: const Text('Dados do veículo'),
-            centerTitle: true,
-          ),
+
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

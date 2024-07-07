@@ -32,23 +32,20 @@ class TypeAheadModelsWidget extends StatelessWidget {
         }
         return modelsList
             .where((models) =>
-            models.name!.toLowerCase().contains(pattern.toLowerCase()))
+            models.name.toLowerCase().contains(pattern.toLowerCase()))
             .toList();
       },
       builder: (context, controller, focusNode) {
         return TextField(
           controller: controller,
           focusNode: focusNode,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(
             filled: true,
-            fillColor: blue,
+            fillColor: Colors.white,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(color: Colors.white, width: 1.0),
+              borderRadius: BorderRadius.circular(5.0),
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0.0, horizontal: 6.0),
@@ -57,11 +54,11 @@ class TypeAheadModelsWidget extends StatelessWidget {
       },
       itemBuilder: (context, Models suggestion) {
         return ListTile(
-          title: Text(suggestion.name!.toUpperCase()),
+          title: Text(suggestion.name.toUpperCase()),
         );
       },
       onSelected: (Models suggestion) {
-        controller.text = suggestion.name!.toUpperCase();
+        controller.text = suggestion.name.toUpperCase();
         onModelSelected(suggestion);
 
       },

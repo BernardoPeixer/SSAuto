@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
@@ -8,6 +10,7 @@ import 'package:ss_auto/view/widgets/type_ahead_customers_widget.dart';
 import '../model/customer_model.dart';
 import '../states/rental_completion_state.dart';
 import 'arguments/car_arguments.dart';
+import 'widgets/bottom_app_bar_widget.dart';
 
 class RentalCompletionPage extends StatelessWidget {
   const RentalCompletionPage({super.key});
@@ -23,17 +26,47 @@ class RentalCompletionPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: const Text(
-              'Pagamento',
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Colors.white,
-            elevation: 0,
-            iconTheme: const IconThemeData(color: Colors.black),
-          ),
+              toolbarHeight: 80,
+              automaticallyImplyLeading: false,
+              backgroundColor: const Color(0xFFca122e),
+              actions: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_left,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        const Center(
+                            child: Text(
+                          'DETALHES DO VEÍCULO',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        )),
+                        Image.asset(
+                          'assets/images/logo/ss_simples_logo.png',
+                          height: 40,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -43,62 +76,20 @@ class RentalCompletionPage extends StatelessWidget {
                     child: Text(
                       vehicle.vehicleModel,
                       style: const TextStyle(
-                        color: Color(0xff052b57),
-                        fontSize: 30,
+                        color: Color(0xffca122e),
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   const SizedBox(height: 24.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: state.dateControllerPickUp,
-                          decoration: const InputDecoration(
-                            labelText: 'Retirada',
-                            prefixIcon: Icon(Icons.calendar_today),
-                            border: OutlineInputBorder(),
-                          ),
-                          style: const TextStyle(fontSize: 14),
-                          readOnly: true,
-                          onTap: () async => state.selectDatePickUp(context),
-                        ),
-                      ),
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: TextFormField(
-                          controller: state.dateControllerDeliver,
-                          decoration: const InputDecoration(
-                            labelText: 'Entrega',
-                            prefixIcon: Icon(Icons.calendar_today),
-                            border: OutlineInputBorder(),
-                          ),
-                          readOnly: true,
-                          style: const TextStyle(fontSize: 14),
-                          onTap: () async {
-                            state.selectDateDeliver(
-                              context,
-                              vehicle.vehicleDailyCost,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12.0),
-                  TypeAheadCustomersWidget(
-                    controller: state.controllerDropDownCustomer,
-                    customerList: state.customerList,
-                  ),
-                  const SizedBox(height: 12.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const InfoContainerWidget(
-                        text: 'Agência: SSAuto',
-                        color: Color(0xff011329),
+                      InfoContainerWidget(
+                        text: 'Agência: ${vehicle.agencyCode}',
+                        color: const Color(0xff011329),
                       ),
                       InfoContainerWidget(
                         text: 'Ano: ${vehicle.vehicleYear}',
@@ -146,6 +137,11 @@ class RentalCompletionPage extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          bottomNavigationBar: Container(
+            color: const Color(0xFFca122e),
+            height: 80,
+            child: const BottomAppBarWidget(),
           ),
         );
       }),
