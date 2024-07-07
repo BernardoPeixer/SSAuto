@@ -6,16 +6,16 @@ import 'package:ss_auto/controller/rental_controller.dart';
 import '../model/vehicle_model.dart';
 
 class CarRentalState with ChangeNotifier {
-  CarRentalState(int agencyId, String rentalStart, String rentalEnd) {
-    print(rentalStart);
-    print(rentalEnd);
-    loadVehicles(agencyId, rentalStart, rentalEnd);
+  List<Vehicle> _listVehicles = [];
+  final List<Vehicle> _filtredVehicles = [];
 
+  CarRentalState(int agencyId, String rentalStart, String rentalEnd) {
+    loadVehicles(agencyId, rentalStart, rentalEnd);
+    print(filtredVehicles.length);
   }
 
-  var _listVehicles = <Vehicle>[];
-
   List<Vehicle> get listVehicles => _listVehicles;
+  List<Vehicle> get filtredVehicles => _filtredVehicles;
 
   Future<String> getPathImagesCars(String licensePlate) async {
     final appDocumentsDir = await getApplicationSupportDirectory();
@@ -50,8 +50,32 @@ class CarRentalState with ChangeNotifier {
 
   Future<void> loadVehicles(
       int agencyId, String rentalStart, String rentalEnd) async {
-    _listVehicles = await rentalController.selectFilteredVehicles(
-        agencyId, rentalStart, rentalEnd);
+    try {
+      _filtredVehicles.clear();
+      _listVehicles.clear();
+      _listVehicles = await rentalController.selectFilteredVehicles(
+          agencyId, rentalStart, rentalEnd);
+      _filtredVehicles.addAll(_listVehicles);
+      onChanged(_appBarController.text);
+      notifyListeners();
+    } catch (e) {
+      print('Error loading vehicles: $e');
+    }
+  }
+
+  final TextEditingController _appBarController = TextEditingController();
+
+  TextEditingController get appBarController => _appBarController;
+
+  void onChanged(String query) {
+    if (query.isNotEmpty) {
+      _filtredVehicles.clear();
+      _filtredVehicles.addAll(_listVehicles.where((vehicle) =>
+          vehicle.vehicleModel.toLowerCase().contains(query.toLowerCase())));
+    } else {
+      _filtredVehicles.clear();
+      _filtredVehicles.addAll(_listVehicles);
+    }
     notifyListeners();
   }
 }

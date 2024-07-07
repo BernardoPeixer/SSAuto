@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:ss_auto/states/customer_registration_state.dart';
-import 'package:ss_auto/states/manager_registration_state.dart';
 import 'package:ss_auto/view/widgets/customer_list_widget.dart';
 import 'package:ss_auto/view/widgets/manager_list_widget.dart';
-
 import 'widgets/bottom_app_bar_widget.dart';
-import 'widgets/floating_action_button_widget.dart';
 
 class ManagerCustomerPage extends StatelessWidget {
   const ManagerCustomerPage({super.key});
@@ -69,12 +64,10 @@ class ManagerCustomerPage extends StatelessWidget {
             ManagerListWidget(),
           ],
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButtonWidget(
-          color: blue,
+        bottomNavigationBar: SizedBox(
+          height: 80,
+          child: BottomAppBarWidget(),
         ),
-        bottomNavigationBar: BottomAppBarWidget(),
       ),
     );
   }

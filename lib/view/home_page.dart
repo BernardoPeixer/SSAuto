@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
 import 'package:ss_auto/view/widgets/home_page_container_widget.dart';
-import 'package:ss_auto/view/widgets/floating_action_button_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,6 +10,7 @@ class HomePage extends StatelessWidget {
     Color blue = const Color(0xff011329);
     Color orange = const Color(0xffD3393A);
     return Scaffold(
+
       body: Column(
         children: [
           Expanded(
@@ -146,11 +146,10 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButtonWidget(
-        color: blue,
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: BottomAppBarWidget(),
       ),
-      bottomNavigationBar: BottomAppBarWidget(),
     );
   }
 }

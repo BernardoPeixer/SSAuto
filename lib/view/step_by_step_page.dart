@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/view/widgets/type_ahead_agencys_widget.dart';
 import '../states/step_by_step_state.dart';
+import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/type_ahead_customers_widget.dart';
 
 class StepByStepPage extends StatelessWidget {
@@ -20,7 +21,7 @@ class StepByStepPage extends StatelessWidget {
             elevation: 0,
             type: StepperType.horizontal,
             onStepContinue: () {
-              state.onStepContinue(context,);
+              state.onStepContinue(context);
             },
             onStepCancel: state.onStepCancel,
             currentStep: state.currentSteps,
@@ -97,6 +98,10 @@ class StepByStepPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          bottomNavigationBar: SizedBox(
+            height: 80,
+            child: BottomAppBarWidget(),
           ),
         );
       }),

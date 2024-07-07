@@ -81,6 +81,7 @@ flutter:
     - assets/images/
     - assets/images/splash/logo2.png
     - assets/images/splash/logo_300x529-removebg-preview.png
+    - assets/images/logo/ss_horizontal_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

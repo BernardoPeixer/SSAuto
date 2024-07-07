@@ -4,10 +4,9 @@ import 'package:ss_auto/states/fleet_page_state.dart';
 import 'package:ss_auto/view/arguments/car_arguments.dart';
 import 'package:ss_auto/view/widgets/car_card_widget.dart';
 import 'widgets/bottom_app_bar_widget.dart';
-import 'widgets/floating_action_button_widget.dart';
 
 class FleetPage extends StatelessWidget {
-  const FleetPage({Key? key});
+  const FleetPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +57,10 @@ class FleetPage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButtonWidget(
-        color: blue,
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: BottomAppBarWidget(),
       ),
-      bottomNavigationBar: BottomAppBarWidget(),
     );
   }
 }

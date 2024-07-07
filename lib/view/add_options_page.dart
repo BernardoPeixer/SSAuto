@@ -38,11 +38,10 @@ class AddOptionsPage extends StatelessWidget {
               icon: Icons.person_add_alt_1),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButtonWidget(
-        color: blue,
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: BottomAppBarWidget(),
       ),
-      bottomNavigationBar: BottomAppBarWidget(),
     );
   }
 }

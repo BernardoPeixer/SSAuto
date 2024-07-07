@@ -1,60 +1,174 @@
 import 'package:flutter/material.dart';
+import 'package:ss_auto/view/add_options_page.dart';
+import 'package:ss_auto/view/fleet_page.dart';
+import 'package:ss_auto/view/home_page.dart';
+import 'package:ss_auto/view/manager_customer_page.dart';
+
+import '../step_by_step_page.dart';
 
 class BottomAppBarWidget extends StatelessWidget {
+  final void Function()? function;
 
-  void Function()? function;
-
-  BottomAppBarWidget({super.key, this.function});
+  const BottomAppBarWidget({super.key, this.function});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 75,
-      child: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 3,
-        color: const Color(0xff011329), // Cor azul
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/homePage');
-                },
-                iconSize: 20,
-                icon: const Icon(Icons.home),
-                color: Colors.white,
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/stepByStepPage');
-                  function;
-                },
-                iconSize: 20,
-                icon: const Icon(Icons.monetization_on),
-                color: Colors.white,
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/fleetPage');
-                },
-                iconSize: 20,
-                icon: const Icon(Icons.directions_car),
-                color: Colors.white,
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/managerCustomerPage');
-                },
-                iconSize: 20,
-                icon: const Icon(Icons.supervised_user_circle),
-                color: Colors.white,
-              ),
-            ],
+    return SafeArea(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        decoration: const BoxDecoration(
+          color: Color(0xFFca122e),
+          borderRadius: BorderRadius.all(
+            Radius.circular(40),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x26ca122e),
+              offset: Offset(0, 20),
+              blurRadius: 20,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const HomePage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.home_outlined,
+                color: Colors.white,
+                size: 28.0,
+              ),
+            ),
+            const VerticalDivider(
+              indent: 10,
+              endIndent: 10,
+              thickness: 2,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const StepByStepPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+                function;
+              },
+              icon: const Icon(
+                Icons.monetization_on_outlined,
+                color: Colors.white,
+                size: 28.0,
+              ),
+            ),
+            const VerticalDivider(
+              indent: 10,
+              endIndent: 10,
+              thickness: 2,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const FleetPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.directions_car_outlined,
+                color: Colors.white,
+                size: 28.0,
+              ),
+            ),
+            const VerticalDivider(
+              indent: 10,
+              endIndent: 10,
+              thickness: 2,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const ManagerCustomerPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.person_outline_outlined,
+                color: Colors.white,
+                size: 28.0,
+              ),
+            ),
+            IconButton(
+              style: const ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll<Color>(
+                  Colors.white,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const AddOptionsPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Color(0xFFca122e),
+                size: 28,
+              ),
+            ),
+          ],
         ),
       ),
     );

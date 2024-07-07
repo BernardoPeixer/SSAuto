@@ -29,7 +29,7 @@ class CarCard extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.all(16.0),
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         child: Column(
           children: [
             ClipRRect(

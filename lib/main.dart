@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/rentalCompletionPage': (context) => const RentalCompletionPage(),
         '/stepByStepPage': (context) => const StepByStepPage(),
       },
+      home: const HomePage(),
     );
   }
 }
