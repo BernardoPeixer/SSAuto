@@ -142,6 +142,7 @@ class RentalFiltersPage extends StatelessWidget {
                     TypeAheadCustomersWidget(
                       controller: state.customerControllerTypeAhead,
                       customerList: state.listCustomer,
+                      onSelectCustomer: state.onCustomerSelect,
                     ),
                   ],
                 ),

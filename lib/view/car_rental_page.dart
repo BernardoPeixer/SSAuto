@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/car_rental_state.dart';
+import 'package:ss_auto/view/arguments/other_rental_arguments.dart';
 import 'package:ss_auto/view/arguments/rental_arguments.dart';
 import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
 import 'package:ss_auto/view/widgets/rental_card_car_widget.dart';
@@ -77,16 +78,6 @@ class CarRentalPage extends StatelessWidget {
                           } else {
                             List<String> imagePaths = snapshot.data ?? [];
                             return RentalCardCarWidget(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/rentalCompletionPage',
-                                  arguments: CarArguments(
-                                    vehicle: vehicle,
-                                    imagePath: imagePaths,
-                                  ),
-                                );
-                              },
                               vehicleModel: vehicle.vehicleModel,
                               imagePath:
                                   imagePaths.isNotEmpty ? imagePaths[0] : '',
@@ -95,9 +86,15 @@ class CarRentalPage extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).pushNamed(
                                   '/rentalCompletionPage',
-                                  arguments: CarArguments(
+                                  arguments: OtherRentalArguments(
+                                    rentalStart: args.rentalStart,
+                                    rentalEnd: args.rentalEnd,
+                                    rentalStartA: args.rentalStartA,
+                                    rentalEndA: args.rentalEndA,
+                                    selectedAgency: agency,
                                     vehicle: vehicle,
                                     imagePath: imagePaths,
+                                    customer: args.customer,
                                   ),
                                 );
                               },

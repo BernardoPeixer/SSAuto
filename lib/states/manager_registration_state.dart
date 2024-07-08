@@ -53,7 +53,6 @@ class ManagerRegistrationState with ChangeNotifier {
       managerCpf: controllerManagerCpf.text,
       managerState: controllerManagerState.text,
       managerPhone: controllerManagerPhone.text,
-      agencyCode: selectedItem?.agencyId,
     );
 
     await controllerManager.insert(manager);
@@ -63,6 +62,7 @@ class ManagerRegistrationState with ChangeNotifier {
 
   final controllerAgency = AgencyController();
   final _listAgency = <Agency>[];
+
   List<Agency> get listAgency => _listAgency;
 
   Future<void> loadAgency() async {

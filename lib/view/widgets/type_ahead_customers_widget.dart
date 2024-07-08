@@ -7,11 +7,13 @@ import '../../model/models_model.dart';
 class TypeAheadCustomersWidget extends StatelessWidget {
   final TextEditingController controller;
   final List<Customer> customerList;
+  void Function(Customer) onSelectCustomer;
 
   TypeAheadCustomersWidget({
     super.key,
     required this.controller,
     required this.customerList,
+    required this.onSelectCustomer,
   });
 
   Color blue = const Color(0xff011329);
@@ -55,6 +57,7 @@ class TypeAheadCustomersWidget extends StatelessWidget {
       },
       onSelected: (Customer suggestion) {
         controller.text = suggestion.customerName.toUpperCase();
+        onSelectCustomer(suggestion);
       },
     );
   }

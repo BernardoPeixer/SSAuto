@@ -22,4 +22,13 @@ class AgencyController {
     }
     return list;
   }
+
+  Future<void> insert(Agency agency) async {
+    final database = await getDatabase();
+    final map = AgencyTable.toMap(agency);
+
+    await database.insert(AgencyTable.tableName, map);
+
+    return;
+  }
 }

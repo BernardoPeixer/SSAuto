@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:ss_auto/states/vehicle_registration_state.dart';
 import 'package:ss_auto/view/widgets/add_photos_button_widget.dart';
 import 'package:ss_auto/view/widgets/agency_dropdown_widget.dart';
@@ -23,8 +22,6 @@ class VehicleRegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color blue = const Color(0xff011329);
-    Color orange = const Color(0xffD3393A);
-
     return ChangeNotifierProvider(
       create: (context) => VehicleRegistrationState(),
       child: Consumer<VehicleRegistrationState>(
@@ -230,7 +227,6 @@ class VehicleRegistrationPage extends StatelessWidget {
                           ),
                           TextFormFieldWidget(
                             title: 'Custo da diária:',
-                            color: blue,
                             controller: state.controllerDailyCost,
                           ),
                           Column(

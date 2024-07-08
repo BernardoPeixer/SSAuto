@@ -59,6 +59,13 @@ class AddOptionsPage extends StatelessWidget {
                 title: 'CADASTRAR CLIENTE',
                 color: Colors.white,
                 icon: Icons.person_add_alt_1_outlined),
+            ListTileAddOptionsWidget(
+                title: 'CADASTRAR AGÊNCIA',
+                color: Colors.white,
+                icon: Icons.business_outlined,
+                onTap: () {
+                  Navigator.of(context).pushNamed('/agencyRegistrationPage');
+                })
           ],
         ),
       ),

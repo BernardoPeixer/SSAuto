@@ -5,7 +5,6 @@ import 'package:ss_auto/view/home_page.dart';
 import 'package:ss_auto/view/manager_customer_page.dart';
 import 'package:ss_auto/view/rental_filters_page.dart';
 
-import '../step_by_step_page.dart';
 
 class BottomAppBarWidget extends StatelessWidget {
   final void Function()? function;

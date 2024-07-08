@@ -47,12 +47,10 @@ class ManagerRegistrationPage extends StatelessWidget {
                       ),
                       TextFormFieldWidget(
                         title: 'Nome Completo:',
-                        color: orange,
                         controller: state.controllerManagerName,
                       ),
                       TextFormFieldWidget(
                           title: 'Cidade:',
-                          color: orange,
                           controller: state.controllerManagerCity),
                       const Text(
                         'CPF:',
@@ -87,22 +85,14 @@ class ManagerRegistrationPage extends StatelessWidget {
                       ),
                       TextFormFieldWidget(
                           title: 'Estado:',
-                          color: orange,
                           controller: state.controllerManagerState),
                       TextFormFieldWidget(
                         title: 'E-mail:',
-                        color: blu,
                         controller: state.controllerManagerEmail,
                       ),
                       TextFormFieldWidget(
                           title: 'Telefone:',
-                          color: blu,
                           controller: state.controllerManagerPhone),
-                      AgencyDropdownWidget(
-                        list: state.listAgency,
-                        selectedItem: state.selectedItem,
-                        onChanged: state.onChangedDropdown,
-                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: ElevatedButton(

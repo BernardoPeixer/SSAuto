@@ -2,14 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ss_auto/view/arguments/other_rental_arguments.dart';
 import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
 import 'package:ss_auto/view/widgets/info_container_widget.dart';
 import 'package:ss_auto/view/widgets/large_info_container_widget.dart';
-import 'package:ss_auto/view/widgets/type_ahead_customers_widget.dart';
-
-import '../model/customer_model.dart';
 import '../states/rental_completion_state.dart';
-import 'arguments/car_arguments.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 
 class RentalCompletionPage extends StatelessWidget {
@@ -17,11 +14,12 @@ class RentalCompletionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CarArguments args =
-        ModalRoute.of(context)!.settings.arguments as CarArguments;
+    final OtherRentalArguments args =
+        ModalRoute.of(context)!.settings.arguments as OtherRentalArguments;
     final vehicle = args.vehicle;
     return ChangeNotifierProvider(
-      create: (context) => RentalCompletionState(),
+      create: (context) => RentalCompletionState(
+          vehicle.vehicleDailyCost, args.rentalStartA!, args.rentalEndA!),
       child: Consumer<RentalCompletionState>(builder: (_, state, __) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -62,7 +60,7 @@ class RentalCompletionPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
+                )
               ]),
           body: SingleChildScrollView(
             child: Padding(
@@ -88,7 +86,7 @@ class RentalCompletionPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InfoContainerWidget(
-                        text: 'Agência: ${vehicle.agencyCode}',
+                        text: 'Agência: ${args.selectedAgency!.agencyName}',
                         color: const Color(0xff011329),
                       ),
                       InfoContainerWidget(
@@ -123,10 +121,20 @@ class RentalCompletionPage extends StatelessWidget {
                       ),
                       onPressed: () async {
                         await state.insertRental(
-                            vehicle.vehicleId!, vehicle.agencyCode!);
+                            vehicle.vehicleId!,
+                            vehicle.agencyCode,
+                            args.rentalStart,
+                            args.rentalEnd,
+                            args.rentalEndA,
+                            args.customer.customerId!);
                         final pdfFile =
                             await state.generateCenteredText('Sample text');
-                        await state.openFile(pdfFile);
+                        try {
+                          await state.openFile(pdfFile);
+
+                        } catch (e) {
+                          print('Erro ao abrir o arquivo: $e');
+                        }
                       },
                       child: const Text(
                         'Registrar aluguel',

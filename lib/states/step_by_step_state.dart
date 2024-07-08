@@ -26,8 +26,7 @@ class StepByStepState with ChangeNotifier {
   int currentSteps = 0;
   DateTime? selectedDatePickUp;
   DateTime? selectedDateDeliver;
-  int? daysRent;
-  double? totalRent;
+  Customer? selectedCustomer;
 
   TextEditingController get dateControllerPickUp => _dateControllerPickUp;
 
@@ -94,8 +93,11 @@ class StepByStepState with ChangeNotifier {
         '/carRentalPage',
         arguments: RentalArguments(
           rentalStart: formatedDatePickUp,
+          rentalStartA: selectedDatePickUp!,
+          rentalEndA: selectedDateDeliver!,
           rentalEnd: formatedDateDeliver,
           selectedAgency: selectedAgency,
+          customer: selectedCustomer!,
         ),
       );
     }
@@ -103,6 +105,13 @@ class StepByStepState with ChangeNotifier {
 
   void onAgencySelect(Agency agency) {
     selectedAgency = agency;
+    notifyListeners();
+  }
+
+
+
+  void onCustomerSelect(Customer customer) {
+    selectedCustomer = customer;
     notifyListeners();
   }
 
@@ -114,6 +123,8 @@ class StepByStepState with ChangeNotifier {
       currentSteps = 0;
     }
   }
+
+
 
   void onStepTapped(int value) {
     currentSteps = value;

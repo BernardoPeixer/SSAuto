@@ -13,55 +13,20 @@ import '../model/agency_model.dart';
 import '../model/customer_model.dart';
 
 class RentalCompletionState with ChangeNotifier {
-  RentalCompletionState() {
+  RentalCompletionState(double dailyCost, DateTime startA, DateTime endA) {
     loadAgency();
     loadCustomers();
+    calculateDateTotal(dailyCost, startA, endA);
   }
-
-  TextEditingController dateControllerPickUp = TextEditingController();
-  TextEditingController dateControllerDeliver = TextEditingController();
 
   DateTime? selectedDatePickUp;
   DateTime? selectedDateDeliver;
   int? daysRent;
   double? totalRent;
 
-  Future<void> selectDatePickUp(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null) {
-      dateControllerPickUp.text = picked.toString().split(' ')[0];
-      selectedDatePickUp = picked;
-      notifyListeners();
-    }
-  }
-
-  Future<void> selectDateDeliver(
-      BuildContext context, double? dailyCost) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null) {
-      dateControllerDeliver.text = picked.toString().split(' ')[0];
-      selectedDateDeliver = picked;
-      calculateDateTotal(dailyCost);
-      notifyListeners();
-    }
-  }
-
-  void calculateDateTotal(double? dailyCost) {
-    if (selectedDatePickUp != null && selectedDateDeliver != null) {
-      Duration difference =
-          selectedDateDeliver!.difference(selectedDatePickUp!);
+  void calculateDateTotal(double? dailyCost, DateTime? startA, DateTime? endA) {
+    if (startA != null && endA != null) {
+      Duration difference = endA.difference(startA);
       daysRent = difference.inDays;
       totalRent = dailyCost! * daysRent!;
       notifyListeners();
@@ -128,20 +93,20 @@ class RentalCompletionState with ChangeNotifier {
     }
   }
 
-  Future<void> insertRental(int vehicleCode, int agencyCode) async {
-    int? customerCode = await controllerCustomer
-        .getCustomerIdByName(controllerDropDownCustomer.text);
+  Future<void> insertRental(int vehicleCode, int agencyCode, String datePickUp,
+      String dateDeliver, DateTime? startA, int customerCode) async {
     final rent = Rental(
       rentalCost: totalRent!,
       rentalRegisterDate: DateTime.now().toString(),
-      rentalStart: dateControllerPickUp.text,
-      rentalEnd: dateControllerDeliver.text,
-      rentalStats: getRentalStats(selectedDateDeliver!, rentalPaymentStats),
+      rentalStart: datePickUp,
+      rentalEnd: dateDeliver,
+      rentalStats: getRentalStats(startA!, rentalPaymentStats),
       rentalPaymentStats: getRentalPaymentStats(),
       customerCode: customerCode,
       agencyCode: agencyCode,
       vehicleCode: vehicleCode,
     );
+    print(rent);
     await controllerRental.insert(rent);
     notifyListeners();
     print('insert concluido');
@@ -160,7 +125,7 @@ class RentalCompletionState with ChangeNotifier {
       ),
     );
 
-    return saveDocument(name: 'Example.com', pdf: pdf);
+    return saveDocument(name: 'Example.pdf', pdf: pdf);
   }
 
   Future<File> saveDocument(
@@ -176,8 +141,13 @@ class RentalCompletionState with ChangeNotifier {
   }
 
   Future<void> openFile(File file) async {
-    final url = file.path;
-
-    await OpenFile.open(url);
+    if (await file.exists()) {
+      final url = file.path;
+      print(url);
+      await OpenFile.open(url);
+    } else {
+      print('O arquivo não existe: ${file.path}');
+    }
   }
+
 }
