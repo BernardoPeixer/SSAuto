@@ -62,61 +62,161 @@ class RentalCompletionPage extends StatelessWidget {
                   ),
                 )
               ]),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CarouselSliderWidget(imagesPath: args.imagePath),
+              const SizedBox(height: 12.0),
+              Center(
+                child: Text(
+                  vehicle.vehicleModel,
+                  style: const TextStyle(
+                    color: Color(0xffca122e),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Center(
+                child: Text(
+                  'Anos: ${vehicle.vehicleYear}',
+                  style:
+                      const TextStyle(fontSize: 12, color: Color(0xFF797979)),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 2),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarouselSliderWidget(imagesPath: args.imagePath),
-                  const SizedBox(height: 24.0),
-                  Center(
-                    child: Text(
-                      vehicle.vehicleModel,
-                      style: const TextStyle(
-                        color: Color(0xffca122e),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+                  const Icon(
+                    Icons.calendar_month_outlined,
+                    color: Color(0xFF797979),
+                  ),
+                  Text(
+                    '${state.formattedDateTime(args.rentalStartA!)} até ${state.formattedDateTime(args.rentalEndA!)}',
+                    style:
+                        const TextStyle(color: Color(0xFF797979), fontSize: 16),
+                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 4),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    color: Colors.grey.shade300,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Coluna para o lado esquerdo (DIÁRIA)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'DIÁRIA:',
+                              style: TextStyle(
+                                color: Color(0xFFca122e),
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              'RS ${vehicle.vehicleDailyCost}/dia',
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          color: Colors.grey,
+                          width: 1.5,
+                          height: 50,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  'TOTAL:',
+                                  style: TextStyle(
+                                      color: Color(0xFFca122e), fontSize: 12),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4),
+                                ),
+                                Text(
+                                  'R\$ ${vehicle.vehicleDailyCost}',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 24.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InfoContainerWidget(
-                        text: 'Agência: ${args.selectedAgency!.agencyName}',
-                        color: const Color(0xff011329),
-                      ),
-                      InfoContainerWidget(
-                        text: 'Ano: ${vehicle.vehicleYear}',
-                        color: const Color(0xff011329),
-                      ),
-                    ],
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Colors.grey.shade300,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'CLIENTE',
+                              style: TextStyle(fontSize: 8),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${args.customer.customerName} | CNPJ: ${args.customer.customerCnpj}',
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 24.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      LargeInfoContainerWidget(
-                        text: 'Diária: R\$${vehicle.vehicleDailyCost}',
-                        color: const Color(0xff011329),
-                      ),
-                      LargeInfoContainerWidget(
-                        text: 'Total: R\$${state.totalRent ?? ''}',
-                        color: const Color(0xffD3393A),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24.0),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 150,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xFFca122e),
+                    ),
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                          const Color(0xff052b57),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       onPressed: () async {
@@ -127,24 +227,36 @@ class RentalCompletionPage extends StatelessWidget {
                             args.rentalEnd,
                             args.rentalEndA,
                             args.customer.customerId!);
-                        final pdfFile =
-                            await state.generateCenteredText('Sample text');
+                        final pdfFile = await state.proofOfRental(
+                          args.selectedAgency!.agencyName,
+                          args.customer.customerName,
+                          args.customer.customerCnpj,
+                          vehicle.vehicleModel,
+                          vehicle.vehicleBrand,
+                          args.imagePath,
+                          args.rentalStart,
+                          args.rentalEnd,
+                          vehicle.vehicleDailyCost,
+                          args.customer.customerPhone,
+                          args.customer.customerCity,
+                          args.customer.customerState,
+                        );
                         try {
                           await state.openFile(pdfFile);
-
                         } catch (e) {
                           print('Erro ao abrir o arquivo: $e');
                         }
+                        Navigator.pop(context);
                       },
                       child: const Text(
                         'Registrar aluguel',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-            ),
+            ],
           ),
           bottomNavigationBar: Container(
             color: const Color(0xFFca122e),

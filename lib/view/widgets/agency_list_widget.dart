@@ -1,21 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/manager_list_state.dart';
 
-class ManagerListWidget extends StatelessWidget {
-  const ManagerListWidget({super.key});
+import '../../states/agency_list_state.dart';
+
+class AgencyListWidget extends StatelessWidget {
+  const AgencyListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ManagerListState(),
-      child: Consumer<ManagerListState>(builder: (_, state, __) {
-        if (state.listManager.isEmpty) {
+      create: (context) => AgencyListState(),
+      child: Consumer<AgencyListState>(builder: (_, state, __) {
+        if (state.listAgency.isEmpty) {
           return const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Nenhum gerente cadastrado',
+                'Nenhuma agência cadastrada',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
@@ -25,8 +28,9 @@ class ManagerListWidget extends StatelessWidget {
           );
         }
         return ListView.builder(
-          itemCount: state.listManager.length,
+          itemCount: state.listAgency.length,
           itemBuilder: (context, index) {
+            final agency = state.listAgency[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
@@ -46,16 +50,18 @@ class ManagerListWidget extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.disabled_by_default_outlined,
+                          onPressed: () {
+                            state.deleteAgency(agency);
+                          },
+                          icon: const Icon(Icons.delete_outlined,
                               color: Colors.grey, size: 20),
                         ),
                       ],
                     ),
                     title: Text(
-                      state.listManager[index].managerName.length > 17
-                          ? '${state.listManager[index].managerName.substring(0, 17)}...'
-                          : state.listManager[index].managerName,
+                      agency.agencyName.length > 17
+                          ? '${agency.agencyName.substring(0, 17)}...'
+                          : agency.agencyName,
                       style: const TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
@@ -64,15 +70,11 @@ class ManagerListWidget extends StatelessWidget {
                         children: [
                           ListTile(
                             title: Text(
-                                'Fone: ${state.listManager[index].managerPhone}'),
+                                'Gerente: ${agency.managerCode}'),
                           ),
                           ListTile(
                             title: Text(
-                                '${state.listManager[index].managerCity} / ${state.listManager[index].managerState}'),
-                          ),
-                          ListTile(
-                            title: Text(
-                                'CPF: ${state.listManager[index].managerCpf}'),
+                                '${agency.agencyCity} / ${agency.agencyState}'),
                           ),
                         ],
                       ),

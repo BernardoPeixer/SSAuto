@@ -29,6 +29,9 @@ class VehicleRegistrationState with ChangeNotifier {
 
   TextEditingController get controllerBrand => _controllerBrand;
 
+  final _controllerAgency = TextEditingController();
+  TextEditingController get controllerAgency => _controllerAgency;
+
   final _controllerModel = TextEditingController();
 
   TextEditingController get controllerModel => _controllerModel;
@@ -41,25 +44,9 @@ class VehicleRegistrationState with ChangeNotifier {
 
   TextEditingController get controllerYear => _controllerYear;
 
-  final _controllerCategory = TextEditingController();
-
-  TextEditingController get controllerCategory => _controllerCategory;
-
   final _controllerDailyCost = TextEditingController();
 
   TextEditingController get controllerDailyCost => _controllerDailyCost;
-
-  final _controllerMileage = TextEditingController();
-
-  TextEditingController get controllerMileage => _controllerMileage;
-
-  final _controllerColor = TextEditingController();
-
-  TextEditingController get controllerColor => _controllerColor;
-
-  final String controllerAir = 'yes';
-
-  final String controllerSensor = 'yes';
 
   final controllerVehicle = VehicleController();
 
@@ -294,13 +281,13 @@ class VehicleRegistrationState with ChangeNotifier {
     );
   }
 
-  final controllerAgency = AgencyController();
+  final agencyController = AgencyController();
   final _listAgency = <Agency>[];
 
   List<Agency> get listAgency => _listAgency;
 
   Future<void> loadAgency() async {
-    final list = await controllerAgency.selectAgency();
+    final list = await agencyController.selectAgency();
     _listAgency.clear();
     _listAgency.addAll(list);
     notifyListeners();
@@ -310,7 +297,7 @@ class VehicleRegistrationState with ChangeNotifier {
 
   Agency? get selectedItem => _selectedItem;
 
-  void onChangedDropdown(Agency? agency) {
+  void onSelectAgency(Agency? agency) {
     _selectedItem = agency;
     notifyListeners();
   }

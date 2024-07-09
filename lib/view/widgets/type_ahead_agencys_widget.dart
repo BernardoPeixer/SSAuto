@@ -35,17 +35,18 @@ class TypeAheadAgencysWidget extends StatelessWidget {
           focusNode: focusNode,
           style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
             hintText: 'Selecione uma agência',
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(5.0),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(color: Colors.black, width: 1.0),
+              borderRadius: BorderRadius.circular(5.0),
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0.0, horizontal: 6.0),
-            icon: const Icon(Icons.business),
           ),
         );
       },

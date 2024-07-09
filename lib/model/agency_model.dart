@@ -20,7 +20,7 @@ class AgencyTable {
   static const String createTable = '''
     CREATE TABLE $tableName(
       $agencyId     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $managerCode  INTEGER,
+      $managerCode  INTEGER NOT NULL,
       $agencyName   TEXT NOT NULL,
       $agencyState  TEXT NOT NULL,
       $agencyCity   TEXT NOT NULL,
@@ -41,6 +41,7 @@ class AgencyTable {
     map[AgencyTable.agencyName] = agency.agencyName;
     map[AgencyTable.agencyState] = agency.agencyState;
     map[AgencyTable.agencyCity] = agency.agencyCity;
+    map[AgencyTable.managerCode] = agency.managerCode;
     return map;
   }
 }

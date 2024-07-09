@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/step_by_step_state.dart';
 
+import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/type_ahead_agencys_widget.dart';
 import 'widgets/type_ahead_customers_widget.dart';
 
@@ -172,6 +173,11 @@ class RentalFiltersPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          bottomNavigationBar: Container(
+            color: const Color(0xFFca122e),
+            height: 80,
+            child: const BottomAppBarWidget(),
           ),
         );
       }),

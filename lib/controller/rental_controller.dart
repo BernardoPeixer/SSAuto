@@ -21,17 +21,24 @@ class RentalController {
     final database = await getDatabase();
 
     List<Map<String, dynamic>> result = await database.rawQuery('''
-    SELECT v.* FROM ${VehicleTable.tableName} AS v 
-    LEFT JOIN ${RentalTable.tableName} AS r 
-    ON v.${VehicleTable.vehicleId} = r.${RentalTable.vehicleCode} 
+  SELECT DISTINCT v.* 
+  FROM ${VehicleTable.tableName} AS v 
+  LEFT JOIN ${RentalTable.tableName} AS r 
+  ON v.${VehicleTable.vehicleId} = r.${RentalTable.vehicleCode} 
+  AND NOT (
+    r.${RentalTable.rentalStart} >= ? OR r.rentalEnd <= ? 
+  ) 
+  WHERE v.${VehicleTable.agencyCode} = ? 
     AND (
-    r.${RentalTable.rentalStart} IS NULL OR 
-    (r.${RentalTable.rentalStart} NOT BETWEEN '$rentalStart' AND '$rentalEnd' 
-    AND r.${RentalTable.rentalEnd} NOT BETWEEN '$rentalStart' AND '$rentalEnd')
-    )
-    WHERE 
-    v.${VehicleTable.agencyCode} = $agencyId
-    ''');
+      r.${RentalTable.vehicleCode} IS NULL 
+      OR r.${RentalTable.rentalStart} IS NULL 
+      OR r.${RentalTable.rentalEnd} IS NULL
+    );
+  ''', [
+      rentalEnd,
+      rentalStart,
+      agencyId,
+    ]);
 
     List<Vehicle> vehicles = result
         .map(

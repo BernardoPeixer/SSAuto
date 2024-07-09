@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -112,20 +114,176 @@ class RentalCompletionState with ChangeNotifier {
     print('insert concluido');
   }
 
-  Future<File> generateCenteredText(String text) async {
+  String formattedDateTimeNow() {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy HH:mm:ss').format(now);
+
+    return formattedDate;
+  }
+
+  String formattedDateTime(DateTime rentalDate) {
+    String formattedDate = DateFormat('dd/MM').format(rentalDate);
+
+    return formattedDate;
+  }
+
+  Future<List<Uint8List>> convertFile(List<String> listImages) async {
+    List<Uint8List> listConvert = [];
+    for (int i = 0; i < listImages.length; i++) {
+      String imagePath = listImages[i];
+      File imageFile = File(imagePath);
+
+      if (imageFile.existsSync()) {
+        Uint8List bytes = await imageFile.readAsBytes();
+        listConvert.add(bytes);
+      } else {
+        print('Failed to load image at path: $imagePath');
+      }
+    }
+    return listConvert;
+  }
+
+  Future<File> proofOfRental(
+    String agencyName,
+    String customerName,
+    String customerCnpj,
+    String vehicleModel,
+    String vehicleBrand,
+    List<String> images,
+    String pickUpDate,
+    String deliverDate,
+    double dailyCost,
+    String customerPhone,
+    String customerCity,
+    String customerState,
+  ) async {
     final pdf = pw.Document();
+    final ByteData logoData =
+        await rootBundle.load('assets/images/logo/ss_horizontal_logo.png');
+    final Uint8List logoBytes = logoData.buffer.asUint8List();
+    final logoImage = pw.MemoryImage(logoBytes);
+
+    final convertFiles = await convertFile(images);
+
+    const PdfColor pdfColor = PdfColor.fromInt(0xFFca122e);
+
+    final pw.TextStyle appBarTextStyle = pw.TextStyle(
+      color: PdfColors.white,
+      fontSize: 20,
+      fontWeight: pw.FontWeight.bold,
+    );
 
     pdf.addPage(
       pw.Page(
+        pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
-          return pw.Center(
-            child: pw.Text(text),
+          return pw.Column(
+            children: [
+              pw.Container(
+                width: double.infinity,
+                height: 80,
+                decoration: const pw.BoxDecoration(
+                  color: pdfColor,
+                ),
+                child: pw.Row(
+                  children: [
+                    pw.Container(
+                      padding: const pw.EdgeInsets.all(8),
+                      child: pw.Image(logoImage, height: 80 - 16),
+                    ),
+                    pw.Expanded(
+                      child: pw.Center(
+                        child: pw.Text(
+                          agencyName,
+                          style: appBarTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              pw.Padding(
+                padding: const pw.EdgeInsets.all(20),
+                child: pw.Column(
+                  children: [
+                    pw.Row(
+                      children: [
+                        pw.Text(
+                          '''Cliente: ${customerName.toUpperCase()}
+                          CNPJ: $customerCnpj
+                          Telefone: $customerPhone
+                          Cidade: $customerCity
+                          Estado: $customerState
+                          ''',
+                          style: const pw.TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.Row(
+                      children: [
+                        pw.Text(
+                          'Agência de Viagem: ${agencyName.toUpperCase()}',
+                          style: const pw.TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.Divider(),
+                    pw.Row(
+                      children: [
+                        pw.Text(
+                            'Geracao do comprovante: ${formattedDateTimeNow()}'),
+                      ],
+                    ),
+                    pw.Row(
+                      children: [
+                        pw.Text('Marca: $vehicleBrand - Modelo: $vehicleModel'),
+                      ],
+                    ),
+                    pw.Text(
+                      'Fotos do Veículo:',
+                      style: pw.TextStyle(
+                        fontSize: 16,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.Row(
+                      children: convertFiles
+                          .map(
+                            (bytes) => pw.Container(
+                              margin: const pw.EdgeInsets.only(right: 10),
+                              width: 100,
+                              height: 100,
+                              child: pw.Image(pw.MemoryImage(bytes),
+                                  fit: pw.BoxFit.cover),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    pw.Row(
+                      children: [
+                        pw.Text('Retirada: $pickUpDate  Entrega: $deliverDate'),
+                      ],
+                    ),
+                    pw.Row(
+                      children: [
+                        pw.Text(
+                            'Custo diário: $dailyCost, Custo total: $totalRent'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           );
         },
       ),
     );
 
-    return saveDocument(name: 'Example.pdf', pdf: pdf);
+    return saveDocument(name: '$customerName - $vehicleModel.pdf', pdf: pdf);
   }
 
   Future<File> saveDocument(
@@ -149,5 +307,4 @@ class RentalCompletionState with ChangeNotifier {
       print('O arquivo não existe: ${file.path}');
     }
   }
-
 }

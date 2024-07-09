@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ss_auto/states/home_page_state.dart';
 import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
-import 'package:ss_auto/view/widgets/home_page_container_widget.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,66 +11,106 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Color blue = const Color(0xff011329);
     Color orange = const Color(0xffD3393A);
-    return Scaffold(
-
-      body: Column(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Stack(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 3.5,
-                      decoration: BoxDecoration(
-                        color: blue,
+    return ChangeNotifierProvider(
+      create: (context) => HomePageState(),
+      child: Consumer<HomePageState>(builder: (_, state, __) {
+        return Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 80,
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xFFca122e),
+            actions: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo/ss_horizontal_logo.png',
+                        height: 80,
                       ),
-                      child: Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/splash/logo_300x529-removebg-preview.png'),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Positioned(
-                  top: MediaQuery.of(context).size.height / 3.5 - 20,
-                  left: (MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).size.width / 1.3) /
-                      2,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 1.3,
-                    height: MediaQuery.of(context).size.height / 6,
-                    decoration: BoxDecoration(
-                      color: orange,
-                      borderRadius: BorderRadius.circular(10),
+              ),
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                const Text(
+                  'Suas Atividades',
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 200,
+                  height: 200,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: PieChart(
+                    PieChartData(
+                      sections: [
+                        PieChartSectionData(
+                            value: 90,
+                            title: 'Finalizados',
+                            showTitle: true,
+                            radius: 70,
+                            color: Colors.green),
+                        PieChartSectionData(
+                            value: 300,
+                            title: 'Em andamento',
+                            showTitle: true,
+                            radius: 70,
+                            color: Colors.yellow),
+                      ],
                     ),
-                    child: const Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Unidade:',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [],
+                  ),
+                ),
+                Container(
+                  width: 500,
+                  height: 200,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: LineChart(
+                    LineChartData(
+                      backgroundColor: Colors.red,
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: state.spots,
+                          color: Colors.black,
+                          barWidth: 4,
+                          isCurved: false,
+                          belowBarData: BarAreaData(
+                            show: true,
+                            color: Colors.black.withOpacity(0.3),
+                          ),
                         ),
                       ],
                     ),
@@ -77,79 +119,12 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            flex: 5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    HomePageContainerWidget(
-                      title: 'Aluguéis:',
-                      statistic: '197',
-                      subtitle: 'Automóveis',
-                      color: orange,
-                      width: MediaQuery.of(context).size.width / 2.3,
-                      height: MediaQuery.of(context).size.height / 5,
-                      titleFontSize: 15,
-                      subtitleFontSize: 16,
-                      statisticFontSize: 25,
-                    ),
-                    HomePageContainerWidget(
-                      title: 'Receita Estimada:',
-                      statistic: 'R\$198.879',
-                      subtitle: 'Pendente',
-                      color: orange,
-                      width: MediaQuery.of(context).size.width / 2.3,
-                      height: MediaQuery.of(context).size.height / 5,
-                      titleFontSize: 15,
-                      subtitleFontSize: 16,
-                      statisticFontSize: 25,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: orange,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      height: MediaQuery.of(context).size.height / 6,
-                      child: const Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Frota em Operação:',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 80,
-        child: BottomAppBarWidget(),
-      ),
+          bottomNavigationBar: const SizedBox(
+            height: 80,
+            child: BottomAppBarWidget(),
+          ),
+        );
+      }),
     );
   }
 }

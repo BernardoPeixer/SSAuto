@@ -22,7 +22,7 @@ class CarouselSliderWidget extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 5.0),
+              margin: const EdgeInsets.only(right: 4.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
@@ -33,12 +33,9 @@ class CarouselSliderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.file(
-                  File(imagePath),
-                  fit: BoxFit.cover,
-                ),
+              child: Image.file(
+                File(imagePath),
+                fit: BoxFit.cover,
               ),
             );
           },
