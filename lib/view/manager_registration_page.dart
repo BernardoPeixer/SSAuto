@@ -1,125 +1,374 @@
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/manager_registration_state.dart';
-import 'package:ss_auto/view/widgets/agency_dropdown_widget.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
+
+import 'widgets/bottom_app_bar_widget.dart';
 
 class ManagerRegistrationPage extends StatelessWidget {
   const ManagerRegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color blue = const Color(0xff011329);
-    Color blu = const Color(0xff052b57);
     Color orange = const Color(0xffD3393A);
     return Scaffold(
-      backgroundColor: blue,
+      backgroundColor: const Color(0xFFca122e),
       appBar: AppBar(
-        backgroundColor: blu,
-        iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
-        title: const Text(
-          'Cadastro de Gerente',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
+        toolbarHeight: 80,
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFFca122e),
+        actions: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset(
+                    'assets/images/logo/ss_horizontal_logo.png',
+                    height: 80,
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
       body: ChangeNotifierProvider(
         create: (context) => ManagerRegistrationState(),
         child: Consumer<ManagerRegistrationState>(builder: (_, state, __) {
-          return Scaffold(
-            backgroundColor: blue,
-            body: SingleChildScrollView(
-              child: Form(
-                key: state.keyFormManager,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.supervisor_account,
-                        size: 150,
-                        color: Colors.white,
-                      ),
-                      TextFormFieldWidget(
-                        title: 'Nome Completo:',
-                        controller: state.controllerManagerName,
-                      ),
-                      TextFormFieldWidget(
-                          title: 'Cidade:',
-                          controller: state.controllerManagerCity),
-                      const Text(
-                        'CPF:',
-                        style: const TextStyle(
-                            fontSize: 14.0, color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 30,
-                        child: TextFormField(
-                          inputFormatters: [state.maskFormatterCpf],
-                          controller: state.controllerManagerCpf,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: orange,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.blue, width: 2.0),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0.0, horizontal: 6.0),
+          return Form(
+            key: state.keyFormManager,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'CADASTRO DE GERENTE',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Nome completo:',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
                           ),
-                          style: const TextStyle(color: Colors.white),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1,
+                            height: 30,
+                            child: TextFormField(
+                              controller: state.controllerManagerName,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 1.0),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0.0, horizontal: 6.0),
+                              ),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.8,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Cidade:',
+                                  style: TextStyle(
+                                      fontSize: 16.0, color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 5.0,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
+                                  height: 30,
+                                  child: TextFormField(
+                                    controller: state.controllerManagerCity,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 0.0, horizontal: 6.0),
+                                    ),
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Estado:',
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white),
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: 30,
+                                child: TextFormField(
+                                  controller: state.controllerManagerState,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 1.0),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0.0, horizontal: 6.0),
+                                  ),
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.8,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'CPF:',
+                                  style: TextStyle(
+                                      fontSize: 16.0, color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 5.0,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
+                                  height: 30,
+                                  child: TextFormField(
+                                    controller: state.controllerManagerCpf,
+                                    inputFormatters: [state.maskFormatterCpf],
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 0.0, horizontal: 6.0),
+                                    ),
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Comissão:',
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white),
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: 30,
+                                child: TextFormField(
+                                  controller: state.controllerManagerCommission,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 1.0),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0.0, horizontal: 6.0),
+                                  ),
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Email:',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1,
+                            height: 30,
+                            child: TextFormField(
+                              controller: state.controllerManagerEmail,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 1.0),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0.0, horizontal: 6.0),
+                              ),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Telefone',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1,
+                            height: 30,
+                            child: TextFormField(
+                              controller: state.controllerManagerPhone,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 1.0),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0.0, horizontal: 6.0),
+                              ),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: OutlinedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          side: const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        onPressed: () async {
+                          await state.insertManager();
+                          Navigator.of(context)
+                              .pushReplacementNamed('/managerCustomerPage');
+                        },
+                        child: const Text(
+                          'CADASTRAR',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      TextFormFieldWidget(
-                          title: 'Estado:',
-                          controller: state.controllerManagerState),
-                      TextFormFieldWidget(
-                        title: 'E-mail:',
-                        controller: state.controllerManagerEmail,
-                      ),
-                      TextFormFieldWidget(
-                          title: 'Telefone:',
-                          controller: state.controllerManagerPhone),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(orange),
-                          ),
-                          onPressed: () async {
-                            await state.insertManager();
-                            Navigator.of(context)
-                                .pushReplacementNamed('/managerCustomerPage');
-                          },
-                          child: const Text(
-                            'Salvar',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           );
         }),
+      ),
+      bottomNavigationBar: const SizedBox(
+        height: 80,
+        child: BottomAppBarWidget(),
       ),
     );
   }

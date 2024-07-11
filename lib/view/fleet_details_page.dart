@@ -1,125 +1,225 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/states/fleet_details_state.dart';
 import 'package:ss_auto/view/arguments/car_arguments.dart';
+import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
+
+import 'widgets/bottom_app_bar_widget.dart';
 
 class FleetDetailsPage extends StatelessWidget {
   const FleetDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color blue = const Color(0xff011329);
+    final CarArguments args =
+        ModalRoute.of(context)!.settings.arguments as CarArguments;
+    final vehicle = args.vehicle;
     return ChangeNotifierProvider(
-      create: (context) => FleetDetailsState(),
+      create: (context) => FleetDetailsState(vehicle),
       child: Consumer<FleetDetailsState>(builder: (_, state, __) {
-        final CarArguments args =
-            ModalRoute.of(context)!.settings.arguments as CarArguments;
-        final vehicle = args.vehicle;
         return Scaffold(
-          backgroundColor: blue,
-
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(16.0),
-                  bottomRight: Radius.circular(16.0),
-                ),
-                child: Image.file(
-                  File(args.imagePath[0]),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 3,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-              ),
-              Text(
-                '${vehicle.vehicleBrand} | ${vehicle.vehicleModel}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
-              ),
-              Text(
-                'Placa: ${vehicle.vehicleLicensePlate}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                'Ano: ${vehicle.vehicleYear}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                'R\$${vehicle.vehicleDailyCost} P/Dia',
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.3,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Colors.blue,
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    'EDITAR',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 4),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.3,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll<Color>(
-                      Colors.red,
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    'EXCLUIR',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            toolbarHeight: 80,
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xFFca122e),
+            actions: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo/ss_horizontal_logo.png',
+                        height: 80,
+                      ),
+                    ],
                   ),
                 ),
               ),
             ],
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CarouselSliderWidget(imagesPath: args.imagePath),
+              const SizedBox(height: 12.0),
+              Text(
+                vehicle.vehicleModel,
+                style: const TextStyle(
+                  color: Color(0xffca122e),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 2),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    color: Colors.grey.shade300,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'DIÁRIA:',
+                              style: TextStyle(
+                                color: Color(0xFFca122e),
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              'RS ${vehicle.vehicleDailyCost}/dia',
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          color: Colors.grey,
+                          width: 1.5,
+                          height: 50,
+                        ),
+                        SizedBox(
+                          width: 110,
+                          child: Column(
+                            children: [
+                              const Text(
+                                'STATUS:',
+                                style: TextStyle(
+                                  color: Color(0xFFca122e),
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                vehicle.vehicleStats,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: vehicle.vehicleStats == 'Disponivel'
+                                      ? Colors.green
+                                      : const Color(0xFFca122e),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Colors.grey.shade300,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'PLACA',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xffca122e),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              vehicle.vehicleLicensePlate,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 130,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue,
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, '/vehicleRegistrationPage');
+                      },
+                      child: const Text(
+                        'Editar',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 130,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xFFca122e),
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () async {
+                        await state.updateVehicleStats(vehicle.vehicleId!);
+                      },
+                      child: Text(
+                        args.vehicle.vehicleStats == 'Disponivel'
+                            ? 'Desativar'
+                            : 'Ativar',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          bottomNavigationBar: Container(
+            color: const Color(0xFFca122e),
+            height: 80,
+            child: const BottomAppBarWidget(),
           ),
         );
       }),

@@ -27,6 +27,7 @@ class ManagerController {
           managerPhone: item[ManagerTable.managerPhone],
           managerCity: item[ManagerTable.managerCity],
           managerState: item[ManagerTable.managerState],
+          managerCommission: item[ManagerTable.managerCommission],
         ),
       );
     }

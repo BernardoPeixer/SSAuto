@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ss_auto/view/widgets/list_tile_add_options_widget.dart';
 import 'widgets/bottom_app_bar_widget.dart';
-import 'widgets/floating_action_button_widget.dart';
 
 class AddOptionsPage extends StatelessWidget {
   const AddOptionsPage({super.key});

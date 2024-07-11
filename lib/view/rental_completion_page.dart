@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ss_auto/view/arguments/other_rental_arguments.dart';
 import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
-import 'package:ss_auto/view/widgets/info_container_widget.dart';
-import 'package:ss_auto/view/widgets/large_info_container_widget.dart';
 import '../states/rental_completion_state.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 
@@ -240,13 +236,19 @@ class RentalCompletionPage extends StatelessWidget {
                           args.customer.customerPhone,
                           args.customer.customerCity,
                           args.customer.customerState,
+                          state.getManagerForAgency(
+                              args.selectedAgency!.managerCode!,
+                              args.selectedAgency!.managerCode!)!,
+                          state.calculateTotalDays(
+                              args.rentalStartA!, args.rentalEndA!),
+                          vehicle.vehicleLicensePlate,
                         );
                         try {
                           await state.openFile(pdfFile);
                         } catch (e) {
                           print('Erro ao abrir o arquivo: $e');
                         }
-                        Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, '/homePage');
                       },
                       child: const Text(
                         'Registrar aluguel',

@@ -28,10 +28,22 @@ class VehicleController {
           vehicleYear: item[VehicleTable.vehicleYear],
           vehicleDailyCost: item[VehicleTable.vehicleDailyCost],
           vehicleId: item[VehicleTable.vehicleId],
-          agencyCode: item[VehicleTable.agencyCode]
+          agencyCode: item[VehicleTable.agencyCode],
+          vehicleStats: item[VehicleTable.vehicleStats],
         ),
       );
     }
     return list;
+  }
+
+  Future<String> updateVehicleStats(int vehicleId, String newStats) async{
+    final database = await getDatabase();
+    await database.update(
+      VehicleTable.tableName,
+      {VehicleTable.vehicleStats: newStats},
+      where: '${VehicleTable.vehicleId} = ?',
+      whereArgs: [vehicleId],
+    );
+    return newStats;
   }
 }

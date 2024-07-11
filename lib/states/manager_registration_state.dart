@@ -33,8 +33,13 @@ class ManagerRegistrationState with ChangeNotifier {
   TextEditingController get controllerManagerEmail => _controllerManagerEmail;
 
   final TextEditingController _controllerManagerPhone = TextEditingController();
+  final TextEditingController _controllerManagerCommission =
+      TextEditingController();
 
   TextEditingController get controllerManagerPhone => _controllerManagerPhone;
+
+  TextEditingController get controllerManagerCommission =>
+      _controllerManagerCommission;
 
   final ManagerController controllerManager = ManagerController();
 
@@ -53,6 +58,7 @@ class ManagerRegistrationState with ChangeNotifier {
       managerCpf: controllerManagerCpf.text,
       managerState: controllerManagerState.text,
       managerPhone: controllerManagerPhone.text,
+      managerCommission: int.parse(controllerManagerCommission.text),
     );
 
     await controllerManager.insert(manager);

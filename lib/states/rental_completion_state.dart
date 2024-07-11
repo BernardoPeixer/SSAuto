@@ -13,11 +13,13 @@ import 'package:ss_auto/model/rental_model.dart';
 import '../controller/agency_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
+import '../model/manager_model.dart';
 
 class RentalCompletionState with ChangeNotifier {
   RentalCompletionState(double dailyCost, DateTime startA, DateTime endA) {
     loadAgency();
     loadCustomers();
+    loadManager();
     calculateDateTotal(dailyCost, startA, endA);
   }
 
@@ -29,13 +31,30 @@ class RentalCompletionState with ChangeNotifier {
   void calculateDateTotal(double? dailyCost, DateTime? startA, DateTime? endA) {
     if (startA != null && endA != null) {
       Duration difference = endA.difference(startA);
-      daysRent = difference.inDays;
+      daysRent = difference.inDays + 1;
       totalRent = dailyCost! * daysRent!;
       notifyListeners();
     }
   }
 
+  final _listManager = <Manager>[];
+
+  List<Manager> get listManager => _listManager;
   final controllerAgency = AgencyController();
+
+  Manager? getManagerForAgency(int managerCode, int managerId) {
+    return _listManager.firstWhere(
+      (manager) => manager.managerId == managerCode,
+    );
+  }
+
+  Future<void> loadManager() async {
+    final List<Manager> list = await controllerAgency.selectManager();
+    _listManager.clear();
+    _listManager.addAll(list);
+    notifyListeners();
+  }
+
   final _listAgency = <Agency>[];
 
   List<Agency> get listAgency => _listAgency;
@@ -93,6 +112,13 @@ class RentalCompletionState with ChangeNotifier {
     } else {
       return 'EM ANDAMENTO';
     }
+  }
+
+  int calculateTotalDays(DateTime pickUp, DateTime deliver) {
+    Duration difference = deliver.difference(pickUp);
+    final differenceInDays = difference.inDays + 1;
+
+    return differenceInDays;
   }
 
   Future<void> insertRental(int vehicleCode, int agencyCode, String datePickUp,
@@ -156,6 +182,9 @@ class RentalCompletionState with ChangeNotifier {
     String customerPhone,
     String customerCity,
     String customerState,
+    Manager manager,
+    int totalDays,
+    String vehiclePlate,
   ) async {
     final pdf = pw.Document();
     final ByteData logoData =
@@ -165,114 +194,463 @@ class RentalCompletionState with ChangeNotifier {
 
     final convertFiles = await convertFile(images);
 
-    const PdfColor pdfColor = PdfColor.fromInt(0xFFca122e);
-
-    final pw.TextStyle appBarTextStyle = pw.TextStyle(
-      color: PdfColors.white,
-      fontSize: 20,
-      fontWeight: pw.FontWeight.bold,
-    );
-
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              // AppBar
               pw.Container(
                 width: double.infinity,
-                height: 80,
-                decoration: const pw.BoxDecoration(
-                  color: pdfColor,
-                ),
+                height: 100,
+                padding: const pw.EdgeInsets.symmetric(horizontal: 20),
+                color: const PdfColor.fromInt(0xFFca122e),
                 child: pw.Row(
                   children: [
-                    pw.Container(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Image(logoImage, height: 80 - 16),
+                    pw.Image(logoImage, height: 80),
+                    pw.SizedBox(width: 20),
+                    pw.Text(
+                      'SS Automóveis',
+                      style: pw.TextStyle(
+                        color: PdfColors.white,
+                        fontSize: 24,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
-                    pw.Expanded(
-                      child: pw.Center(
+                  ],
+                ),
+              ),
+
+              pw.SizedBox(height: 8),
+
+              // Informações do Cliente
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(horizontal: 20),
+                child: pw.Table(
+                  border: pw.TableBorder.all(color: PdfColors.grey),
+                  columnWidths: {
+                    0: const pw.FixedColumnWidth(120),
+                    1: const pw.FixedColumnWidth(300),
+                  },
+                  children: [
+                    pw.TableRow(children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
                         child: pw.Text(
-                          agencyName,
-                          style: appBarTextStyle,
+                          'Cliente:',
+                          style: pw.TextStyle(
+                            fontSize: 18,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Text(
+                          customerName.toUpperCase(),
+                          style: const pw.TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ]),
+                    pw.TableRow(children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Text(
+                          'CNPJ:',
+                          style: pw.TextStyle(
+                            fontSize: 18,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Text(
+                          customerCnpj,
+                          style: const pw.TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ]),
+                    pw.TableRow(children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Text(
+                          'Telefone:',
+                          style: pw.TextStyle(
+                            fontSize: 18,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Text(
+                          customerPhone,
+                          style: const pw.TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ]),
+                    pw.TableRow(children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Text(
+                          'Localidade:',
+                          style: pw.TextStyle(
+                            fontSize: 18,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(5),
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text(
+                              customerCity,
+                              style: const pw.TextStyle(fontSize: 16),
+                            ),
+                            pw.Text(
+                              customerState,
+                              style: const pw.TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+                  ],
+                ),
+              ),
+              pw.SizedBox(height: 8),
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(horizontal: 20),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      'Detalhes da Locação:',
+                      style: pw.TextStyle(
+                        fontSize: 18,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.SizedBox(height: 8),
+                    pw.Table(
+                      border: pw.TableBorder.all(color: PdfColors.grey),
+                      columnWidths: {
+                        0: pw.FixedColumnWidth(200),
+                        1: pw.FixedColumnWidth(220),
+                      },
+                      children: [
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Data de Emissão do Comprovante:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              formattedDateTimeNow(),
+                              style: const pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Marca:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              '$vehicleBrand',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Modelo:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              '$vehicleModel',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Placa:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              '$vehiclePlate',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Retirada:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              '$pickUpDate',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Entrega:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              '$deliverDate',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Custo Diário:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'R\$ ${dailyCost.toStringAsFixed(2)}',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        pw.TableRow(children: [
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'Custo Total:',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          pw.Padding(
+                            padding: const pw.EdgeInsets.all(5),
+                            child: pw.Text(
+                              'R\$ ${totalRent!.toStringAsFixed(2)}',
+                              style: pw.TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              pw.SizedBox(height: 8),
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(horizontal: 20),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.center,
+                        children: [
+                          pw.Text(
+                            'Fotos do Veículo:',
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                        ]),
+                    pw.SizedBox(height: 10),
+                    pw.Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: convertFiles
+                          .map(
+                            (bytes) => pw.Container(
+                              width: 80,
+                              height: 80,
+                              child: pw.Image(
+                                pw.MemoryImage(bytes),
+                                fit: pw.BoxFit.cover,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ),
+
+              pw.SizedBox(height: 8),
+
+              pw.Footer(
+                decoration: const pw.BoxDecoration(
+                  color: PdfColor.fromInt(0xFFca122e),
+                ),
+                title: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                  children: [
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(20),
+                      child: pw.Text(
+                        '© SS ALUGUÉIS - Todos os direitos reservados',
+                        style: const pw.TextStyle(
+                          color: PdfColors.white,
+                          fontSize: 12,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              pw.Padding(
-                padding: const pw.EdgeInsets.all(20),
-                child: pw.Column(
+            ],
+          );
+        },
+      ),
+    );
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Column(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Container(
+                width: double.infinity,
+                height: 100,
+                padding: const pw.EdgeInsets.symmetric(horizontal: 20),
+                color: const PdfColor.fromInt(0xFFca122e),
+                child: pw.Row(
                   children: [
-                    pw.Row(
-                      children: [
-                        pw.Text(
-                          '''Cliente: ${customerName.toUpperCase()}
-                          CNPJ: $customerCnpj
-                          Telefone: $customerPhone
-                          Cidade: $customerCity
-                          Estado: $customerState
-                          ''',
-                          style: const pw.TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    pw.Row(
-                      children: [
-                        pw.Text(
-                          'Agência de Viagem: ${agencyName.toUpperCase()}',
-                          style: const pw.TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    pw.Divider(),
-                    pw.Row(
-                      children: [
-                        pw.Text(
-                            'Geracao do comprovante: ${formattedDateTimeNow()}'),
-                      ],
-                    ),
-                    pw.Row(
-                      children: [
-                        pw.Text('Marca: $vehicleBrand - Modelo: $vehicleModel'),
-                      ],
-                    ),
+                    pw.Image(logoImage, height: 80),
+                    pw.SizedBox(width: 20),
                     pw.Text(
-                      'Fotos do Veículo:',
+                      'SS Automóveis',
                       style: pw.TextStyle(
-                        fontSize: 16,
+                        color: PdfColors.white,
+                        fontSize: 24,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
-                    pw.Row(
-                      children: convertFiles
-                          .map(
-                            (bytes) => pw.Container(
-                              margin: const pw.EdgeInsets.only(right: 10),
-                              width: 100,
-                              height: 100,
-                              child: pw.Image(pw.MemoryImage(bytes),
-                                  fit: pw.BoxFit.cover),
-                            ),
-                          )
-                          .toList(),
+                  ],
+                ),
+              ),
+              pw.Table(
+                border: pw.TableBorder.all(color: PdfColors.grey),
+                columnWidths: {
+                  0: const pw.FixedColumnWidth(200),
+                  1: const pw.FixedColumnWidth(220),
+                },
+                children: [
+                  pw.TableRow(children: [
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(5),
+                      child: pw.Text(
+                        'Gerente responsável:',
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
                     ),
-                    pw.Row(
-                      children: [
-                        pw.Text('Retirada: $pickUpDate  Entrega: $deliverDate'),
-                      ],
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(5),
+                      child: pw.Text(
+                        manager.managerName,
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
                     ),
-                    pw.Row(
-                      children: [
-                        pw.Text(
-                            'Custo diário: $dailyCost, Custo total: $totalRent'),
-                      ],
+                  ]),
+                  pw.TableRow(children: [
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(5),
+                      child: pw.Text(
+                        'CPF',
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(5),
+                      child: pw.Text(
+                        manager.managerCpf,
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ]),
+                  pw.TableRow(children: [
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(5),
+                      child: pw.Text(
+                        'Localidade:',
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(5),
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            manager.managerCity,
+                            style: const pw.TextStyle(fontSize: 16),
+                          ),
+                          pw.Text(
+                            manager.managerState,
+                            style: const pw.TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ],
+              ),
+              pw.Footer(
+                decoration: const pw.BoxDecoration(
+                  color: PdfColor.fromInt(0xFFca122e),
+                ),
+                title: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                  children: [
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(20),
+                      child: pw.Text(
+                        '© SS ALUGUÉIS - Todos os direitos reservados',
+                        style: const pw.TextStyle(
+                          color: PdfColors.white,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                   ],
                 ),

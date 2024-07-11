@@ -17,12 +17,10 @@ import 'package:http/http.dart' as http;
 import '../model/year_model.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
-  VehicleRegistrationState({this.vehicle}) {
-    loadAgency();
+  VehicleRegistrationState() {
+      loadAgency();
   }
 
-  bool isPressedYesButton = false;
-  bool isPressedNoButton = false;
   final keyFormVehicle = GlobalKey<FormState>();
 
   final _controllerBrand = TextEditingController();
@@ -30,6 +28,7 @@ class VehicleRegistrationState with ChangeNotifier {
   TextEditingController get controllerBrand => _controllerBrand;
 
   final _controllerAgency = TextEditingController();
+
   TextEditingController get controllerAgency => _controllerAgency;
 
   final _controllerModel = TextEditingController();
@@ -50,25 +49,12 @@ class VehicleRegistrationState with ChangeNotifier {
 
   final controllerVehicle = VehicleController();
 
-  final Vehicle? vehicle;
 
   String? name(String? value) {
     if (value == null || value.length < 5) {
       return 'O nome deve conter mais de 5 letras';
     }
     return null;
-  }
-
-  void pressedNoButton() {
-    isPressedNoButton = true;
-    isPressedYesButton = false;
-    notifyListeners();
-  }
-
-  void pressedYesButton() {
-    isPressedYesButton = true;
-    isPressedNoButton = false;
-    notifyListeners();
   }
 
   Future<void> insertVehicle() async {
@@ -81,6 +67,7 @@ class VehicleRegistrationState with ChangeNotifier {
       vehicleYear: controllerYear.text,
       vehicleDailyCost: dailyCost!,
       agencyCode: selectedItem!.agencyId!,
+      vehicleStats: 'Disponivel',
     );
 
     await controllerVehicle.insert(vehicle);

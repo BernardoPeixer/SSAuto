@@ -25,24 +25,30 @@ class AgencyController {
     return list;
   }
 
-  Future<Manager?> getManagerById(int managerId) async {
+  Future<List<Manager>> selectManager() async {
     final database = await getDatabase();
 
-    final List<Map<String, dynamic>> result = await database.rawQuery('''
-    SELECT m.* FROM ${ManagerTable.tableName} AS m 
-    INNER JOIN ${AgencyTable.tableName} AS a ON a.managerCode = m.managerId 
-    WHERE a.managerCode = ? 
-    LIMIT 1 
-    ''', [managerId]);
+    final List<Map<String, dynamic>> result =
+    await database.query(ManagerTable.tableName);
 
-    return Manager(
-      managerName: result.first[ManagerTable.managerId],
-      managerCity: result.first[ManagerTable.managerCity],
-      managerCpf: result.first[ManagerTable.managerCpf],
-      managerState: result.first[ManagerTable.managerState],
-      managerPhone: result.first[ManagerTable.managerPhone],
-    );
+    var list = <Manager>[];
+    for (final item in result) {
+      list.add(
+        Manager(
+          managerId: item[ManagerTable.managerId],
+          managerName: item[ManagerTable.managerName],
+          managerCpf: item[ManagerTable.managerCpf],
+          managerPhone: item[ManagerTable.managerPhone],
+          managerCity: item[ManagerTable.managerCity],
+          managerState: item[ManagerTable.managerState],
+          managerCommission: item[ManagerTable.managerCommission],
+        ),
+      );
+    }
+    return list;
   }
+
+
 
   Future<void> insert(Agency agency) async {
     final database = await getDatabase();

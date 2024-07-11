@@ -33,7 +33,8 @@ class RentalController {
       r.${RentalTable.vehicleCode} IS NULL 
       OR r.${RentalTable.rentalStart} IS NULL 
       OR r.${RentalTable.rentalEnd} IS NULL
-    );
+    )
+    AND v.${VehicleTable.vehicleStats} = 'Disponivel';
   ''', [
       rentalEnd,
       rentalStart,
@@ -50,6 +51,7 @@ class RentalController {
             vehicleDailyCost: data['vehicleDailyCost'],
             vehicleId: data['vehicleId'],
             agencyCode: data['agencyCode'],
+            vehicleStats: data['vehicleStats'],
           ),
         )
         .toList();

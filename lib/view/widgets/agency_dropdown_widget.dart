@@ -15,7 +15,6 @@ class AgencyDropdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color blue = const Color(0xff011329);
-    Color orange = const Color(0xffD3393A);
     return Container(
       height: 30,
       width: MediaQuery.of(context).size.width,

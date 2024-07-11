@@ -6,8 +6,8 @@ import '../controller/customer_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
 
-class StepByStepState with ChangeNotifier {
-  StepByStepState() {
+class RentalFiltersState with ChangeNotifier {
+  RentalFiltersState() {
     loadCustomer();
     loadAgency();
   }

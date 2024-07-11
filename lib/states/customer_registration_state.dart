@@ -119,10 +119,33 @@ class CustomerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
-
-
   MaskTextInputFormatter maskFormatterCnpj = MaskTextInputFormatter(
     mask: '##.###.###/####-##',
     type: MaskAutoCompletionType.eager,
   );
+
+  MaskTextInputFormatter maskFormatterPhone = MaskTextInputFormatter(
+    mask: '(##) ####-####',
+    type: MaskAutoCompletionType.eager,
+  );
+
+  String formatCnpj() {
+    customerCompanyCnpj = maskFormatterCnpj
+        .formatEditUpdate(
+          TextEditingValue.empty,
+          TextEditingValue(text: customerCompanyCnpj),
+        )
+        .text;
+
+    return customerCompanyCnpj;
+  }
+
+  String formatPhone() {
+    customerCompanyPhone = maskFormatterPhone.formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(text: customerCompanyPhone),
+    ).text;
+
+    return customerCompanyPhone;
+  }
 }

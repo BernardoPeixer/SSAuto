@@ -11,7 +11,6 @@ class CarRentalState with ChangeNotifier {
 
   CarRentalState(int agencyId, String rentalStart, String rentalEnd) {
     loadVehicles(agencyId, rentalStart, rentalEnd);
-    print(filtredVehicles.length);
   }
 
   List<Vehicle> get listVehicles => _listVehicles;

@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         'assets/images/logo/ss_horizontal_logo.png',
@@ -36,88 +36,19 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                const Text(
-                  'Suas Atividades',
-                  style: TextStyle(color: Colors.black, fontSize: 24),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: 200,
-                  height: 200,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+          body: Column(
+            children: [
+              Center(
+                child: ElevatedButton(
+                  child: Text(
+                    'alugueis realizados',
                   ),
-                  child: PieChart(
-                    PieChartData(
-                      sections: [
-                        PieChartSectionData(
-                            value: 90,
-                            title: 'Finalizados',
-                            showTitle: true,
-                            radius: 70,
-                            color: Colors.green),
-                        PieChartSectionData(
-                            value: 300,
-                            title: 'Em andamento',
-                            showTitle: true,
-                            radius: 70,
-                            color: Colors.yellow),
-                      ],
-                    ),
-                  ),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/rentalListPage');
+                  },
                 ),
-                Container(
-                  width: 500,
-                  height: 200,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: LineChart(
-                    LineChartData(
-                      backgroundColor: Colors.red,
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: state.spots,
-                          color: Colors.black,
-                          barWidth: 4,
-                          isCurved: false,
-                          belowBarData: BarAreaData(
-                            show: true,
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           bottomNavigationBar: const SizedBox(
             height: 80,

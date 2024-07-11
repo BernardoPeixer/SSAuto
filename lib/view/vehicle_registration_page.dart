@@ -11,7 +11,9 @@ import '../model/agency_model.dart';
 import '../model/brands_model.dart';
 import '../model/models_model.dart';
 
+import '../model/vehicle_model.dart';
 import '../model/year_model.dart';
+import 'arguments/car_arguments.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/type_ahead_models_widget.dart';
 
@@ -22,7 +24,6 @@ class VehicleRegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color blue = const Color(0xff011329);
     return ChangeNotifierProvider(
       create: (context) => VehicleRegistrationState(),
       child: Consumer<VehicleRegistrationState>(
@@ -89,7 +90,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                               height: 4,
                             ),
                             AddPhotosButtonWidget(
-                                carImages: state.carImages,
+                                carImages:state.carImages,
                                 showImageSourceDialog:
                                     state.showImageSourceDialog,
                                 removeCarImage: state.removeCarImage),

@@ -196,7 +196,6 @@ class AgencyRegistrationPage extends StatelessWidget {
                       if (state.controllerAgencyState.text.isNotEmpty &&
                           state.controllerAgencyName.text.isNotEmpty &&
                           state.controllerAgencyCity.text.isNotEmpty) {
-                        print('########${state.selectedManager!.managerId}#########');
                         await state.insertAgency();
                         Navigator.pop(context);
                       }

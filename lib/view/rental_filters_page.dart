@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/step_by_step_state.dart';
+import 'package:ss_auto/states/rental_filters_state.dart';
 
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/type_ahead_agencys_widget.dart';
@@ -12,8 +12,8 @@ class RentalFiltersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => StepByStepState(),
-      child: Consumer<StepByStepState>(builder: (_, state, __) {
+      create: (context) => RentalFiltersState(),
+      child: Consumer<RentalFiltersState>(builder: (_, state, __) {
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 80,
