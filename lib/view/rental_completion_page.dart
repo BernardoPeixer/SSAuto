@@ -110,7 +110,6 @@ class RentalCompletionPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Coluna para o lado esquerdo (DIÁRIA)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -146,7 +145,7 @@ class RentalCompletionPage extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(horizontal: 4),
                                 ),
                                 Text(
-                                  'R\$ ${vehicle.vehicleDailyCost}',
+                                  'R\$ ${state.totalRent}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -224,14 +223,14 @@ class RentalCompletionPage extends StatelessWidget {
                             args.rentalEndA,
                             args.customer.customerId!);
                         final pdfFile = await state.proofOfRental(
-                          args.selectedAgency!.agencyName,
+                          args.selectedAgency!,
                           args.customer.customerName,
                           args.customer.customerCnpj,
                           vehicle.vehicleModel,
                           vehicle.vehicleBrand,
                           args.imagePath,
-                          args.rentalStart,
-                          args.rentalEnd,
+                          args.rentalStartA!,
+                          args.rentalEndA!,
                           vehicle.vehicleDailyCost,
                           args.customer.customerPhone,
                           args.customer.customerCity,

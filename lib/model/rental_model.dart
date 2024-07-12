@@ -24,7 +24,7 @@ class Rental {
   final String rentalStart;
   final String rentalEnd;
   final double rentalCost;
-  final String rentalStats;
+  String rentalStats;
   final String rentalPaymentStats;
 }
 
@@ -38,7 +38,7 @@ class RentalTable {
       $rentalRegisterDate        TEXT NOT NULL,
       $rentalStart               TEXT NOT NULL,
       $rentalEnd                 TEXT NOT NULL,
-      $rentalCost                NUMERIC NOT NULL,
+      $rentalCost                DOUBLE NOT NULL,
       $rentalStats               TEXT NOT NULL,
       $rentalPaymentStats        TEXT NOT NULL,
       FOREIGN KEY($customerCode) REFERENCES ${CustomerTable.tableName}(${CustomerTable.customerId}),

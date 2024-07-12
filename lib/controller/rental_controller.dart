@@ -58,4 +58,41 @@ class RentalController {
 
     return vehicles;
   }
-}
+
+  Future<List<Rental>> selectRentals() async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result =
+    await database.query(RentalTable.tableName);
+
+    var list = <Rental>[];
+    for (final item in result) {
+      list.add(
+        Rental(
+          rentalId: item[RentalTable.rentalId],
+          rentalCost: item[RentalTable.rentalCost],
+          rentalStart: item[RentalTable.rentalStart],
+          rentalEnd: item[RentalTable.rentalEnd],
+          rentalRegisterDate: item[RentalTable.rentalRegisterDate],
+          rentalStats: item[RentalTable.rentalStats],
+          rentalPaymentStats: item[RentalTable.rentalPaymentStats],
+          vehicleCode: item[RentalTable.vehicleCode],
+          agencyCode: item[RentalTable.agencyCode],
+          customerCode: item[RentalTable.customerCode],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<String> updateRentalStats(int rentalId, String newStats) async{
+    final database = await getDatabase();
+    await database.update(
+      RentalTable.tableName,
+      {RentalTable.rentalStats: newStats},
+      where: '${RentalTable.rentalId} = ?',
+      whereArgs: [rentalId],
+    );
+    return newStats;
+  }
+ }

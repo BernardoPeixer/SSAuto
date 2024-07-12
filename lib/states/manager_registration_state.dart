@@ -59,6 +59,7 @@ class ManagerRegistrationState with ChangeNotifier {
       managerState: controllerManagerState.text,
       managerPhone: controllerManagerPhone.text,
       managerCommission: int.parse(controllerManagerCommission.text),
+      managerEmail: controllerManagerEmail.text,
     );
 
     await controllerManager.insert(manager);

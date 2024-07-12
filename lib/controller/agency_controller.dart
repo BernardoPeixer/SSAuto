@@ -19,6 +19,8 @@ class AgencyController {
           agencyCity: item[AgencyTable.agencyCity],
           agencyState: item[AgencyTable.agencyState],
           managerCode: item[AgencyTable.managerCode],
+          agencyPhone: item[AgencyTable.agencyPhone],
+          agencyAddress: item[AgencyTable.agencyAddress],
         ),
       );
     }
@@ -42,6 +44,7 @@ class AgencyController {
           managerCity: item[ManagerTable.managerCity],
           managerState: item[ManagerTable.managerState],
           managerCommission: item[ManagerTable.managerCommission],
+          managerEmail: item[ManagerTable.managerEmail],
         ),
       );
     }

@@ -6,6 +6,7 @@ class Manager {
     required this.managerState,
     required this.managerPhone,
     required this.managerCommission,
+    required this.managerEmail,
     this.managerId,
   });
 
@@ -14,6 +15,7 @@ class Manager {
   final String managerCpf;
   final String managerState;
   final String managerPhone;
+  final String managerEmail;
   final int managerCommission;
   late int? managerId;
 }
@@ -27,7 +29,8 @@ class ManagerTable {
       $managerCpf    TEXT NOT NULL,
       $managerState  TEXT NOT NULL,
       $managerPhone  TEXT NOT NULL,
-      $managerCommission INTEGER NOT NULL
+      $managerCommission INTEGER NOT NULL,
+      $managerEmail TEXT NOT NULL
     );
     ''';
 
@@ -39,6 +42,7 @@ class ManagerTable {
   static const String managerState = 'managerState';
   static const String managerPhone = 'managerPhone';
   static const String managerCommission = 'managerCommission';
+  static const String managerEmail = 'managerEmail';
 
   static Map<String, dynamic> toMap(Manager manager) {
     final map = <String, dynamic>{};
@@ -49,6 +53,7 @@ class ManagerTable {
     map[ManagerTable.managerState] = manager.managerState;
     map[ManagerTable.managerPhone] = manager.managerPhone;
     map[ManagerTable.managerCommission] = manager.managerCommission;
+    map[ManagerTable.managerEmail] = manager.managerEmail;
     return map;
   }
 }

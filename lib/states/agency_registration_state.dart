@@ -12,14 +12,20 @@ class AgencyRegistrationState with ChangeNotifier {
   }
 
   final TextEditingController _controllerAgencyName = TextEditingController();
+  final TextEditingController _controllerAgencyPhone = TextEditingController();
   final TextEditingController _controllerAgencyCity = TextEditingController();
+  final TextEditingController _controllerAgencyAddress = TextEditingController();
   final TextEditingController _controllerAgencyState = TextEditingController();
   final TextEditingController _controllerAgencyManager =
       TextEditingController();
 
   TextEditingController get controllerAgencyName => _controllerAgencyName;
 
+  TextEditingController get controllerAgencyPhone => _controllerAgencyPhone;
+
   TextEditingController get controllerAgencyCity => _controllerAgencyCity;
+
+  TextEditingController get controllerAgencyAddress => _controllerAgencyAddress;
 
   TextEditingController get controllerAgencyState => _controllerAgencyState;
 
@@ -39,7 +45,9 @@ class AgencyRegistrationState with ChangeNotifier {
       agencyName: controllerAgencyName.text,
       agencyCity: controllerAgencyCity.text,
       agencyState: controllerAgencyState.text,
+      agencyPhone: controllerAgencyPhone.text,
       managerCode: selectedManager!.managerId,
+      agencyAddress: controllerAgencyAddress.text,
     );
     await controllerAgency.insert(agency);
     notifyListeners();
