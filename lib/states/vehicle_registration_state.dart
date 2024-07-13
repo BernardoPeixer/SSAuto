@@ -18,8 +18,10 @@ import '../model/year_model.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
   VehicleRegistrationState() {
-      loadAgency();
+    loadAgency();
   }
+
+
 
   final keyFormVehicle = GlobalKey<FormState>();
 
@@ -48,7 +50,6 @@ class VehicleRegistrationState with ChangeNotifier {
   TextEditingController get controllerDailyCost => _controllerDailyCost;
 
   final controllerVehicle = VehicleController();
-
 
   String? name(String? value) {
     if (value == null || value.length < 5) {

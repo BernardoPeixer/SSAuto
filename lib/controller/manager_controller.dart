@@ -15,7 +15,7 @@ class ManagerController {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result =
-    await database.query(ManagerTable.tableName);
+        await database.query(ManagerTable.tableName);
 
     var list = <Manager>[];
     for (final item in result) {
@@ -33,5 +33,16 @@ class ManagerController {
       );
     }
     return list;
+  }
+
+  Future<Manager> updateManager(Manager newManager) async {
+    final database = await getDatabase();
+    final map = ManagerTable.toMap(newManager);
+
+    await database.update(
+      ManagerTable.tableName,
+      map,
+    );
+    return newManager;
   }
 }

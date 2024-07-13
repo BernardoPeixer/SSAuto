@@ -38,9 +38,29 @@ class HomePage extends StatelessWidget {
           ),
           body: Column(
             children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.yellow,
+                          ),
+                          child: const BarChartSample2(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Center(
                 child: ElevatedButton(
-                  child: Text(
+                  child: const Text(
                     'alugueis realizados',
                   ),
                   onPressed: () {

@@ -54,6 +54,7 @@ class ManagerTable {
     map[ManagerTable.managerPhone] = manager.managerPhone;
     map[ManagerTable.managerCommission] = manager.managerCommission;
     map[ManagerTable.managerEmail] = manager.managerEmail;
+    map[ManagerTable.managerId] = manager.managerId;
     return map;
   }
 }

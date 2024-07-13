@@ -54,6 +54,7 @@ dependencies:
   open_file: ^3.3.2
   intl: ^0.19.0
   fl_chart: ^0.68.0
+  jiffy: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,7 @@ flutter:
     - assets/images/logo/ss_simples_menor.png
     - assets/images/logo/ss_simples_maior.png
     - assets/images/logo/ss_bg.png
+    - assets/images/logo/ss_horizontal_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

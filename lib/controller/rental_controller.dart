@@ -1,6 +1,9 @@
+import 'package:jiffy/jiffy.dart';
+import 'package:pdf/widgets.dart';
 import 'package:ss_auto/model/agency_model.dart';
 import 'package:ss_auto/model/rental_model.dart';
 import '../database/database.dart';
+import '../model/chart_model.dart';
 import '../model/vehicle_model.dart';
 
 class RentalController {
@@ -63,7 +66,7 @@ class RentalController {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result =
-    await database.query(RentalTable.tableName);
+        await database.query(RentalTable.tableName);
 
     var list = <Rental>[];
     for (final item in result) {
@@ -85,7 +88,7 @@ class RentalController {
     return list;
   }
 
-  Future<String> updateRentalStats(int rentalId, String newStats) async{
+  Future<String> updateRentalStats(int rentalId, String newStats) async {
     final database = await getDatabase();
     await database.update(
       RentalTable.tableName,
@@ -95,4 +98,34 @@ class RentalController {
     );
     return newStats;
   }
- }
+
+  Future<List<ChartModel>> teste() async {
+    final database = await getDatabase();
+
+    final list = <ChartModel>[];
+    for (int i = 0; i <= 5; i++) {
+      final date = Jiffy.now().subtract(months: i).format(pattern: 'yyyy-MM');
+
+      List<Map<String, dynamic>> result = await database.rawQuery(
+        '''
+    SELECT SUM(rentalCost) as total
+    FROM RentalTable 
+    WHERE STRFTIME('%Y-%m', rentalRegisterDate) 
+    = ? 
+    ''',
+        [date],
+      );
+
+      double? total = result[0]['total'] as double?;
+      list.add(
+        ChartModel(month: date, total: total, index: i),
+      );
+    }
+
+
+    // for(final item in list) {
+    //   print('${item.month} / ${item.total}');
+    // }
+    return list;
+  }
+}

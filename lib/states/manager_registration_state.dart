@@ -6,8 +6,17 @@ import '../model/agency_model.dart';
 import '../model/manager_model.dart';
 
 class ManagerRegistrationState with ChangeNotifier {
-  ManagerRegistrationState({this.manager}) {
-    loadAgency();
+
+  ManagerRegistrationState(int? id, Manager manager) {
+    init(id, manager);
+  }
+
+  void init(int? id, Manager manager) {
+    if (id == null) {
+      return;
+    } else {
+     populateForm(manager);
+    }
   }
 
   final GlobalKey<FormState> keyFormManager = GlobalKey<FormState>();
@@ -43,8 +52,6 @@ class ManagerRegistrationState with ChangeNotifier {
 
   final ManagerController controllerManager = ManagerController();
 
-  final Manager? manager;
-
   MaskTextInputFormatter maskFormatterCpf = MaskTextInputFormatter(
     mask: '###.###.###-##',
     type: MaskAutoCompletionType.eager,
@@ -67,24 +74,28 @@ class ManagerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
-  final controllerAgency = AgencyController();
-  final _listAgency = <Agency>[];
-
-  List<Agency> get listAgency => _listAgency;
-
-  Future<void> loadAgency() async {
-    final list = await controllerAgency.selectAgency();
-    _listAgency.clear();
-    _listAgency.addAll(list);
+  Future<void> populateForm(Manager manager) async {
+    _controllerManagerCity.text = manager.managerCity;
+    _controllerManagerCommission.text = manager.managerCommission.toString();
+    _controllerManagerCpf.text = manager.managerCpf;
+    _controllerManagerEmail.text = manager.managerEmail;
+    _controllerManagerName.text = manager.managerName;
+    _controllerManagerPhone.text = manager.managerPhone;
+    _controllerManagerState.text = manager.managerState;
     notifyListeners();
   }
 
-  Agency? _selectedItem;
-
-  Agency? get selectedItem => _selectedItem;
-
-  void onChangedDropdown(Agency? agency) {
-    _selectedItem = agency;
+  Future<void> updateManager() async {
+    final manager = Manager(
+      managerName: controllerManagerName.text,
+      managerCity: controllerManagerCity.text,
+      managerCpf: controllerManagerCpf.text,
+      managerState: controllerManagerState.text,
+      managerPhone: controllerManagerPhone.text,
+      managerCommission: int.parse(controllerManagerCommission.text),
+      managerEmail: controllerManagerEmail.text,
+    );
+    await controllerManager.updateManager(manager);
     notifyListeners();
   }
 }

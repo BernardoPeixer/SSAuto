@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ss_auto/model/manager_model.dart';
 import 'package:ss_auto/states/manager_list_state.dart';
 
 class ManagerListWidget extends StatelessWidget {
@@ -27,6 +28,7 @@ class ManagerListWidget extends StatelessWidget {
         return ListView.builder(
           itemCount: state.listManager.length,
           itemBuilder: (context, index) {
+            final manager = state.listManager[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
@@ -37,7 +39,19 @@ class ManagerListWidget extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-
+                            Navigator.pushNamed(
+                              context,
+                              '/managerRegistrationPage',
+                              arguments: Manager(
+                                  managerName: manager.managerName,
+                                  managerCity: manager.managerCity,
+                                  managerCpf: manager.managerCpf,
+                                  managerState: manager.managerState,
+                                  managerPhone: manager.managerPhone,
+                                  managerCommission: manager.managerCommission,
+                                  managerEmail: manager.managerEmail,
+                                  managerId: manager.managerId),
+                            );
                           },
                           icon: const Icon(
                             Icons.edit,

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ss_auto/states/manager_registration_state.dart';
 import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 
+import '../model/manager_model.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 
 class ManagerRegistrationPage extends StatelessWidget {
@@ -10,7 +11,16 @@ class ManagerRegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color orange = const Color(0xffD3393A);
+    final Manager args = ModalRoute.of(context)!.settings.arguments as Manager;
+    final Manager manager = Manager(
+        managerName: args.managerName,
+        managerCity: args.managerCity,
+        managerCpf: args.managerCpf,
+        managerState: args.managerState,
+        managerPhone: args.managerPhone,
+        managerCommission: args.managerCommission,
+        managerEmail: args.managerEmail,
+        managerId: args.managerId);
     return Scaffold(
       backgroundColor: const Color(0xFFca122e),
       appBar: AppBar(
@@ -35,7 +45,7 @@ class ManagerRegistrationPage extends StatelessWidget {
         ],
       ),
       body: ChangeNotifierProvider(
-        create: (context) => ManagerRegistrationState(),
+        create: (context) => ManagerRegistrationState(args.managerId, manager),
         child: Consumer<ManagerRegistrationState>(builder: (_, state, __) {
           return Form(
             key: state.keyFormManager,
@@ -345,9 +355,15 @@ class ManagerRegistrationPage extends StatelessWidget {
                           side: const BorderSide(color: Colors.white, width: 1),
                         ),
                         onPressed: () async {
-                          await state.insertManager();
-                          Navigator.of(context)
-                              .pushReplacementNamed('/managerCustomerPage');
+                          if (args.managerId != null) {
+                            await state.updateManager();
+                            Navigator.of(context)
+                                .pushReplacementNamed('/managerCustomerPage');
+                          } else {
+                            await state.insertManager();
+                            Navigator.of(context)
+                                .pushReplacementNamed('/managerCustomerPage');
+                          }
                         },
                         child: const Text(
                           'CADASTRAR',
