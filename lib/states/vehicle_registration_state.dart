@@ -1,19 +1,16 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ss_auto/controller/agency_controller.dart';
-import 'package:ss_auto/controller/vehicle_controller.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import '../controller/agency_controller.dart';
+import '../controller/vehicle_controller.dart';
 import '../model/agency_model.dart';
 import '../model/brands_model.dart';
 import '../model/models_model.dart';
 import '../model/vehicle_model.dart';
-import 'package:http/http.dart' as http;
-
 import '../model/year_model.dart';
 
 class VehicleRegistrationState with ChangeNotifier {
@@ -33,7 +30,7 @@ class VehicleRegistrationState with ChangeNotifier {
 
   TextEditingController get controllerAgency => _controllerAgency;
 
-  final _controllerModel = TextEditingController();
+  var _controllerModel = TextEditingController();
 
   TextEditingController get controllerModel => _controllerModel;
 
@@ -45,7 +42,7 @@ class VehicleRegistrationState with ChangeNotifier {
 
   TextEditingController get controllerYear => _controllerYear;
 
-  final _controllerDailyCost = TextEditingController();
+  var _controllerDailyCost = TextEditingController();
 
   TextEditingController get controllerDailyCost => _controllerDailyCost;
 
@@ -289,4 +286,24 @@ class VehicleRegistrationState with ChangeNotifier {
     _selectedItem = agency;
     notifyListeners();
   }
+
+  /// FUNCTION TO POPULATE THE FORM
+  // void populateForm(Vehicle vehicle) {
+  //   _controllerModel.text = vehicle.vehicleModel;
+  //   _controllerBrand.text = vehicle.vehicleBrand;
+  //   _controllerYear.text = vehicle.vehicleYear;
+  //   _controllerDailyCost.text = vehicle.vehicleDailyCost.toString();
+  //   _controllerAgency.text = vehicle.agencyCode.toString();
+  //   _controllerLicensePlate.text = vehicle.vehicleLicensePlate;
+  //   vehicle = Vehicle(
+  //     vehicleBrand: vehicle.vehicleBrand,
+  //     vehicleModel: vehicle.vehicleModel,
+  //     vehicleLicensePlate: vehicle.vehicleLicensePlate,
+  //     vehicleYear: vehicle.vehicleYear,
+  //     vehicleDailyCost: vehicle.vehicleDailyCost,
+  //     vehicleStats: vehicle.vehicleStats,
+  //     agencyCode: vehicle.agencyCode,
+  //     vehicleId: vehicle.vehicleId,
+  //   );
+  // }
 }

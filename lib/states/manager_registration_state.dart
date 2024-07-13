@@ -5,6 +5,7 @@ import '../controller/manager_controller.dart';
 import '../model/agency_model.dart';
 import '../model/manager_model.dart';
 
+/// CREATING THE STATE OF THE MANAGERS REGISTRATION PAGE
 class ManagerRegistrationState with ChangeNotifier {
 
   ManagerRegistrationState(int? id, Manager manager) {
@@ -19,37 +20,47 @@ class ManagerRegistrationState with ChangeNotifier {
     }
   }
 
+  /// KEY FORM
   final GlobalKey<FormState> keyFormManager = GlobalKey<FormState>();
 
   final TextEditingController _controllerManagerName = TextEditingController();
 
+  /// GET CONTROLLER MANAGER NAME
   TextEditingController get controllerManagerName => _controllerManagerName;
 
   final TextEditingController _controllerManagerCity = TextEditingController();
 
+  /// GET CONTROLLER MANAGER CITY
   TextEditingController get controllerManagerCity => _controllerManagerCity;
 
   final TextEditingController _controllerManagerCpf = TextEditingController();
 
+  /// GET CONTROLLER MANAGER CPF
   TextEditingController get controllerManagerCpf => _controllerManagerCpf;
 
   final TextEditingController _controllerManagerState = TextEditingController();
 
+  /// GET CONTROLLER MANAGER STATE
   TextEditingController get controllerManagerState => _controllerManagerState;
 
   final TextEditingController _controllerManagerEmail = TextEditingController();
 
+  /// GET CONTROLLER MANAGER EMAIL
   TextEditingController get controllerManagerEmail => _controllerManagerEmail;
 
   final TextEditingController _controllerManagerPhone = TextEditingController();
+
+  /// GET CONTROLLER MANAGER PHONE
+  TextEditingController get controllerManagerPhone => _controllerManagerPhone;
+
   final TextEditingController _controllerManagerCommission =
       TextEditingController();
 
-  TextEditingController get controllerManagerPhone => _controllerManagerPhone;
-
+  /// GET CONTROLLER MANAGER COMMISSION
   TextEditingController get controllerManagerCommission =>
       _controllerManagerCommission;
 
+  /// GET CONTROLLER MANAGER IN DATABASE
   final ManagerController controllerManager = ManagerController();
 
   MaskTextInputFormatter maskFormatterCpf = MaskTextInputFormatter(
@@ -57,9 +68,9 @@ class ManagerRegistrationState with ChangeNotifier {
     type: MaskAutoCompletionType.eager,
   );
 
+  /// FUNCTION INSERT MANAGER IN DATABASE
   Future<void> insertManager() async {
-    print('Chamando insertManager');
-    final manager = Manager(
+    manager = Manager(
       managerName: controllerManagerName.text,
       managerCity: controllerManagerCity.text,
       managerCpf: controllerManagerCpf.text,
@@ -69,8 +80,7 @@ class ManagerRegistrationState with ChangeNotifier {
       managerEmail: controllerManagerEmail.text,
     );
 
-    await controllerManager.insert(manager);
-    print('Insert concluído');
+    await controllerManager.insert(manager!);
     notifyListeners();
   }
 
@@ -98,4 +108,27 @@ class ManagerRegistrationState with ChangeNotifier {
     await controllerManager.updateManager(manager);
     notifyListeners();
   }
+
+
+  /// FUNCTION TO POPULATE THE FORM
+// void populateForm(Manager manager) {
+//   _controllerManagerName.text = manager.managerName;
+//   _controllerManagerEmail.text = manager.managerEmail;
+//   _controllerManagerCommission.text =
+//       manager.managerCommission.toString();
+//   _controllerManagerPhone.text = manager.managerPhone;
+//   _controllerManagerCpf.text = manager.managerCpf;
+//   _controllerManagerState.text = manager.managerState;
+//   _controllerManagerCity.text = manager.managerCity;
+//
+//   manager = Manager(
+//       managerName: manager.managerName,
+//       managerCity: manager.managerCity,
+//       managerCpf: manager.managerCpf,
+//       managerState: manager.managerState,
+//       managerPhone: manager.managerPhone,
+//       managerCommission: manager.managerCommission,
+//       managerEmail: manager.managerEmail,
+//   );
+// }
 }

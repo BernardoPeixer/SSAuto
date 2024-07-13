@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/customer_model.dart';
 import '../../states/customer_list_state.dart';
 
+/// CREATION OF STATELESS WIDGET
 class CustomerListWidget extends StatelessWidget {
-  const CustomerListWidget({Key? key});
+  /// STATELESS WIDGET BUILDER
+  const CustomerListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,10 @@ class CustomerListWidget extends StatelessWidget {
                 child: ExpansionTile(
                   title: Text(
                     state.listCustomer[index].customerName.length > 17
-                        ? '${state.listCustomer[index].customerName.substring(0, 17)}...'
+                        ? '${state.listCustomer[index].customerName.substring(
+                            0,
+                            17,
+                          )}...'
                         : state.listCustomer[index].customerName,
                     style: const TextStyle(
                       fontSize: 16.0,

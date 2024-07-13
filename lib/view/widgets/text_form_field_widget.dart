@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// CREATION OF STATELESS WIDGET
 class TextFormFieldWidget extends StatelessWidget {
+  /// TITLE TEXT FORM FIELD
   final String title;
+  /// CONTROLLER
   final TextEditingController? controller;
 
+  /// CREATION OF STATELESS WIDGET
   const TextFormFieldWidget({
     super.key,
     required this.title,

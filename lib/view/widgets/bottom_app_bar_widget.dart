@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/add_options_page.dart';
-import 'package:ss_auto/view/fleet_page.dart';
-import 'package:ss_auto/view/home_page.dart';
-import 'package:ss_auto/view/manager_customer_page.dart';
-import 'package:ss_auto/view/rental_filters_page.dart';
 
+import '../add_options_page.dart';
+import '../fleet_page.dart';
+import '../home_page.dart';
+import '../manager_customer_page.dart';
+import '../rental_filters_page.dart';
 
+/// CREATION OF STATELESS WIDGET
 class BottomAppBarWidget extends StatelessWidget {
+  /// FUNCTION TO RENTAL FILTERS
   final void Function()? function;
 
+  /// STATELESS WIDGET BUILDER
   const BottomAppBarWidget({super.key, this.function});
 
   @override
@@ -38,7 +41,7 @@ class BottomAppBarWidget extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                    const HomePage(),
+                        const HomePage(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(
@@ -66,7 +69,7 @@ class BottomAppBarWidget extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                    const RentalFiltersPage(),
+                        const RentalFiltersPage(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(
@@ -95,7 +98,7 @@ class BottomAppBarWidget extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                    const FleetPage(),
+                        const FleetPage(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(
@@ -123,7 +126,7 @@ class BottomAppBarWidget extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                    const ManagerCustomerPage(),
+                        const ManagerCustomerPage(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(
@@ -151,7 +154,7 @@ class BottomAppBarWidget extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                    const AddOptionsPage(),
+                        const AddOptionsPage(),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(

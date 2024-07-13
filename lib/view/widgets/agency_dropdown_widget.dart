@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../model/agency_model.dart';
 
+/// CREATION OF STATELESS WIDGET
 class AgencyDropdownWidget extends StatelessWidget {
+  /// LIST OF AGENCYS
   final List<Agency> list;
+
+  /// AGENCY SELECTED
   final Agency? selectedItem;
+
+  /// FUNCTION ON THE DROPDOWN IS CHANGED
   final void Function(Agency?)? onChanged;
 
+  /// STATELESS WIDGET BUILDER
   const AgencyDropdownWidget(
       {required this.list,
       required this.selectedItem,
@@ -14,7 +21,6 @@ class AgencyDropdownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color blue = const Color(0xff011329);
     return Container(
       height: 30,
       width: MediaQuery.of(context).size.width,
@@ -22,7 +28,7 @@ class AgencyDropdownWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           30,
         ),
-        color: blue,
+        color: Colors.white,
       ),
       child: Center(
         child: DropdownButton<Agency>(
@@ -33,14 +39,14 @@ class AgencyDropdownWidget extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(20),
           value: selectedItem,
-          dropdownColor: blue,
+          dropdownColor: Colors.white,
           underline: const DropdownButtonHideUnderline(
             child: Text(''),
           ),
           iconEnabledColor: Colors.white,
           onChanged: onChanged,
           items: [
-            ...list.map((Agency agency) {
+            ...list.map((agency) {
               return DropdownMenuItem<Agency>(
                 value: agency,
                 child: Text(agency.agencyName),

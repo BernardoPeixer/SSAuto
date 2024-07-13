@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+/// CREATION OF STATELESS WIDGET
 class SearchBarWidget extends StatelessWidget {
+  /// CONTROLLER OF SEARCH BAR
   final TextEditingController controller;
+  /// FUNCTION ON SEARCH BAR IS CHANGED
   final void Function(String) onChanged;
 
+  /// STATELESS WIDGET BUILDER
   const SearchBarWidget({
     super.key,
     required this.controller,

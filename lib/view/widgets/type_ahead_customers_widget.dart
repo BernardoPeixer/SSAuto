@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../model/customer_model.dart';
-import '../../model/models_model.dart';
-
+/// CREATION OF STATELESS WIDGET
 class TypeAheadCustomersWidget extends StatelessWidget {
+  /// CONTROLLER FROM TYPEAHEAD
   final TextEditingController controller;
+  /// CUSTOMERS LIST
   final List<Customer> customerList;
-  void Function(Customer) onSelectCustomer;
+  /// FUNCTION ON CUSTOMER IS SELECT IN DROPDOWN
+  final void Function(Customer) onSelectCustomer;
 
-  TypeAheadCustomersWidget({
+
+  /// STATELESS WIDGET BUILDER
+  const TypeAheadCustomersWidget({
     super.key,
     required this.controller,
     required this.customerList,
     required this.onSelectCustomer,
   });
-
-  Color blue = const Color(0xff011329);
-  Color orange = const Color(0xffD3393A);
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +51,12 @@ class TypeAheadCustomersWidget extends StatelessWidget {
           ),
         );
       },
-      itemBuilder: (context, Customer suggestion) {
+      itemBuilder: (context, suggestion) {
         return ListTile(
           title: Text(suggestion.customerName.toUpperCase()),
         );
       },
-      onSelected: (Customer suggestion) {
+      onSelected: (suggestion) {
         controller.text = suggestion.customerName.toUpperCase();
         onSelectCustomer(suggestion);
       },

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 
-import '../model/manager_model.dart';
 import '../states/agency_registration_state.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/type_ahead_managers_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class AgencyRegistrationPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const AgencyRegistrationPage({super.key});
 
   @override
@@ -170,8 +170,8 @@ class AgencyRegistrationPage extends StatelessWidget {
                           children: [
                             const Text(
                               'Estado:',
-                              style:
-                                  TextStyle(fontSize: 16.0, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.white),
                             ),
                             const SizedBox(
                               height: 5.0,

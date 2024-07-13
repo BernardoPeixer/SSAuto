@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../states/agency_list_state.dart';
 
+/// CREATION OF STATELESS WIDGET
 class AgencyListWidget extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const AgencyListWidget({super.key});
 
   @override
@@ -58,7 +60,11 @@ class AgencyListWidget extends StatelessWidget {
                         Row(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/agencyRegistrationPage',
+                                    arguments: agency);
+                              },
                               icon: const Icon(
                                 Icons.edit,
                                 color: Colors.grey,
@@ -78,7 +84,9 @@ class AgencyListWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Gerente: ${managers.map((manager) => manager.managerName).join(", ")}',
+                      'Gerente: ${managers.map(
+                            (manager) => manager.managerName,
+                          ).join(", ")}',
                     ),
                     Text(
                       '${agency.agencyCity} / ${agency.agencyState}',

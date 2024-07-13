@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
-import '../../model/customer_model.dart';
 import '../../model/manager_model.dart';
-import '../../model/models_model.dart';
 
+/// CREATION OF STATELESS WIDGET
 class TypeAheadManagersWidget extends StatelessWidget {
+  /// CONTROLLER FROM TYPEAHEAD
   final TextEditingController controller;
+  /// MANAGERS LIST
   final List<Manager> managerList;
+  /// FUNCTION ON MANAGER IS SELECT IN DROPDOWN
   final void Function(Manager) onSelectManager;
 
-  TypeAheadManagersWidget({
+  /// STATELESS WIDGET BUILDER
+  const TypeAheadManagersWidget({
     super.key,
     required this.controller,
     required this.managerList,
     required this.onSelectManager,
   });
-
-  Color blue = const Color(0xff011329);
-  Color orange = const Color(0xffD3393A);
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +53,12 @@ class TypeAheadManagersWidget extends StatelessWidget {
           ),
         );
       },
-      itemBuilder: (context, Manager suggestion) {
+      itemBuilder: (context,suggestion) {
         return ListTile(
           title: Text(suggestion.managerName.toUpperCase()),
         );
       },
-      onSelected: (Manager suggestion) {
+      onSelected: (suggestion) {
         controller.text = suggestion.managerName.toUpperCase();
         onSelectManager(suggestion);
       },

@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:ss_auto/model/manager_model.dart';
 import 'package:ss_auto/states/manager_list_state.dart';
 
+/// CREATION OF STATELESS WIDGET
 class ManagerListWidget extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const ManagerListWidget({super.key});
 
   @override
@@ -68,7 +70,10 @@ class ManagerListWidget extends StatelessWidget {
                     ),
                     title: Text(
                       state.listManager[index].managerName.length > 17
-                          ? '${state.listManager[index].managerName.substring(0, 17)}...'
+                          ? '${state.listManager[index].managerName.substring(
+                              0,
+                              17,
+                            )}...'
                           : state.listManager[index].managerName,
                       style: const TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
@@ -78,7 +83,8 @@ class ManagerListWidget extends StatelessWidget {
                         children: [
                           ListTile(
                             title: Text(
-                                'Fone: ${state.listManager[index].managerPhone}'),
+                              'Fone: ${state.listManager[index].managerPhone}',
+                            ),
                           ),
                           ListTile(
                             title: Text(

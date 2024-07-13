@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:ss_auto/model/agency_model.dart';
+import '../../model/agency_model.dart';
 
+/// CREATION OF STATELESS WIDGET
 class TypeAheadAgencysWidget extends StatelessWidget {
+  /// CONTROLLER FROM TYPEAHEAD
   final TextEditingController controller;
+  /// AGENCY LIST
   final List<Agency> agencyList;
-  void Function(Agency) onAgencySelect;
+  /// FUNCTION ON AGENCY IS SELECT IN DROPDOWN
+  final void Function(Agency) onAgencySelect;
 
-
-
-  TypeAheadAgencysWidget({
+  /// STATELESS WIDGET BUILDER
+  const TypeAheadAgencysWidget({
     super.key,
     required this.controller,
     required this.agencyList,
     required this.onAgencySelect,
   });
-
-  Color blue = const Color(0xff011329);
-  Color orange = const Color(0xffD3393A);
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,12 @@ class TypeAheadAgencysWidget extends StatelessWidget {
           ),
         );
       },
-      itemBuilder: (context, Agency suggestion) {
+      itemBuilder: (context, suggestion) {
         return ListTile(
           title: Text(suggestion.agencyName.toUpperCase()),
         );
       },
-      onSelected: (Agency suggestion) {
+      onSelected: (suggestion) {
         controller.text = suggestion.agencyName.toUpperCase();
         onAgencySelect(suggestion);
       },

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:provider/provider.dart';
-import 'package:ss_auto/states/vehicle_registration_state.dart';
-
 import '../../model/models_model.dart';
 
+/// CREATION OF STATELESS WIDGET
 class TypeAheadModelsWidget extends StatelessWidget {
+  /// CONTROLLER FROM TYPEAHEAD
   final TextEditingController controller;
+  /// MODELS LIST
   final List<Models> modelsList;
+  /// FUNCTION GET MODELS FROM API
   final Future<void> Function() getModels;
+  /// FUNCTION ON MODELS IS SELECT IN DROPDOWN
   final Function(Models) onModelSelected;
 
-  TypeAheadModelsWidget({
+  /// STATELESS WIDGET BUILDER
+  const TypeAheadModelsWidget({
     super.key,
     required this.controller,
     required this.modelsList,
     required this.getModels,
     required this.onModelSelected,
   });
-
-  Color blue = const Color(0xff011329);
-  Color orange = const Color(0xffD3393A);
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +52,12 @@ class TypeAheadModelsWidget extends StatelessWidget {
           ),
         );
       },
-      itemBuilder: (context, Models suggestion) {
+      itemBuilder: (context, suggestion) {
         return ListTile(
           title: Text(suggestion.name.toUpperCase()),
         );
       },
-      onSelected: (Models suggestion) {
+      onSelected: (suggestion) {
         controller.text = suggestion.name.toUpperCase();
         onModelSelected(suggestion);
 
