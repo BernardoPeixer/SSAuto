@@ -1,9 +1,12 @@
-import 'package:ss_auto/model/agency_model.dart';
-import 'package:ss_auto/model/manager_model.dart';
+
 
 import '../database/database.dart';
+import '../model/agency_model.dart';
+import '../model/manager_model.dart';
 
+/// AGENCY CONTROLLER DATABASE
 class AgencyController {
+  /// FUNCTION TO SELECT AGENCY FROM DATABASE
   Future<List<Agency>> selectAgency() async {
     final database = await getDatabase();
 
@@ -26,7 +29,7 @@ class AgencyController {
     }
     return list;
   }
-
+  /// FUNCTION TO SELECT MANAGER FROM DATABASE
   Future<List<Manager>> selectManager() async {
     final database = await getDatabase();
 
@@ -52,7 +55,7 @@ class AgencyController {
   }
 
 
-
+  /// FUNCTION TO INSERT AGENCY IN DATABASE
   Future<void> insert(Agency agency) async {
     final database = await getDatabase();
     final map = AgencyTable.toMap(agency);
@@ -62,6 +65,7 @@ class AgencyController {
     return;
   }
 
+  /// FUNCTION TO DELETE AGENCY IN DATABASE
   Future<void> delete(Agency agency) async {
     final database = await getDatabase();
 

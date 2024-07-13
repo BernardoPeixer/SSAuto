@@ -177,7 +177,13 @@ class FleetDetailsPage extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, '/vehicleRegistrationPage');
+                          context,
+                          '/vehicleRegistrationPage',
+                          arguments: CarArguments(
+                            vehicle: args.vehicle,
+                            imagePath: args.imagePath,
+                          ),
+                        );
                       },
                       child: const Text(
                         'Editar',

@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+/// CREATION OF STATELESS WIDGET
 class AddPhotosButtonWidget extends StatelessWidget {
   final List<File> carImages;
   final void Function(BuildContext) showImageSourceDialog;
   final void Function(int) removeCarImage;
-
+/// STATE BUILDER
   const AddPhotosButtonWidget({
     super.key,
     required this.carImages,

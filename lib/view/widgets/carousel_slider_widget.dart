@@ -1,11 +1,14 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 
+/// CREATION OF STATELESS WIDGET
 class CarouselSliderWidget extends StatelessWidget {
+  /// LIST OF IMAGES PATHS
   final List<String> imagesPath;
 
+  /// STATELESS WIDGET BUILDER
   const CarouselSliderWidget({super.key, required this.imagesPath});
 
   @override
@@ -19,7 +22,7 @@ class CarouselSliderWidget extends StatelessWidget {
       ),
       items: imagesPath.map((imagePath) {
         return Builder(
-          builder: (BuildContext context) {
+          builder: (context) {
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.only(right: 4.0),

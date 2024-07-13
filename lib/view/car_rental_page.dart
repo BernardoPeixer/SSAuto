@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/car_rental_state.dart';
-import 'package:ss_auto/view/arguments/other_rental_arguments.dart';
-import 'package:ss_auto/view/arguments/rental_arguments.dart';
-import 'package:ss_auto/view/widgets/bottom_app_bar_widget.dart';
-import 'package:ss_auto/view/widgets/rental_card_car_widget.dart';
-import 'package:ss_auto/view/widgets/search_bar_widget.dart';
-import '../model/agency_model.dart';
-import '../model/vehicle_model.dart';
-import 'arguments/car_arguments.dart';
+import '../states/car_rental_state.dart';
+import 'arguments/other_rental_arguments.dart';
+import 'arguments/rental_arguments.dart';
+import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/rental_card_car_widget.dart';
+import 'widgets/search_bar_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class CarRentalPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const CarRentalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final RentalArguments args =
+    final args =
         ModalRoute.of(context)!.settings.arguments as RentalArguments;
-    final Agency? agency = args.selectedAgency;
+    final agency = args.selectedAgency;
 
     return ChangeNotifierProvider(
       create: (context) =>
@@ -42,7 +41,7 @@ class CarRentalPage extends StatelessWidget {
                         ),
                         SearchBarWidget(
                           controller: state.appBarController,
-                          onChanged: (String query) {
+                          onChanged: (query) {
                             state.onChanged(query);
                           },
                         ),
@@ -61,8 +60,8 @@ class CarRentalPage extends StatelessWidget {
                   )
                 : ListView.builder(
                     itemCount: state.filtredVehicles.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Vehicle vehicle = state.filtredVehicles[index];
+                    itemBuilder: (context,index) {
+                      final vehicle = state.filtredVehicles[index];
                       return FutureBuilder<List<String>>(
                         future: state
                             .getListPathImagesCars(vehicle.vehicleLicensePlate),
@@ -76,7 +75,7 @@ class CarRentalPage extends StatelessWidget {
                             return Center(
                                 child: Text('Error: ${snapshot.error}'));
                           } else {
-                            List<String> imagePaths = snapshot.data ?? [];
+                            final imagePaths = snapshot.data ?? [];
                             return RentalCardCarWidget(
                               vehicleModel: vehicle.vehicleModel,
                               imagePath:
@@ -107,7 +106,7 @@ class CarRentalPage extends StatelessWidget {
             bottomNavigationBar: Container(
               color: const Color(0xFFca122e),
               height: 80,
-              child: BottomAppBarWidget(),
+              child: const BottomAppBarWidget(),
             ),
           );
         },

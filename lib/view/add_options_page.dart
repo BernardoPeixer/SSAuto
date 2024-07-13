@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/widgets/list_tile_add_options_widget.dart';
-import 'widgets/bottom_app_bar_widget.dart';
 
+import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/list_tile_add_options_widget.dart';
+
+/// CREATION OF STATELESS WIDGET
 class AddOptionsPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const AddOptionsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color blue = const Color(0xff011329);
-    Color orange = const Color(0xffD3393A);
     return Scaffold(
       backgroundColor: const Color(0xFFca122e),
       appBar: AppBar(
@@ -42,25 +43,21 @@ class AddOptionsPage extends StatelessWidget {
                   Navigator.of(context).pushNamed('/vehicleRegistrationPage');
                 },
                 title: 'ADICIONAR CARRO',
-                color: Colors.white,
                 icon: Icons.directions_car_outlined),
             ListTileAddOptionsWidget(
                 onTap: () {
                   Navigator.of(context).pushNamed('/managerRegistrationPage');
                 },
                 title: 'CADASTRAR GERENTE',
-                color: Colors.white,
                 icon: Icons.supervisor_account_outlined),
             ListTileAddOptionsWidget(
                 onTap: () {
                   Navigator.of(context).pushNamed('/customerRegistrationPage');
                 },
                 title: 'CADASTRAR CLIENTE',
-                color: Colors.white,
                 icon: Icons.person_add_alt_1_outlined),
             ListTileAddOptionsWidget(
                 title: 'CADASTRAR AGÊNCIA',
-                color: Colors.white,
                 icon: Icons.business_outlined,
                 onTap: () {
                   Navigator.of(context).pushNamed('/agencyRegistrationPage');
@@ -68,7 +65,7 @@ class AddOptionsPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: const SizedBox(
         height: 80,
         child: BottomAppBarWidget(),
       ),

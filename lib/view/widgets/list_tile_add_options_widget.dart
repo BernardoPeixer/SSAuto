@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
+/// CREATION OF STATELESS WIDGET
 class ListTileAddOptionsWidget extends StatelessWidget {
-  final Color color;
+  /// ICON TILE
   final IconData icon;
+  /// TITLE TILE
   final String title;
-  VoidCallback? onTap;
+  /// FUNCTION ON TAP TILE
+  final VoidCallback? onTap;
 
-  ListTileAddOptionsWidget(
+  /// STATELESS WIDGET BUILDER
+  const ListTileAddOptionsWidget(
       {super.key,
       required this.title,
-      required this.color,
       required this.icon,
       required this.onTap});
 
@@ -25,8 +28,8 @@ class ListTileAddOptionsWidget extends StatelessWidget {
         height: 100,
         child: ElevatedButton(
           style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                color,
+              backgroundColor: const WidgetStatePropertyAll(
+                Colors.white,
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -45,7 +48,7 @@ class ListTileAddOptionsWidget extends StatelessWidget {
                     size: 40,
                     color: Colors.black,
                   ),
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   Text(
                     title,
                     style: const TextStyle(

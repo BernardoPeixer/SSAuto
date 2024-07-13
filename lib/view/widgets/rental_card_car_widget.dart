@@ -1,13 +1,24 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+/// CREATION OF STATELESS WIDGET
 class RentalCardCarWidget extends StatelessWidget {
+  /// VEHICLE IMAGE PATH
   final String imagePath;
+
+  /// VEHICLE MODEL
   final String vehicleModel;
+
+  /// VEHICLE YEAR
   final String vehicleYear;
+
+  /// VEHICLE DAILY COST
   final double vehicleDailyCost;
+
+  /// BUTTON ON PRESSED FUNCTION
   final void Function() onPressed;
 
+  /// STATELESS WIDGET BUILDER
   const RentalCardCarWidget({
     super.key,
     required this.imagePath,
@@ -64,7 +75,7 @@ class RentalCardCarWidget extends StatelessWidget {
                   children: [
                     Text(
                       vehicleModel.length > 10
-                          ? "${vehicleModel.substring(0, 10)}..."
+                          ? '${vehicleModel.substring(0, 10)}...'
                           : vehicleModel,
                       style: const TextStyle(
                         color: Color(0xFFca122e),
