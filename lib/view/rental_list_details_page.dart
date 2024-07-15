@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/rental_list_details_state.dart';
-import 'package:ss_auto/view/arguments/argument_teste.dart';
-import 'package:ss_auto/view/widgets/carousel_slider_widget.dart';
 
+import '../states/rental_list_details_state.dart';
+import 'arguments/arguments.dart';
 import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/carousel_slider_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class RentalListDetailsPage extends StatelessWidget {
+  /// STATELESS WIDGET STATE
   const RentalListDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ArgumentTeste args =
-        ModalRoute.of(context)!.settings.arguments as ArgumentTeste;
+    final args = ModalRoute.of(context)!.settings.arguments as Arguments;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
@@ -89,7 +90,9 @@ class RentalListDetailsPage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'RS ${args.rental.rentalCost.toStringAsFixed(2)}',
+                                  'RS ${args.rental.rentalCost.toStringAsFixed(
+                                    2,
+                                  )}',
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
@@ -150,7 +153,11 @@ class RentalListDetailsPage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${state.formatDateString(args.rental.rentalStart)} - ${state.formatDateString(args.rental.rentalEnd)}',
+                                  '${state.formatDateString(
+                                    args.rental.rentalStart,
+                                  )} - ${state.formatDateString(
+                                    args.rental.rentalEnd,
+                                  )}',
                                   style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -251,8 +258,8 @@ class RentalListDetailsPage extends StatelessWidget {
                           args.rental.rentalStats == 'nao retirado'
                               ? 'Iniciar locação'
                               : 'Finalizar locação',
-                          style:
-                              const TextStyle(color: Colors.white, fontSize: 12),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
                         ),
                       ),
                     ),

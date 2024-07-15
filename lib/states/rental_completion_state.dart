@@ -1,22 +1,27 @@
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
-import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
-import 'package:ss_auto/controller/customer_controller.dart';
-import 'package:ss_auto/controller/rental_controller.dart';
-import 'package:ss_auto/model/rental_model.dart';
+
 import '../controller/agency_controller.dart';
+import '../controller/customer_controller.dart';
+import '../controller/manager_controller.dart';
+import '../controller/rental_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
 import '../model/manager_model.dart';
+import '../model/rental_model.dart';
 
+/// CREATING THE STATE OF THE RENTAL COMPLETION PAGE
 class RentalCompletionState with ChangeNotifier {
+  /// BUILDER STATE
   RentalCompletionState(double dailyCost, DateTime startA, DateTime endA) {
     loadAgency();
     loadCustomers();
@@ -24,33 +29,67 @@ class RentalCompletionState with ChangeNotifier {
     calculateDateTotal(dailyCost, startA, endA);
   }
 
+  /// DATE TIME TO SELECTED DATE TO PICK UP THE CAR
   DateTime? selectedDatePickUp;
+
+  /// DATE TIME TO SELECTED DATE TO DELIVER THE CAR
   DateTime? selectedDateDeliver;
+
+  /// TOTAL DAYS RENT
   int? daysRent;
+
+  /// TOTAL VALUE RENT
   double? totalRent;
 
+  /// FUNCTION TO CALCULATE TOTAL DAYS
   void calculateDateTotal(double? dailyCost, DateTime? startA, DateTime? endA) {
     if (startA != null && endA != null) {
-      Duration difference = endA.difference(startA);
+      final difference = endA.difference(startA);
       daysRent = difference.inDays + 1;
       totalRent = dailyCost! * daysRent!;
       notifyListeners();
     }
   }
 
+  /// FUNCTION TO CALCULATE MANAGER COMMISSION
+  double? calculateCommission(int commission) {
+    final managerPart = (totalRent! / 100) * commission;
+    return managerPart;
+  }
+
+  /// MANAGER CONTROLLER FROM DATABASE
+  final controllerManager = ManagerController();
+
+  /// GET MANAGER BY ID FROM DATABASE
+  Future<Manager?> setManagerById(int id) async {
+    final manager = await controllerManager.getManagerById(id);
+    return manager;
+  }
+
+  /// GET AGENCY BY ID FROM DATABASE
+  Future<Agency?> setAgencyById(int id) async {
+    final agency = await controllerAgency.getAgencyById(id);
+    return agency;
+  }
+
   final _listManager = <Manager>[];
 
+  /// GETTER LIST MANAGER
   List<Manager> get listManager => _listManager;
+
+  /// AGENCY CONTROLLER FROM DATABASE
   final controllerAgency = AgencyController();
 
+  /// GET MANAGER FROM AGENCY
   Manager? getManagerForAgency(int managerCode, int managerId) {
     return _listManager.firstWhere(
       (manager) => manager.managerId == managerCode,
     );
   }
 
+  /// LOAD MANAGER FROM DATABASE
   Future<void> loadManager() async {
-    final List<Manager> list = await controllerAgency.selectManager();
+    final list = await controllerAgency.selectManager();
     _listManager.clear();
     _listManager.addAll(list);
     notifyListeners();
@@ -58,8 +97,10 @@ class RentalCompletionState with ChangeNotifier {
 
   final _listAgency = <Agency>[];
 
+  /// GETTER AGENCY LIST
   List<Agency> get listAgency => _listAgency;
 
+  /// FUNCTION TO LOAD AGENCY FROM DATABASE
   Future<void> loadAgency() async {
     final list = await controllerAgency.selectAgency();
     _listAgency.clear();
@@ -67,20 +108,28 @@ class RentalCompletionState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// CUSTOMER CONTROLLER FROM DATABASE
   final controllerCustomer = CustomerController();
   final _customerList = <Customer>[];
 
+  /// GETTER CUSTOMER LIST
   List<Customer> get customerList => _customerList;
+
+  /// INSTANCE OF CUSTOMER
   Customer? selectedItem;
   final _controllerDropDownCustomer = TextEditingController();
 
+  /// CONTROLLER FROM DROPDOWN
   TextEditingController get controllerDropDownCustomer =>
       _controllerDropDownCustomer;
 
+  /// FUNCTION ON CUSTOMER IS SELECTED
   void onCustomerSelected(String suggestion) {
     controllerDropDownCustomer.text = suggestion;
+    notifyListeners();
   }
 
+  /// LOAD CUSTOMERS FROM DATABASE
   Future<void> loadCustomers() async {
     final list = await controllerCustomer.selectCustomers();
     _customerList.clear();
@@ -88,26 +137,32 @@ class RentalCompletionState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// RENTAL CONTROLLER FROM DATABASE
   final controllerRental = RentalController();
+
+  /// RENTAL STATS
   String rentalStats = 'nao retirado';
+
+  /// RENTAL PAYMENT STATS
   String rentalPaymentStats = 'Pago';
 
-
+  /// DIFFERENCE NOW TO RENTAL END IN DAYS
   int differenceNowRentalEnd(DateTime rentalEnd) {
-    Duration difference = rentalEnd.difference(DateTime.now());
+    final difference = rentalEnd.difference(DateTime.now());
     final differenceInDays = difference.inDays;
 
     return differenceInDays;
   }
 
-
+  /// CALCULATE DAYS TOTAL
   int calculateTotalDays(DateTime pickUp, DateTime deliver) {
-    Duration difference = deliver.difference(pickUp);
+    final difference = deliver.difference(pickUp);
     final differenceInDays = difference.inDays + 1;
 
     return differenceInDays;
   }
 
+  /// INSERT RENTAL IN DATABASE
   Future<void> insertRental(int vehicleCode, int agencyCode, String datePickUp,
       String dateDeliver, DateTime? startA, int customerCode) async {
     final rent = Rental(
@@ -121,53 +176,55 @@ class RentalCompletionState with ChangeNotifier {
       agencyCode: agencyCode,
       vehicleCode: vehicleCode,
     );
-    print(rent);
     await controllerRental.insert(rent);
     notifyListeners();
-    print('insert concluido');
   }
 
+  /// FORMAT DATE TIME NOW
   String formattedDateTimeNow() {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy HH:mm:ss').format(now);
+    final now = DateTime.now();
+    final formattedDate = DateFormat('dd-MM-yyyy HH:mm:ss').format(now);
 
     return formattedDate;
   }
 
+  /// FORMAT DATE TIME
   String formattedDateTime(DateTime rentalDate) {
-    String formattedDate = DateFormat('dd/MM').format(rentalDate);
+    final formattedDate = DateFormat('dd/MM').format(rentalDate);
 
     return formattedDate;
   }
 
+  /// CONVERT IMAGES
   Future<List<Uint8List>> convertFile(List<String> listImages) async {
-    List<Uint8List> listConvert = [];
-    for (int i = 0; i < listImages.length; i++) {
-      String imagePath = listImages[i];
-      File imageFile = File(imagePath);
+    final listConvert = <Uint8List>[];
+    for (var i = 0; i < listImages.length; i++) {
+      final imagePath = listImages[i];
+      final imageFile = File(imagePath);
 
       if (imageFile.existsSync()) {
-        Uint8List bytes = await imageFile.readAsBytes();
+        final bytes = await imageFile.readAsBytes();
         listConvert.add(bytes);
-      } else {
-        print('Failed to load image at path: $imagePath');
       }
     }
     return listConvert;
   }
 
+  /// FUNCTION TO FORMAT DATA
   String formattedDate(DateTime date) {
-    DateTime formatted = date;
-    String formattedDate = DateFormat('dd-MM-yyyy').format(formatted);
+    final formatted = date;
+    final formattedDate = DateFormat('dd-MM-yyyy').format(formatted);
 
     return formattedDate;
   }
 
+  /// INPUT FORMATTER PHONE FIELD
   MaskTextInputFormatter maskFormatterPhone = MaskTextInputFormatter(
     mask: '(##) ####-####',
     type: MaskAutoCompletionType.eager,
   );
 
+  /// FUNCTION TO FORMAT PHONE STRING
   String formatPhone(String phone) {
     phone = maskFormatterPhone
         .formatEditUpdate(
@@ -179,11 +236,13 @@ class RentalCompletionState with ChangeNotifier {
     return phone;
   }
 
+  /// INPUT FORMATTER MOBILE PHONE FIELD
   MaskTextInputFormatter maskFormatterMobilePhone = MaskTextInputFormatter(
     mask: '(##) # ####-####',
     type: MaskAutoCompletionType.eager,
   );
 
+  /// FUNCTION TO FORMAT MOBILE PHONE STRING
   String formatMobilePhone(String phone) {
     phone = maskFormatterMobilePhone
         .formatEditUpdate(
@@ -195,6 +254,7 @@ class RentalCompletionState with ChangeNotifier {
     return phone;
   }
 
+  /// FUNCTION TO CREATE PDF PROOF OF RENTAL
   Future<File> proofOfRental(
     Agency agency,
     String customerName,
@@ -213,9 +273,9 @@ class RentalCompletionState with ChangeNotifier {
     String vehiclePlate,
   ) async {
     final pdf = pw.Document();
-    final ByteData logoData =
+    final logoData =
         await rootBundle.load('assets/images/logo/ss_horizontal_logo.png');
-    final Uint8List logoBytes = logoData.buffer.asUint8List();
+    final logoBytes = logoData.buffer.asUint8List();
     final logoImage = pw.MemoryImage(logoBytes);
 
     final convertFiles = await convertFile(images);
@@ -223,7 +283,7 @@ class RentalCompletionState with ChangeNotifier {
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
+        build: (context) {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
@@ -247,9 +307,7 @@ class RentalCompletionState with ChangeNotifier {
                   ],
                 ),
               ),
-
               pw.SizedBox(height: 8),
-
               pw.Padding(
                 padding: const pw.EdgeInsets.symmetric(horizontal: 20),
                 child: pw.Table(
@@ -541,9 +599,7 @@ class RentalCompletionState with ChangeNotifier {
                   ],
                 ),
               ),
-
               pw.SizedBox(height: 8),
-
               pw.Footer(
                 title: pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -555,7 +611,11 @@ class RentalCompletionState with ChangeNotifier {
                         border: pw.Border.all(color: PdfColors.black),
                       ),
                       child: pw.Text(
-                        '${agency.agencyName} - ${agency.agencyAddress} - Telefone: ${formatPhone(agency.agencyPhone)}',
+                        '${agency.
+                        agencyName} - ${agency.
+                        agencyAddress} - Telefone: ${formatPhone(
+                          agency.agencyPhone,
+                        )}',
                         style: const pw.TextStyle(
                           color: PdfColors.black,
                           fontSize: 12,
@@ -574,7 +634,7 @@ class RentalCompletionState with ChangeNotifier {
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
+        build: (context) {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
@@ -598,9 +658,7 @@ class RentalCompletionState with ChangeNotifier {
                   ],
                 ),
               ),
-
               pw.SizedBox(height: 20),
-
               pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
@@ -703,7 +761,11 @@ class RentalCompletionState with ChangeNotifier {
                         border: pw.Border.all(color: PdfColors.black),
                       ),
                       child: pw.Text(
-                        '${agency.agencyName} - ${agency.agencyAddress} - Telefone: ${formatPhone(agency.agencyPhone)}',
+                        '${agency.
+                        agencyName} - ${agency.
+                        agencyAddress} - Telefone: ${formatPhone(agency.
+                        agencyPhone,
+                        )}',
                         style: const pw.TextStyle(
                           color: PdfColors.black,
                           fontSize: 12,
@@ -725,6 +787,7 @@ class RentalCompletionState with ChangeNotifier {
         pdf: pdf);
   }
 
+  /// FUNCTION TO SAVE PDF
   Future<File> saveDocument(
       {required String name, required Document pdf}) async {
     final bytes = await pdf.save();
@@ -737,13 +800,11 @@ class RentalCompletionState with ChangeNotifier {
     return file;
   }
 
+  /// FUNCTION TO OPEN THE PDF
   Future<void> openFile(File file) async {
     if (await file.exists()) {
       final url = file.path;
-      print(url);
       await OpenFile.open(url);
-    } else {
-      print('O arquivo não existe: ${file.path}');
     }
   }
 }

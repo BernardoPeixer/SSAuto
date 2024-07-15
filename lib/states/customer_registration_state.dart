@@ -5,36 +5,52 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+/// CREATING THE STATE OF THE CUSTOMER LIST PAGE
 class CustomerRegistrationState with ChangeNotifier {
+  /// STATE BUILDER
   CustomerRegistrationState({this.customer}) {
     loadCustomers();
   }
 
+  /// BOOL TO SHOW THE CUSTOMER INFORMATION
   bool visible = false;
 
+  /// KEY FORM
   final keyFormCustomer = GlobalKey<FormState>();
 
+  /// CUSTOMER CONTROLLER FROM DATABASE
   final controllerCustomer = CustomerController();
 
   final TextEditingController _controllerCnpj = TextEditingController();
 
+  /// GETTER CNPJ CONTROLLER
   TextEditingController get controllerCnpj => _controllerCnpj;
 
+  /// INSTANCE OF CUSTOMER
   final Customer? customer;
 
   final _customerList = <Customer>[];
 
+  /// GETTER CUSTOMER LIST
   List<Customer> get customerList => _customerList;
 
+  /// CUSTOMER NAME
   String customerCompanyName = '';
+  /// CUSTOMER CNPJ
   String customerCompanyCnpj = '';
+  /// CUSTOMER PHONE
   String customerCompanyPhone = '';
+  /// CUSTOMER CITY
   String customerCompanyCity = '';
+  /// CUSTOMER STATE
   String customerCompanyState = '';
+  /// CUSTOMER ACTIVITY
   String customerCompanyActivity = '';
 
+  /// BOOL TO CHECK IF CNPJ IS VALID
   bool? isValid;
 
+  /// FUNCTION TO INSERT CUSTOMER IN DATABASE
   Future<void> insertCustomer() async {
     print('chamando insert');
     final customer = Customer(
@@ -51,6 +67,7 @@ class CustomerRegistrationState with ChangeNotifier {
     print('insert concluido');
   }
 
+  /// FUNCTION TO GET COMPANY DETAILS FROM BRASIL API
   Future<Customer?> getCompanyDetails(String cnpj) async {
     try {
       final unmaskedCnpj = maskFormatterCnpj.getUnmaskedText();
@@ -81,6 +98,7 @@ class CustomerRegistrationState with ChangeNotifier {
     }
   }
 
+  /// CHECK IF CNPJ IS VALID
   Future<void> validatorCnpj() async {
     final companyDetails = await getCompanyDetails(controllerCnpj.text);
     if (companyDetails == null) {
@@ -93,6 +111,7 @@ class CustomerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// SET CUSTOMER INFORMATION
   Future<void> setCompanyDetails() async {
     if (controllerCnpj.text.isNotEmpty) {
       final customerDetails = await getCompanyDetails(controllerCnpj.text);
@@ -110,6 +129,7 @@ class CustomerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// LOAD CUSTOMERS FROM DATABASE
   Future<void> loadCustomers() async {
     final list = await controllerCustomer.selectCustomers();
 
@@ -119,16 +139,19 @@ class CustomerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// MASK CNPJ TEXT
   MaskTextInputFormatter maskFormatterCnpj = MaskTextInputFormatter(
     mask: '##.###.###/####-##',
     type: MaskAutoCompletionType.eager,
   );
 
+  /// MASK PHONE TEXT
   MaskTextInputFormatter maskFormatterPhone = MaskTextInputFormatter(
     mask: '(##) ####-####',
     type: MaskAutoCompletionType.eager,
   );
 
+  /// FUNCTION TO FORMAT CNPJ
   String formatCnpj() {
     customerCompanyCnpj = maskFormatterCnpj
         .formatEditUpdate(
@@ -140,6 +163,7 @@ class CustomerRegistrationState with ChangeNotifier {
     return customerCompanyCnpj;
   }
 
+  /// FUNCTION TO FORMAT PHONE
   String formatPhone() {
     customerCompanyPhone = maskFormatterPhone.formatEditUpdate(
       TextEditingValue.empty,

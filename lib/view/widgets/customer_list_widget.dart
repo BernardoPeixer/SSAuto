@@ -57,8 +57,12 @@ class CustomerListWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.disabled_by_default_outlined,
+                        onPressed: () {
+                          state.delete(
+                            state.listCustomer[index],
+                          );
+                        },
+                        icon: const Icon(Icons.delete_outline,
                             color: Colors.grey, size: 20),
                       ),
                     ],
@@ -69,28 +73,31 @@ class CustomerListWidget extends StatelessWidget {
                       children: [
                         ListTile(
                           title: Text(
-                            'Fone: ${state.listCustomer[index].customerPhone}',
-                            style: TextStyle(
+                            'Telefone: ${state.listCustomer[index].
+                            customerPhone}',
+                            style: const TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[700],
+                              color: Colors.black,
                             ),
                           ),
                         ),
                         ListTile(
                           title: Text(
-                            '${state.listCustomer[index].customerCity} / ${state.listCustomer[index].customerState}',
-                            style: TextStyle(
+                            '${state.listCustomer[index].
+                            customerCity} / ${state.listCustomer[index].
+                            customerState}',
+                            style: const TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[700],
+                              color: Colors.black,
                             ),
                           ),
                         ),
                         ListTile(
                           title: Text(
                             'CNPJ: ${state.listCustomer[index].customerCnpj}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[700],
+                              color: Colors.black,
                             ),
                           ),
                         ),

@@ -1,14 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ss_auto/controller/rental_controller.dart';
-import 'package:ss_auto/model/rental_model.dart';
+
+import '../controller/rental_controller.dart';
 import '../controller/vehicle_controller.dart';
+import '../model/rental_model.dart';
 import '../model/vehicle_model.dart';
 
+/// CREATING THE STATE OF THE RENTAL LIST PAGE
 class RentalListState with ChangeNotifier {
+  /// STATE BUILDER
   RentalListState() {
     loadRentals();
     loadVehicles();
@@ -16,11 +18,15 @@ class RentalListState with ChangeNotifier {
 
   final _listVehicles = <Vehicle>[];
 
+  /// GETTER VEHICLES LIST
   List<Vehicle> get listVehicles => _listVehicles;
+  /// VEHICLE CONTROLLER FROM DATABASE
   final controllerVehicle = VehicleController();
 
+  /// RENTAL CONTROLLER FROM DATABASE
   final controllerRental = RentalController();
 
+  /// FUNCTION TO SORT RENTAL BY STATS
   void sortRentalsByStatus() {
     _listRentals.sort(
       (a, b) {
@@ -47,6 +53,7 @@ class RentalListState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// FUNCTION TO LOAD VEHICLES FROM DATABASE
   Future<void> loadVehicles() async {
     final list = await controllerVehicle.selectVehicles();
     _listVehicles.addAll(list);
@@ -55,9 +62,13 @@ class RentalListState with ChangeNotifier {
 
   final _listRentals = <Rental>[];
 
+  /// GETTER RENTALS LIST
   List<Rental> get listRentals => _listRentals;
+
+  /// RENTALS CONTROLLER FROM DATABASE
   final controllerRentals = RentalController();
 
+  /// FUNCTION TO LOAD RENTALS FROM DATABASE
   Future<void> loadRentals() async {
     final list = await controllerRentals.selectRentals();
     _listRentals.addAll(list);
@@ -65,6 +76,7 @@ class RentalListState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// FUNCTION TO GET VEHICLES FROM RENT
   Vehicle? getVehicleForRent(int vehicleCode) {
     try {
       return _listVehicles
@@ -74,6 +86,7 @@ class RentalListState with ChangeNotifier {
     }
   }
 
+  /// FUNCTION TO GET PATH IMAGES CAR
   Future<String> getPathImagesCars(String licensePlate) async {
     final appDocumentsDir = await getApplicationSupportDirectory();
 
@@ -82,15 +95,16 @@ class RentalListState with ChangeNotifier {
     return finalPath;
   }
 
+  /// FUNCTION TO GET LIST PATH IMAGES CAR
   Future<List<String>> getListPathImagesCars(String licensePlate) async {
     try {
       final appDocumentsDir = await getApplicationSupportDirectory();
       final pathCars = '${appDocumentsDir.path}/images/cars/$licensePlate';
 
-      List<String> paths = [];
+      var paths = <String>[];
 
-      for (int i = 0; i < 5; i++) {
-        String path = '$pathCars/$i.png';
+      for (var i = 0; i < 5; i++) {
+        final path = '$pathCars/$i.png';
         if (File(path).existsSync()) {
           paths.add(path);
         }
@@ -98,11 +112,11 @@ class RentalListState with ChangeNotifier {
 
       return paths;
     } catch (e) {
-      print('Error getting image paths: $e');
       return [];
     }
   }
 
+  /// FUNCTION TO RETURN CONTAINER COLOR
   Color returnColorContainer(String rentalStats) {
     if (rentalStats == 'nao retirado') {
       return const Color(0xFFBBDEFB);
@@ -116,6 +130,7 @@ class RentalListState with ChangeNotifier {
     return const Color(0xFFFFCDD2);
   }
 
+  /// FUNCTION TO RETURN COLOR TEXT
   Color returnColorText(String rentalStats) {
     if (rentalStats == 'nao retirado') {
       return const Color(0xFF0D47A1);
@@ -129,8 +144,9 @@ class RentalListState with ChangeNotifier {
     return const Color(0xFFC62828);
   }
 
+  /// FUNCTION TO FORMAT DATE
   String formatDateString(String date) {
-    List<String> parts = date.split('-');
+    final parts = date.split('-');
     return '${parts[2]}/${parts[1]}';
   }
 }

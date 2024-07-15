@@ -25,4 +25,11 @@ class ManagerListState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// FUNCTION TO DELETE MANAGER
+  Future<void> delete(Manager manager) async {
+    await controllerManager.delete(manager);
+    await loadManager();
+    notifyListeners();
+  }
+
 }

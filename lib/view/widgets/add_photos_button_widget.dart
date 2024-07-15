@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 
 /// CREATION OF STATELESS WIDGET
 class AddPhotosButtonWidget extends StatelessWidget {
+  /// LIST CAR IMAGES
   final List<File> carImages;
+  /// FUNCTION TO SHOW IMAGE SOURCE
   final void Function(BuildContext) showImageSourceDialog;
+  /// FUNCTION TO REMOVE CAR IMAGE
   final void Function(int) removeCarImage;
 /// STATE BUILDER
   const AddPhotosButtonWidget({

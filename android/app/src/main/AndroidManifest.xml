@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:label="ss_auto"
+        android:label="SS AUTO"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

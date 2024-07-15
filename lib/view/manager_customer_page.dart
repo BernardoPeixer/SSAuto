@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/widgets/agency_list_widget.dart';
-import 'package:ss_auto/view/widgets/customer_list_widget.dart';
-import 'package:ss_auto/view/widgets/manager_list_widget.dart';
-import 'widgets/bottom_app_bar_widget.dart';
 
+import 'widgets/agency_list_widget.dart';
+import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/customer_list_widget.dart';
+import 'widgets/manager_list_widget.dart';
+
+/// CREATION OF STATELESS WIDGET
 class ManagerCustomerPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const ManagerCustomerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color blue = const Color(0xff011329);
-    Color blu = const Color(0xff052b57);
-
     return DefaultTabController(
       length: 3,
       child: Scaffold(

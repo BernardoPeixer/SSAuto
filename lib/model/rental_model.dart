@@ -28,7 +28,21 @@ class Rental {
   final String rentalPaymentStats;
 }
 
+/// RENTAL TABLE DATABASE
 class RentalTable {
+
+  static const String tableName = 'RentalTable';
+  static const String rentalId = 'rentalId';
+  static const String customerCode = 'customerCode';
+  static const String agencyCode = 'agencyCode';
+  static const String vehicleCode = 'vehicleCode';
+  static const String rentalRegisterDate = 'rentalRegisterDate';
+  static const String rentalStart = 'rentalStart';
+  static const String rentalEnd = 'rentalEnd';
+  static const String rentalCost = 'rentalCost';
+  static const String rentalStats = 'rentalStats';
+  static const String rentalPaymentStats = 'rentalPaymentStats';
+
   static const String createTable = '''
     CREATE TABLE $tableName(
       $rentalId                  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -47,18 +61,8 @@ class RentalTable {
     );
     ''';
 
-  static const String tableName = 'RentalTable';
-  static const String rentalId = 'rentalId';
-  static const String customerCode = 'customerCode';
-  static const String agencyCode = 'agencyCode';
-  static const String vehicleCode = 'vehicleCode';
-  static const String rentalRegisterDate = 'rentalRegisterDate';
-  static const String rentalStart = 'rentalStart';
-  static const String rentalEnd = 'rentalEnd';
-  static const String rentalCost = 'rentalCost';
-  static const String rentalStats = 'rentalStats';
-  static const String rentalPaymentStats = 'rentalPaymentStats';
 
+// This method converts a Rental object into a map
   static Map<String, dynamic> toMap(Rental rental) {
     final map = <String, dynamic>{};
 

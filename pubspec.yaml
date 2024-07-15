@@ -55,6 +55,9 @@ dependencies:
   intl: ^0.19.0
   fl_chart: ^0.68.0
   jiffy: ^6.3.1
+  path: ^1.9.0
+  pdfx: ^2.6.0
+  device_info_plus: ^9.1.2
 
 dev_dependencies:
   flutter_test:

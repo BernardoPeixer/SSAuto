@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// import 'pdf_page.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/list_tile_add_options_widget.dart';
 
@@ -61,7 +62,13 @@ class AddOptionsPage extends StatelessWidget {
                 icon: Icons.business_outlined,
                 onTap: () {
                   Navigator.of(context).pushNamed('/agencyRegistrationPage');
-                })
+                }),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, '/pdfPage');
+            //   },
+            //   child: Text('teste'),
+            // ),
           ],
         ),
       ),

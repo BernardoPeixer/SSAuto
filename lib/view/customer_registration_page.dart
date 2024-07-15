@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/customer_registration_state.dart';
+import '../states/customer_registration_state.dart';
 
 import 'widgets/bottom_app_bar_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class CustomerRegistrationPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const CustomerRegistrationPage({super.key});
 
   @override

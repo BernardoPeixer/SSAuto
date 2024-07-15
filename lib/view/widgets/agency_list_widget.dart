@@ -30,66 +30,67 @@ class AgencyListWidget extends StatelessWidget {
             final managers = state.getManagersForAgency(agency.managerCode!);
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          agency.agencyName.length > 17
-                              ? '${agency.agencyName.substring(0, 17)}...'
-                              : agency.agencyName,
-                          style: const TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.w500),
+              child: Card(
+                child: ExpansionTile(
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/agencyRegistrationPage',
+                            arguments: agency.agencyId,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.grey,
+                          size: 20,
                         ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, '/agencyRegistrationPage',
-                                    arguments: agency);
-                              },
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                state.deleteAgency(agency);
-                              },
-                              icon: const Icon(Icons.delete_outlined,
-                                  color: Colors.grey, size: 20),
-                            ),
-                          ],
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          state.deleteAgency(agency);
+                        },
+                        icon: const Icon(Icons.delete_outline,
+                            color: Colors.grey, size: 20),
+                      ),
+                    ],
+                  ),
+                  title: Text(
+                    agency.agencyName.length > 17
+                        ? '${agency.agencyName.substring(
+                            0,
+                            17,
+                          )}...'
+                        : agency.agencyName,
+                    style: const TextStyle(
+                        fontSize: 16.0, fontWeight: FontWeight.w500),
+                  ),
+                  children: [
+                    Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            'Gerente: ${managers.map(
+                                  (manager) => manager.managerName,
+                                ).join(", ")}',
+                          ),
+                        ),
+                        ListTile(
+                          title: Text('Endereço: ${agency.agencyAddress}'),
+                        ),
+                        ListTile(
+                          title: Text(
+                              '${agency.agencyCity} / ${agency.agencyState}'),
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Telefone: ${agency.agencyPhone}',
+                          ),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Gerente: ${managers.map(
-                            (manager) => manager.managerName,
-                          ).join(", ")}',
-                    ),
-                    Text(
-                      '${agency.agencyCity} / ${agency.agencyState}',
                     ),
                   ],
                 ),

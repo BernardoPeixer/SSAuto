@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/fleet_page_state.dart';
-import 'package:ss_auto/view/arguments/car_arguments.dart';
+import '../states/fleet_page_state.dart';
+import 'arguments/id_path_arguments.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/search_bar_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class FleetPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const FleetPage({super.key});
 
   @override
@@ -46,7 +48,7 @@ class FleetPage extends StatelessWidget {
                       ),
                       SearchBarWidget(
                         controller: state.appBarController,
-                        onChanged: (String query) {
+                        onChanged: (query) {
                           state.onChanged(query);
                         },
                       ),
@@ -120,7 +122,8 @@ class FleetPage extends StatelessWidget {
                                   children: [
                                     Text(
                                       vehicle.vehicleModel.length > 10
-                                          ? "${vehicle.vehicleModel.substring(0, 10)}..."
+                                          ? '${vehicle.vehicleModel.substring(0,
+                                          10)}...'
                                           : vehicle.vehicleModel,
                                       style: const TextStyle(
                                         color: Color(0xFFca122e),
@@ -175,10 +178,9 @@ class FleetPage extends StatelessWidget {
                                             onPressed: () {
                                               Navigator.of(context).pushNamed(
                                                 '/fleetDetailsPage',
-                                                arguments: CarArguments(
-                                                  vehicle: vehicle,
-                                                  imagePath: snapshot.data!,
-                                                ),
+                                                arguments: IdPathArguments(
+                                                    id: vehicle.vehicleId!,
+                                                    paths: snapshot.data!),
                                               );
                                             },
                                             child: const Text(

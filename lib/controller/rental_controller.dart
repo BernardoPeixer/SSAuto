@@ -1,12 +1,14 @@
 import 'package:jiffy/jiffy.dart';
-import 'package:pdf/widgets.dart';
-import 'package:ss_auto/model/agency_model.dart';
-import 'package:ss_auto/model/rental_model.dart';
+import 'package:sqflite/sqflite.dart';
+
 import '../database/database.dart';
 import '../model/chart_model.dart';
+import '../model/rental_model.dart';
 import '../model/vehicle_model.dart';
 
+/// RENTAL CONTROLLER DATABASE
 class RentalController {
+  /// INSERT RENTAL IN DATABASE
   Future<void> insert(Rental vehicle) async {
     final database = await getDatabase();
     final map = RentalTable.toMap(vehicle);
@@ -16,6 +18,7 @@ class RentalController {
     return;
   }
 
+  /// SELECT FILTERED VEHICLES FROM DATABASE
   Future<List<Vehicle>> selectFilteredVehicles(
     int agencyId,
     String rentalStart,
@@ -44,7 +47,7 @@ class RentalController {
       agencyId,
     ]);
 
-    List<Vehicle> vehicles = result
+    final vehicles = result
         .map(
           (data) => Vehicle(
             vehicleBrand: data['vehicleBrand'],
@@ -62,6 +65,7 @@ class RentalController {
     return vehicles;
   }
 
+  /// SELECT RENTALS FROM DATABASE
   Future<List<Rental>> selectRentals() async {
     final database = await getDatabase();
 
@@ -88,6 +92,7 @@ class RentalController {
     return list;
   }
 
+  /// UPDATE RENTAL STATS IN DATABASE
   Future<String> updateRentalStats(int rentalId, String newStats) async {
     final database = await getDatabase();
     await database.update(
@@ -99,11 +104,12 @@ class RentalController {
     return newStats;
   }
 
-  Future<List<ChartModel>> teste() async {
+  /// SELECT THE LAST 6 MONTHS OF RENT
+  Future<List<ChartModel>> rentalsMonth() async {
     final database = await getDatabase();
 
     final list = <ChartModel>[];
-    for (int i = 0; i <= 5; i++) {
+    for (var i = 0; i <= 5; i++) {
       final date = Jiffy.now().subtract(months: i).format(pattern: 'yyyy-MM');
 
       List<Map<String, dynamic>> result = await database.rawQuery(
@@ -116,16 +122,41 @@ class RentalController {
         [date],
       );
 
-      double? total = result[0]['total'] as double?;
+      final total = result[0]['total'] as double?;
       list.add(
         ChartModel(month: date, total: total, index: i),
       );
     }
 
-
-    // for(final item in list) {
-    //   print('${item.month} / ${item.total}');
-    // }
     return list;
+  }
+
+  /// SELECT RENTAL STATS FROM DATABASE
+  Future<List<String>> selectRentalStats() async {
+    final database = await getDatabase();
+
+    final list = <String>[];
+
+    List<Map<String, dynamic>> result = await database.rawQuery('''
+      SELECT rentalStats 
+      FROM RentalTable
+      ''');
+
+    for (final item in result) {
+      list.add(item['rentalStats']);
+    }
+    return list;
+  }
+
+  /// GET TOTAL RECORDS FROM DATABASE
+  Future<int?> getTotalRecords() async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.rawQuery('''
+    SELECT COUNT(*) AS total_records
+    FROM RentalTable
+    ''');
+
+    return Sqflite.firstIntValue(result);
   }
 }

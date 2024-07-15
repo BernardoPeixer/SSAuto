@@ -1,9 +1,12 @@
-import '../model/vehicle_model.dart';
-import '../database/database.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:sqflite/sqflite.dart';
 
+import '../database/database.dart';
+import '../model/vehicle_model.dart';
+
+/// VEHICLE CONTROLLER DATABASE
 class VehicleController {
+
+  /// INSERT VEHICLE IN DATABASE
   Future<void> insert(Vehicle vehicle) async {
     final database = await getDatabase();
     final map = VehicleTable.toMap(vehicle);
@@ -13,6 +16,7 @@ class VehicleController {
     return;
   }
 
+  /// SELECT VEHICLES FROM DATABASE
   Future<List<Vehicle>> selectVehicles() async {
     final database = await getDatabase();
     final List<Map<String, dynamic>> result =
@@ -36,7 +40,8 @@ class VehicleController {
     return list;
   }
 
-  Future<String> updateVehicleStats(int vehicleId, String newStats) async{
+  /// UPDATE VEHICLE STATS IN DATABASE
+  Future<String> updateVehicleStats(int vehicleId, String newStats) async {
     final database = await getDatabase();
     await database.update(
       VehicleTable.tableName,
@@ -45,5 +50,41 @@ class VehicleController {
       whereArgs: [vehicleId],
     );
     return newStats;
+  }
+
+  /// GET TOTAL RECORDS FROM DATABASE
+  Future<int?> getTotalRecords() async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.rawQuery('''
+    SELECT COUNT(*) AS total_records
+    FROM VehicleTable
+    ''');
+
+    return Sqflite.firstIntValue(result);
+  }
+
+  /// GET VEHICLE BY ID FROM DATABASE
+  Future<Vehicle?> getVehicleById(int vehicleId) async {
+    final database = await getDatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      VehicleTable.tableName,
+      where: '${VehicleTable.vehicleId} = ?',
+      whereArgs: [vehicleId],
+    );
+
+    if (result.isNotEmpty) {
+      return Vehicle(
+        vehicleBrand: result.first[VehicleTable.vehicleBrand],
+        vehicleModel: result.first[VehicleTable.vehicleModel],
+        vehicleLicensePlate: result.first[VehicleTable.vehicleLicensePlate],
+        vehicleYear: result.first[VehicleTable.vehicleYear],
+        vehicleDailyCost: result.first[VehicleTable.vehicleDailyCost],
+        vehicleStats: result.first[VehicleTable.vehicleStats],
+        agencyCode: result.first[VehicleTable.agencyCode],
+        vehicleId: result.first[VehicleTable.vehicleId],
+      );
+    }
+    return null;
   }
 }

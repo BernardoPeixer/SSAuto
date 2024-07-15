@@ -6,22 +6,25 @@ import 'package:path_provider/path_provider.dart';
 import '../controller/vehicle_controller.dart';
 import '../model/vehicle_model.dart';
 
+/// CREATING THE STATE OF THE CUSTOMER LIST PAGE
 class FleetPageState with ChangeNotifier {
-
   final List<Vehicle> _filtredVehicles = [];
   final _listVehicles = <Vehicle>[];
 
+  /// STATE BUILDER
   FleetPageState() {
     loadVehicle();
   }
 
   final TextEditingController _appBarController = TextEditingController();
 
+  /// GETTER SEARCH BAR CONTROLLER
   TextEditingController get appBarController => _appBarController;
 
-
+  /// GETTER FILTRED VEHICLES
   List<Vehicle> get filtredVehicles => _filtredVehicles;
 
+  /// FUNCTION TO ON SEARCH BAR CHANGED
   void onChanged(String query) {
     if (query.isNotEmpty) {
       _filtredVehicles.clear();
@@ -34,11 +37,13 @@ class FleetPageState with ChangeNotifier {
     notifyListeners();
   }
 
-
-
+  /// GETTER LIST VEHICLES
   List<Vehicle> get listVehicles => _listVehicles;
+
+  /// VEHICLE CONTROLLER FROM DATABASE
   final controllerVehicle = VehicleController();
 
+  /// FUNCTION TO LOAD VEHICLES FROM DATABASE
   Future<void> loadVehicle() async {
     final list = await controllerVehicle.selectVehicles();
     _listVehicles.clear();
@@ -48,6 +53,7 @@ class FleetPageState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// FUNCTION TO GET PATH IMAGES CARS
   Future<String> getPathImagesCars(String licensePlate) async {
     final appDocumentsDir = await getApplicationSupportDirectory();
 
@@ -56,15 +62,16 @@ class FleetPageState with ChangeNotifier {
     return finalPath;
   }
 
+  /// FUNCTION TO GET LIST PATHS IMAGES CAR
   Future<List<String>> getListPathImagesCars(String licensePlate) async {
     try {
       final appDocumentsDir = await getApplicationSupportDirectory();
       final pathCars = '${appDocumentsDir.path}/images/cars/$licensePlate';
 
-      List<String> paths = [];
+      var paths = <String>[];
 
-      for (int i = 0; i < 5; i++) {
-        String path = '$pathCars/$i.png';
+      for (var i = 0; i < 5; i++) {
+        final path = '$pathCars/$i.png';
         if (File(path).existsSync()) {
           paths.add(path);
         }
@@ -72,7 +79,6 @@ class FleetPageState with ChangeNotifier {
 
       return paths;
     } catch (e) {
-      print('Error getting image paths: $e');
       return [];
     }
   }

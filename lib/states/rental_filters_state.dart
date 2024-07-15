@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/view/arguments/rental_arguments.dart';
 import 'package:intl/intl.dart';
+
 import '../controller/agency_controller.dart';
 import '../controller/customer_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
+import '../view/arguments/rental_arguments.dart';
 
+/// CREATING THE STATE OF THE RENTAL FILTERS PAGE PAGE
 class RentalFiltersState with ChangeNotifier {
+  /// STATE BUILDER
   RentalFiltersState() {
     loadCustomer();
     loadAgency();
@@ -19,33 +22,55 @@ class RentalFiltersState with ChangeNotifier {
   final TextEditingController _agencyControllerTypeAhead =
       TextEditingController();
   final _listCustomer = <Customer>[];
+
+  /// CUSTOMER CONTROLLER FROM DATABASE
   final controllerCustomer = CustomerController();
+
+  /// AGENCY CONTROLLER FROM DATABASE
   final controllerAgency = AgencyController();
   final _listAgency = <Agency>[];
+
+  /// INSTANCE OF SELECTED AGENCY
   Agency? selectedAgency;
+
+  /// STEPS BY STEPPER
   int currentSteps = 0;
+
+  /// DATE TIME TO SELECTED DATE TO PICK UP THE CAR
   DateTime? selectedDatePickUp;
+
+  /// DATE TIME TO SELECTED DATE TO DELIVER THE CAR
   DateTime? selectedDateDeliver;
+
+  /// INSTANCE OF SELECTED CUSTOMER
   Customer? selectedCustomer;
 
+  /// GETTER DATE CONTROLLER
   TextEditingController get dateControllerPickUp => _dateControllerPickUp;
 
+  /// GETTER DATE CONTROLLER
   TextEditingController get dateControllerDeliver => _dateControllerDeliver;
 
+  /// GETTER CUSTOMER CONTROLLER TYPE AHEAD
   TextEditingController get customerControllerTypeAhead =>
       _customerControllerTypeAhead;
 
+  /// GETTER AGENCY CONTROLLER TYPE AHEAD
   TextEditingController get agencyControllerTypeAhead =>
       _agencyControllerTypeAhead;
 
+  /// GETTER CUSTOMER LIST
   List<Customer> get listCustomer => _listCustomer;
 
+  /// GETTER AGENCY LIST
   List<Agency> get listAgency => _listAgency;
 
+  /// FORMATED DATE
   String formatedDatePickUp = '';
 
+  /// FUNCTION TO SELECT DATE PICK UP
   Future<void> selectDatePickUp(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
@@ -55,17 +80,17 @@ class RentalFiltersState with ChangeNotifier {
     if (picked != null) {
       dateControllerPickUp.text = picked.toString().split(' ')[0];
       selectedDatePickUp = picked;
-      formatedDatePickUp =
-          DateFormat('yyyy-MM-dd').format(selectedDatePickUp!);
+      formatedDatePickUp = DateFormat('yyyy-MM-dd').format(selectedDatePickUp!);
       notifyListeners();
     }
   }
 
+  /// FORMATED DATE
   String formatedDateDeliver = '';
 
-
+  /// FUNCTION TO SELECT DATE DELIVER
   Future<void> selectDateDeliver(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
@@ -81,6 +106,7 @@ class RentalFiltersState with ChangeNotifier {
     }
   }
 
+  /// FUNCTION ON STEP CONTINUE
   void onStepContinue(
     BuildContext context,
   ) {
@@ -103,18 +129,19 @@ class RentalFiltersState with ChangeNotifier {
     }
   }
 
+  /// FUNCTION ON AGENCY IS SELECTED ON TYPE AHEAD
   void onAgencySelect(Agency agency) {
     selectedAgency = agency;
     notifyListeners();
   }
 
-
-
+  /// FUNCTION ON CUSTOMER IS SELECTED ON TYPE AHEAD
   void onCustomerSelect(Customer customer) {
     selectedCustomer = customer;
     notifyListeners();
   }
 
+  /// FUNCTION ON STEP IS CANCEL
   void onStepCancel() {
     if (currentSteps > 0) {
       currentSteps -= 1;
@@ -124,13 +151,13 @@ class RentalFiltersState with ChangeNotifier {
     }
   }
 
-
-
+  /// FUNCTION ON STEP IS TAPPED
   void onStepTapped(int value) {
     currentSteps = value;
     notifyListeners();
   }
 
+  /// FUNCTION TO LOAD CUSTOMERS FROM DATABASE
   Future<void> loadCustomer() async {
     final list = await controllerCustomer.selectCustomers();
 
@@ -139,6 +166,7 @@ class RentalFiltersState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// FUNCTION TO LOAD AGENCY FROM DATABASE
   Future<void> loadAgency() async {
     final list = await controllerAgency.selectAgency();
     _listAgency.clear();

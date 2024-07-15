@@ -13,51 +13,52 @@ import '../model/models_model.dart';
 import '../model/vehicle_model.dart';
 import '../model/year_model.dart';
 
+/// CREATING THE STATE OF THE VEHICLE REGISTRATION PAGE
 class VehicleRegistrationState with ChangeNotifier {
+  /// STATE BUILDER
   VehicleRegistrationState() {
     loadAgency();
   }
 
-
-
+  /// KEY FORM
   final keyFormVehicle = GlobalKey<FormState>();
 
   final _controllerBrand = TextEditingController();
 
+  /// GETTER BRAND CONTROLLER
   TextEditingController get controllerBrand => _controllerBrand;
 
   final _controllerAgency = TextEditingController();
 
+  /// GETTER AGENCY CONTROLLER
   TextEditingController get controllerAgency => _controllerAgency;
 
-  var _controllerModel = TextEditingController();
+  final _controllerModel = TextEditingController();
 
+  /// GETTER MODEL CONTROLLER
   TextEditingController get controllerModel => _controllerModel;
 
   final _controllerLicensePlate = TextEditingController();
 
+  /// GETTER LICENSE PLATE CONTROLLER
   TextEditingController get controllerLicensePlate => _controllerLicensePlate;
 
   final _controllerYear = TextEditingController();
 
+  /// GETTER YEAR CONTROLLER
   TextEditingController get controllerYear => _controllerYear;
 
-  var _controllerDailyCost = TextEditingController();
+  final _controllerDailyCost = TextEditingController();
 
+  /// GETTER DAILY COST CONTROLLER
   TextEditingController get controllerDailyCost => _controllerDailyCost;
 
+  /// VEHICLE CONTROLLER FROM DATABASE
   final controllerVehicle = VehicleController();
 
-  String? name(String? value) {
-    if (value == null || value.length < 5) {
-      return 'O nome deve conter mais de 5 letras';
-    }
-    return null;
-  }
-
+  /// FUNCTION TO INSERT VEHICLE IN DATABASE
   Future<void> insertVehicle() async {
-    double? dailyCost = double.tryParse(controllerDailyCost.text);
-    print('chamando insert');
+    final dailyCost = double.tryParse(controllerDailyCost.text);
     final vehicle = Vehicle(
       vehicleBrand: controllerBrand.text,
       vehicleModel: controllerModel.text,
@@ -70,18 +71,19 @@ class VehicleRegistrationState with ChangeNotifier {
 
     await controllerVehicle.insert(vehicle);
     notifyListeners();
-    print('insert concluido');
   }
 
-  List<File> carImages = [];
+  /// FILE CAR IMAGES LIST
+  final carImages = <File>[];
 
+  /// FUNCTION TO GET IMAGES
   Future<void> getImage(ImageSource source) async {
-    ImagePicker picker = ImagePicker();
-    ImageCropper cropper = ImageCropper();
-    XFile? image = await picker.pickImage(source: source);
+    final picker = ImagePicker();
+    final cropper = ImageCropper();
+    final image = await picker.pickImage(source: source);
 
     if (image != null) {
-      CroppedFile? croppedFile = await cropper.cropImage(
+      final croppedFile = await cropper.cropImage(
         sourcePath: image.path,
         compressQuality: 100,
         compressFormat: ImageCompressFormat.jpg,
@@ -93,9 +95,9 @@ class VehicleRegistrationState with ChangeNotifier {
     }
   }
 
+  /// FUNCTION TO SAVE IMAGE FILE
   Future<void> saveImageFile() async {
     final appDocumentsDir = await getApplicationSupportDirectory();
-
     final pathImages = '${appDocumentsDir.path}/images';
     final directoryImages = Directory(pathImages);
 
@@ -111,41 +113,51 @@ class VehicleRegistrationState with ChangeNotifier {
     }
 
     final directoryNameVehicle = _controllerLicensePlate.text.trim();
-
     final pathIdCars = '${directoryCars.path}/$directoryNameVehicle';
-
     final directoryCarsId = Directory(pathIdCars);
 
     if (!directoryCarsId.existsSync()) {
       await directoryCarsId.create();
     }
 
-    try {
-      for (int i = 0; i < carImages.length; i++) {
-        final carImage = carImages[i];
-        final fileCar = File('${directoryCarsId.path}/$i.png');
+    final imagePaths = <String>[];
 
-        final bytes = await carImage.readAsBytes();
+    for (var i = 0; i < carImages.length; i++) {
+      final carImage = carImages[i];
+      final fileCar = File('${directoryCarsId.path}/$i.png');
 
-        await fileCar.writeAsBytes(bytes);
-      }
-    } catch (e, trace) {
-      print('error: $e, $trace');
+      final bytes = await carImage.readAsBytes();
+      await fileCar.writeAsBytes(bytes);
+
+      imagePaths.add(fileCar.path);
     }
   }
 
+  /// FUNCTION TO REMOVE IMAGE CAR
   void removeCarImage(int index) {
     carImages.removeAt(index);
     notifyListeners();
   }
 
+  /// SELECTED BRAND IN TYPE AHEAD
   Brands? selectedBrand;
+
+  /// SELECTED MODEL IN TYPE AHEAD
   Models? selectedModel;
+
+  /// SELECTED YEAR IN TYPE AHEAD
   Year? selectedYear;
+
+  /// VEHICLE BRANDS LIST
   List<Brands> brandsList = [];
+
+  /// VEHICLE MODELS LIST
   List<Models> modelsList = [];
+
+  /// VEHICLE YEAR LIST
   List<Year> yearList = [];
 
+  /// FUNCTION TO GET BRAND FROM FIPE API
   Future<void> getBrands() async {
     brandsList.clear();
 
@@ -164,6 +176,7 @@ class VehicleRegistrationState with ChangeNotifier {
     }
   }
 
+  /// FUNCTION TO GET MODELS FROM FIPE API
   Future<void> getModels() async {
     if (selectedBrand == null || selectedBrand!.code == null) {
       throw Exception('Selected brand or brand code is null');
@@ -187,8 +200,9 @@ class VehicleRegistrationState with ChangeNotifier {
     }
   }
 
+  /// FUNCTION TO GET YEARS FROM FIPE API
   Future<void> getYears() async {
-    if (selectedModel == null || selectedModel!.code == null) {
+    if (selectedModel == null) {
       throw Exception('Selected brand or brand code is null');
     }
 
@@ -210,11 +224,13 @@ class VehicleRegistrationState with ChangeNotifier {
     }
   }
 
-  void setBrand(brand) {
+  /// FUNCTION TO SET BRAND
+  void setBrand(Brands brand) {
     selectedBrand = brand;
     notifyListeners();
   }
 
+  /// FUNCTION ON SELECTED BRAND IN TYPE AHEAD
   void onSelectedBrand(Brands suggestion) {
     controllerModel.text = '';
     controllerBrand.text = suggestion.name!.toUpperCase();
@@ -222,22 +238,25 @@ class VehicleRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// FUNCTION ON SELECTED MODEL IN TYPE AHEAD
   void onSelectedModel(Models suggestion) {
     controllerModel.text = suggestion.name.toUpperCase();
     selectedModel = suggestion;
     notifyListeners();
   }
 
+  /// FUNCTION ON SELECTED YEAR IN TYPE AHEAD
   void onSelectedYear(Year suggestion) {
     selectedYear = suggestion;
     controllerYear.text = selectedYear!.name;
     notifyListeners();
   }
 
+  /// FUNCTION TO SHOW IMAGE SOURCE DIALOG
   Future<void> showImageSourceDialog(BuildContext context) async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: const Text('Escolha a origem da imagem'),
           content: Column(
@@ -266,11 +285,14 @@ class VehicleRegistrationState with ChangeNotifier {
     );
   }
 
+  /// CONTROLLER AGENCY FROM DATABASE
   final agencyController = AgencyController();
   final _listAgency = <Agency>[];
 
+  /// GETTER LIST AGENCY
   List<Agency> get listAgency => _listAgency;
 
+  /// FUNCTION TO LOAD AGENCYS FROM DATABASE
   Future<void> loadAgency() async {
     final list = await agencyController.selectAgency();
     _listAgency.clear();
@@ -280,30 +302,12 @@ class VehicleRegistrationState with ChangeNotifier {
 
   Agency? _selectedItem;
 
+  /// GETTER SELECTED AGENCY
   Agency? get selectedItem => _selectedItem;
 
+  /// FUNCTION ON SELECTED AGENCY IN TYPE AHEAD
   void onSelectAgency(Agency? agency) {
     _selectedItem = agency;
     notifyListeners();
   }
-
-  /// FUNCTION TO POPULATE THE FORM
-  // void populateForm(Vehicle vehicle) {
-  //   _controllerModel.text = vehicle.vehicleModel;
-  //   _controllerBrand.text = vehicle.vehicleBrand;
-  //   _controllerYear.text = vehicle.vehicleYear;
-  //   _controllerDailyCost.text = vehicle.vehicleDailyCost.toString();
-  //   _controllerAgency.text = vehicle.agencyCode.toString();
-  //   _controllerLicensePlate.text = vehicle.vehicleLicensePlate;
-  //   vehicle = Vehicle(
-  //     vehicleBrand: vehicle.vehicleBrand,
-  //     vehicleModel: vehicle.vehicleModel,
-  //     vehicleLicensePlate: vehicle.vehicleLicensePlate,
-  //     vehicleYear: vehicle.vehicleYear,
-  //     vehicleDailyCost: vehicle.vehicleDailyCost,
-  //     vehicleStats: vehicle.vehicleStats,
-  //     agencyCode: vehicle.agencyCode,
-  //     vehicleId: vehicle.vehicleId,
-  //   );
-  // }
 }

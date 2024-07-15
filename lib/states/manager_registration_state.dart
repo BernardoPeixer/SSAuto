@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import '../controller/agency_controller.dart';
 import '../controller/manager_controller.dart';
-import '../model/agency_model.dart';
 import '../model/manager_model.dart';
 
 /// CREATING THE STATE OF THE MANAGERS REGISTRATION PAGE
 class ManagerRegistrationState with ChangeNotifier {
-
-  ManagerRegistrationState(int? id, Manager manager) {
-    init(id, manager);
+  /// BUILDER FOR STATE
+  ManagerRegistrationState(int? id) {
+    init(id);
   }
 
-  void init(int? id, Manager manager) {
-    if (id == null) {
-      return;
-    } else {
-     populateForm(manager);
+  /// FUNCTION WHEN INIT PAGE
+  void init(int? id) async {
+    if (id != null) {
+      final manager = await controllerManager.getManagerById(id);
+      populateForm(manager!);
     }
   }
 
@@ -63,14 +61,21 @@ class ManagerRegistrationState with ChangeNotifier {
   /// GET CONTROLLER MANAGER IN DATABASE
   final ManagerController controllerManager = ManagerController();
 
+  /// FORMATTER CPF FIELD
   MaskTextInputFormatter maskFormatterCpf = MaskTextInputFormatter(
     mask: '###.###.###-##',
     type: MaskAutoCompletionType.eager,
   );
 
+  /// FORMATTER PHONE TEXT FIELD
+  MaskTextInputFormatter maskFormatterPhone = MaskTextInputFormatter(
+    mask: '(##) # ####-####',
+    type: MaskAutoCompletionType.eager,
+  );
+
   /// FUNCTION INSERT MANAGER IN DATABASE
   Future<void> insertManager() async {
-    manager = Manager(
+    final manager = Manager(
       managerName: controllerManagerName.text,
       managerCity: controllerManagerCity.text,
       managerCpf: controllerManagerCpf.text,
@@ -80,11 +85,12 @@ class ManagerRegistrationState with ChangeNotifier {
       managerEmail: controllerManagerEmail.text,
     );
 
-    await controllerManager.insert(manager!);
+    await controllerManager.insert(manager);
     notifyListeners();
   }
 
-  Future<void> populateForm(Manager manager) async {
+  /// FUNCTION TO POPULATE THE FORM
+  void populateForm(Manager manager) {
     _controllerManagerCity.text = manager.managerCity;
     _controllerManagerCommission.text = manager.managerCommission.toString();
     _controllerManagerCpf.text = manager.managerCpf;
@@ -95,8 +101,10 @@ class ManagerRegistrationState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateManager() async {
-    final manager = Manager(
+  /// FUNCTION TO UPDATE MANAGER
+  Future<void> updateManager(Manager manager) async {
+    manager = Manager(
+      managerId: manager.managerId,
       managerName: controllerManagerName.text,
       managerCity: controllerManagerCity.text,
       managerCpf: controllerManagerCpf.text,
@@ -108,27 +116,4 @@ class ManagerRegistrationState with ChangeNotifier {
     await controllerManager.updateManager(manager);
     notifyListeners();
   }
-
-
-  /// FUNCTION TO POPULATE THE FORM
-// void populateForm(Manager manager) {
-//   _controllerManagerName.text = manager.managerName;
-//   _controllerManagerEmail.text = manager.managerEmail;
-//   _controllerManagerCommission.text =
-//       manager.managerCommission.toString();
-//   _controllerManagerPhone.text = manager.managerPhone;
-//   _controllerManagerCpf.text = manager.managerCpf;
-//   _controllerManagerState.text = manager.managerState;
-//   _controllerManagerCity.text = manager.managerCity;
-//
-//   manager = Manager(
-//       managerName: manager.managerName,
-//       managerCity: manager.managerCity,
-//       managerCpf: manager.managerCpf,
-//       managerState: manager.managerState,
-//       managerPhone: manager.managerPhone,
-//       managerCommission: manager.managerCommission,
-//       managerEmail: manager.managerEmail,
-//   );
-// }
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/rental_filters_state.dart';
+import '../states/rental_filters_state.dart';
 
 import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/fab_widget.dart';
 import 'widgets/type_ahead_agencys_widget.dart';
 import 'widgets/type_ahead_customers_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class RentalFiltersPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const RentalFiltersPage({super.key});
 
   @override
@@ -179,6 +182,8 @@ class RentalFiltersPage extends StatelessWidget {
             height: 80,
             child: const BottomAppBarWidget(),
           ),
+          floatingActionButton: const FabWidget(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );
       }),
     );

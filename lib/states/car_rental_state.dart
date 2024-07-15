@@ -2,20 +2,25 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ss_auto/controller/rental_controller.dart';
+import '../controller/rental_controller.dart';
 import '../model/vehicle_model.dart';
 
+/// CREATING THE STATE OF THE CAR RENTAL PAGE
 class CarRentalState with ChangeNotifier {
   List<Vehicle> _listVehicles = [];
   final List<Vehicle> _filtredVehicles = [];
 
+  /// STATE BUILDER
   CarRentalState(int agencyId, String rentalStart, String rentalEnd) {
     loadVehicles(agencyId, rentalStart, rentalEnd);
   }
 
+  /// GETTER LIST VEHICLES
   List<Vehicle> get listVehicles => _listVehicles;
+  /// GETTER LIST FILTRED VEHICLES
   List<Vehicle> get filtredVehicles => _filtredVehicles;
 
+  /// FUNCTION TO GET PATH IMAGES CAR
   Future<String> getPathImagesCars(String licensePlate) async {
     final appDocumentsDir = await getApplicationSupportDirectory();
 
@@ -24,15 +29,16 @@ class CarRentalState with ChangeNotifier {
     return finalPath;
   }
 
+  /// FUNCTION TO GET LIST PATHS IMAGES CAR
   Future<List<String>> getListPathImagesCars(String licensePlate) async {
     try {
       final appDocumentsDir = await getApplicationSupportDirectory();
       final pathCars = '${appDocumentsDir.path}/images/cars/$licensePlate';
 
-      List<String> paths = [];
+      final paths = <String>[];
 
-      for (int i = 0; i < 5; i++) {
-        String path = '$pathCars/$i.png';
+      for (var i = 0; i < 5; i++) {
+        final path = '$pathCars/$i.png';
         if (File(path).existsSync()) {
           paths.add(path);
         }
@@ -40,16 +46,16 @@ class CarRentalState with ChangeNotifier {
 
       return paths;
     } catch (e) {
-      print('Error getting image paths: $e');
       return [];
     }
   }
 
+  /// CONTROLLER RENTAL FROM DATABASE
   final rentalController = RentalController();
 
+  /// FUNCTION CALLED WHEN INIT PAGE
   Future<void> loadVehicles(
       int agencyId, String rentalStart, String rentalEnd) async {
-    try {
       _filtredVehicles.clear();
       _listVehicles.clear();
       _listVehicles = await rentalController.selectFilteredVehicles(
@@ -57,15 +63,14 @@ class CarRentalState with ChangeNotifier {
       _filtredVehicles.addAll(_listVehicles);
       onChanged(_appBarController.text);
       notifyListeners();
-    } catch (e) {
-      print('Error loading vehicles: $e');
-    }
   }
 
   final TextEditingController _appBarController = TextEditingController();
 
+  /// CONTROLLER TEXT FROM SEARCH BAR
   TextEditingController get appBarController => _appBarController;
 
+  /// FUNCTION ON SEARCH BAR IS CHANGED
   void onChanged(String query) {
     if (query.isNotEmpty) {
       _filtredVehicles.clear();

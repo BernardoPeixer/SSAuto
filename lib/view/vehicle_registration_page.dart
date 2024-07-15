@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ss_auto/states/vehicle_registration_state.dart';
-import 'package:ss_auto/view/widgets/add_photos_button_widget.dart';
-import 'package:ss_auto/view/widgets/agency_dropdown_widget.dart';
-import 'package:ss_auto/view/widgets/text_form_field_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/view/widgets/type_ahead_agencys_widget.dart';
-import 'package:ss_auto/view/widgets/type_ahead_brands_widget.dart';
 
-import '../model/agency_model.dart';
-import '../model/brands_model.dart';
-import '../model/models_model.dart';
-
-import '../model/vehicle_model.dart';
 import '../model/year_model.dart';
-import 'arguments/car_arguments.dart';
+import '../states/vehicle_registration_state.dart';
+import 'widgets/add_photos_button_widget.dart';
 import 'widgets/bottom_app_bar_widget.dart';
+import 'widgets/text_form_field_widget.dart';
+import 'widgets/type_ahead_agencys_widget.dart';
+import 'widgets/type_ahead_brands_widget.dart';
 import 'widgets/type_ahead_models_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class VehicleRegistrationPage extends StatelessWidget {
+  /// STATELESS WIDGET BUILDER
   const VehicleRegistrationPage({
     super.key,
   });
@@ -90,7 +85,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                               height: 4,
                             ),
                             AddPhotosButtonWidget(
-                                carImages:state.carImages,
+                                carImages: state.carImages,
                                 showImageSourceDialog:
                                     state.showImageSourceDialog,
                                 removeCarImage: state.removeCarImage),
@@ -112,7 +107,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                                     controller: state.controllerBrand,
                                     getBrands: state.getBrands,
                                     getModels: state.getModels,
-                                    onBrandSelected: (Brands brand) {
+                                    onBrandSelected: (brand) {
                                       state.setBrand(brand);
                                       state.getModels();
                                     },
@@ -139,7 +134,7 @@ class VehicleRegistrationPage extends StatelessWidget {
                                     controller: state.controllerModel,
                                     modelsList: state.modelsList,
                                     getModels: state.getModels,
-                                    onModelSelected: (Models model) {
+                                    onModelSelected: (model) {
                                       state.selectedModel = model;
                                       state.getYears();
                                     },
@@ -180,7 +175,8 @@ class VehicleRegistrationPage extends StatelessWidget {
                                           const EdgeInsets.symmetric(
                                               vertical: 0.0, horizontal: 6.0),
                                     ),
-                                    style: const TextStyle(color: Colors.black, fontSize: 14),
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 14),
                                   ),
                                 ),
                                 const Text(
@@ -210,16 +206,17 @@ class VehicleRegistrationPage extends StatelessWidget {
                                       child: Text(''),
                                     ),
                                     iconEnabledColor: Colors.white,
-                                    onChanged: (Year? year) {
+                                    onChanged: (year) {
                                       state.onSelectedYear(year!);
                                     },
                                     items: [
-                                      ...state.yearList.map((Year year) {
+                                      ...state.yearList.map((year) {
                                         return DropdownMenuItem<Year>(
                                           value: year,
                                           child: Text(
                                             year.name,
-                                            style: TextStyle(fontSize: 14),
+                                            style:
+                                                const TextStyle(fontSize: 14),
                                           ),
                                         );
                                       }),
@@ -228,7 +225,6 @@ class VehicleRegistrationPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-
                             TextFormFieldWidget(
                               title: 'Custo da diária:',
                               controller: state.controllerDailyCost,

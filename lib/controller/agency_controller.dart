@@ -1,4 +1,4 @@
-
+import 'package:sqflite/sqflite.dart';
 
 import '../database/database.dart';
 import '../model/agency_model.dart';
@@ -29,12 +29,13 @@ class AgencyController {
     }
     return list;
   }
+
   /// FUNCTION TO SELECT MANAGER FROM DATABASE
   Future<List<Manager>> selectManager() async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result =
-    await database.query(ManagerTable.tableName);
+        await database.query(ManagerTable.tableName);
 
     var list = <Manager>[];
     for (final item in result) {
@@ -53,7 +54,6 @@ class AgencyController {
     }
     return list;
   }
-
 
   /// FUNCTION TO INSERT AGENCY IN DATABASE
   Future<void> insert(Agency agency) async {
@@ -74,5 +74,54 @@ class AgencyController {
       where: '${AgencyTable.agencyId} = ?',
       whereArgs: [agency.agencyId],
     );
+  }
+
+  /// FUNCTION TO GET TOTAL RECORDS IN DATABASE
+  Future<int?> getTotalRecords() async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.rawQuery('''
+    SELECT COUNT(*) AS total_records
+    FROM AgencyTable
+    ''');
+
+    return Sqflite.firstIntValue(result);
+  }
+
+  /// GET AGENCY BY ID FROM DATABASE
+  Future<Agency?> getAgencyById(int agencyId) async {
+    final database = await getDatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      AgencyTable.tableName,
+      where: '${AgencyTable.agencyId} = ?',
+      whereArgs: [agencyId],
+    );
+
+    if (result.isNotEmpty) {
+      return Agency(
+        agencyName: result.first[AgencyTable.agencyName],
+        agencyState: result.first[AgencyTable.agencyState],
+        agencyCity: result.first[AgencyTable.agencyCity],
+        agencyPhone: result.first[AgencyTable.agencyPhone],
+        agencyAddress: result.first[AgencyTable.agencyAddress],
+        agencyId: result.first[AgencyTable.agencyId],
+        managerCode: result.first[AgencyTable.managerCode],
+      );
+    }
+    return null;
+  }
+
+  /// FUNCTION TO UPDATE AGENCY FROM DATABASE
+  Future<Agency> updateAgency(Agency agency) async {
+    final database = await getDatabase();
+    final map = AgencyTable.toMap(agency);
+
+    await database.update(
+      AgencyTable.tableName,
+      map,
+      where: '${AgencyTable.agencyId} = ?',
+      whereArgs: [agency.agencyId],
+    );
+    return agency;
   }
 }

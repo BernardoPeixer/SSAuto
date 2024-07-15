@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ss_auto/model/manager_model.dart';
-import 'package:ss_auto/states/manager_list_state.dart';
+import '../../states/manager_list_state.dart';
 
 /// CREATION OF STATELESS WIDGET
 class ManagerListWidget extends StatelessWidget {
@@ -44,15 +43,7 @@ class ManagerListWidget extends StatelessWidget {
                             Navigator.pushNamed(
                               context,
                               '/managerRegistrationPage',
-                              arguments: Manager(
-                                  managerName: manager.managerName,
-                                  managerCity: manager.managerCity,
-                                  managerCpf: manager.managerCpf,
-                                  managerState: manager.managerState,
-                                  managerPhone: manager.managerPhone,
-                                  managerCommission: manager.managerCommission,
-                                  managerEmail: manager.managerEmail,
-                                  managerId: manager.managerId),
+                              arguments: manager.managerId,
                             );
                           },
                           icon: const Icon(
@@ -62,8 +53,10 @@ class ManagerListWidget extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.disabled_by_default_outlined,
+                          onPressed: () {
+                            state.delete(manager);
+                          },
+                          icon: const Icon(Icons.delete_outline,
                               color: Colors.grey, size: 20),
                         ),
                       ],
@@ -93,6 +86,12 @@ class ManagerListWidget extends StatelessWidget {
                           ListTile(
                             title: Text(
                                 'CPF: ${state.listManager[index].managerCpf}'),
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Comissão: ${state.listManager[index]
+                                  .managerCommission}%',
+                            ),
                           ),
                         ],
                       ),

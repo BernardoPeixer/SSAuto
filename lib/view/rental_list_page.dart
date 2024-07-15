@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:provider/provider.dart';
-import 'package:ss_auto/states/rental_list_state.dart';
-import 'package:ss_auto/view/arguments/rental_arguments.dart';
-import '../model/rental_model.dart';
-import '../model/vehicle_model.dart';
-import 'arguments/argument_teste.dart';
+import '../states/rental_list_state.dart';
+
+import 'arguments/arguments.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 
+/// CREATION OF STATELESS WIDGET
 class RentalListPage extends StatelessWidget {
+  /// STATELESS WIDGET STATE
   const RentalListPage({
     super.key,
   });
@@ -44,8 +44,8 @@ class RentalListPage extends StatelessWidget {
           body: ListView.builder(
             itemCount: state.listRentals.length,
             itemBuilder: (context, index) {
-              Rental rent = state.listRentals[index];
-              Vehicle? vehicle = state.getVehicleForRent(rent.vehicleCode!);
+              final rent = state.listRentals[index];
+              final vehicle = state.getVehicleForRent(rent.vehicleCode!);
               if (state.listRentals.isEmpty) {
                 return const CircularProgressIndicator();
               }
@@ -56,7 +56,7 @@ class RentalListPage extends StatelessWidget {
               }
               return FutureBuilder<List<String>>(
                 future:
-                  state.getListPathImagesCars(vehicle.vehicleLicensePlate),
+                    state.getListPathImagesCars(vehicle.vehicleLicensePlate),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -65,7 +65,7 @@ class RentalListPage extends StatelessWidget {
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(child: Text('Sem imagens disponíveis'));
                   }
-                  List<String> paths = snapshot.data!;
+                  final paths = snapshot.data!;
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 8),
@@ -112,7 +112,10 @@ class RentalListPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     vehicle.vehicleModel.length > 10
-                                        ? "${vehicle.vehicleModel.substring(0, 10)}..."
+                                        ? '${vehicle.vehicleModel.substring(
+                                            0,
+                                            10,
+                                          )}...'
                                         : vehicle.vehicleModel,
                                     style: const TextStyle(
                                       color: Color(0xFFca122e),
@@ -120,7 +123,11 @@ class RentalListPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    'Período: ${state.formatDateString(rent.rentalStart)} - ${state.formatDateString(rent.rentalEnd)}',
+                                    'Período: ${state.formatDateString(
+                                      rent.rentalStart,
+                                    )} - ${state.formatDateString(
+                                      rent.rentalEnd,
+                                    )}',
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: Color(0xFF797979),
@@ -152,7 +159,7 @@ class RentalListPage extends StatelessWidget {
                                             Navigator.pushReplacementNamed(
                                               context,
                                               '/rentalListDetailsPage',
-                                              arguments: ArgumentTeste(
+                                              arguments: Arguments(
                                                 vehicle: vehicle,
                                                 rental: rent,
                                                 imagesPaths: paths,
