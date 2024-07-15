@@ -100,14 +100,18 @@ class RentalCompletionPage extends StatelessWidget {
                         children: [
                           CarouselSliderWidget(imagesPath: args.imagePath),
                           const SizedBox(height: 12.0),
-                          Text(
-                            vehicle.vehicleModel,
-                            style: const TextStyle(
-                              color: Color(0xffca122e),
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                vehicle.vehicleModel,
+                                style: const TextStyle(
+                                  color: Color(0xffca122e),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                           Center(
                             child: Text(
@@ -299,12 +303,13 @@ class RentalCompletionPage extends StatelessWidget {
                                   ),
                                   onPressed: () async {
                                     await state.insertRental(
-                                        vehicle.vehicleId!,
-                                        vehicle.agencyCode,
-                                        args.rentalStart,
-                                        args.rentalEnd,
-                                        args.rentalEndA,
-                                        args.customer.customerId!);
+                                      vehicle.vehicleId!,
+                                      vehicle.agencyCode,
+                                      args.rentalStart,
+                                      args.rentalEnd,
+                                      args.rentalEndA,
+                                      args.customer.customerId!,
+                                    );
                                     Navigator.pushNamed(context, '/homePage');
                                     final pdfFile = await state.proofOfRental(
                                       args.selectedAgency!,
@@ -319,14 +324,12 @@ class RentalCompletionPage extends StatelessWidget {
                                       args.customer.customerPhone,
                                       args.customer.customerCity,
                                       args.customer.customerState,
-                                      state.getManagerForAgency(
-                                          args.selectedAgency!.managerCode!,
-                                          args.selectedAgency!.managerCode!)!,
+                                      manager,
                                       state.calculateTotalDays(
                                           args.rentalStartA!, args.rentalEndA!),
                                       vehicle.vehicleLicensePlate,
                                     );
-                                     await state.openFile(pdfFile);
+                                    state.openFile(pdfFile);
                                   },
                                   child: const Text(
                                     'Registrar aluguel',

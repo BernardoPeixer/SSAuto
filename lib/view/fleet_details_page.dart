@@ -15,7 +15,10 @@ class FleetDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as IdPathArguments;
+    final args = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as IdPathArguments;
 
     return ChangeNotifierProvider(
       create: (context) => FleetDetailsState(),
@@ -93,14 +96,17 @@ class FleetDetailsPage extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 color: Colors.grey.shade300,
-                                width: MediaQuery.of(context).size.width / 1.2,
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 1.2,
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           'DIÁRIA:',
@@ -139,7 +145,7 @@ class FleetDetailsPage extends StatelessWidget {
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                               color: vehicle.vehicleStats ==
-                                                      'Disponivel'
+                                                  'Disponivel'
                                                   ? Colors.green
                                                   : const Color(0xFFca122e),
                                             ),
@@ -159,16 +165,19 @@ class FleetDetailsPage extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 color: Colors.grey.shade300,
-                                width: MediaQuery.of(context).size.width / 1.2,
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 1.2,
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
                                       width: 110,
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             'PLACA:',
@@ -241,7 +250,8 @@ class FleetDetailsPage extends StatelessWidget {
                                   ),
                                   onPressed: () async {
                                     await state
-                                        .updateVehicleStats(vehicle.vehicleId!);
+                                        .updateVehicleStats(
+                                      vehicle.vehicleId!, vehicle,);
                                   },
                                   child: Text(
                                     vehicle.vehicleStats == 'Disponivel'

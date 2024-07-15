@@ -9,7 +9,6 @@ import '../model/agency_model.dart';
 class FleetDetailsState with ChangeNotifier {
 
 
-  Vehicle? _vehicle;
 
   /// VEHICLE CONTROLLER FROM DATABASE
   final controllerVehicle = VehicleController();
@@ -17,17 +16,16 @@ class FleetDetailsState with ChangeNotifier {
   final controllerAgency = AgencyController();
 
   /// GETTER INSTANCE OF VEHICLE
-  Vehicle? get vehicle => _vehicle;
 
   /// FUNCTION TO UPDATE VEHICLE STATS
-  Future<void> updateVehicleStats(int vehicleId) async {
-    if (_vehicle!.vehicleStats == 'Disponivel') {
-      vehicle!.vehicleStats = 'Indisponivel';
+  Future<void> updateVehicleStats(int vehicleId, Vehicle vehicle) async {
+    if (vehicle.vehicleStats == 'Disponivel') {
+      vehicle.vehicleStats = 'Indisponivel';
     } else {
-      _vehicle!.vehicleStats = 'Disponivel';
+      vehicle.vehicleStats = 'Disponivel';
     }
     await controllerVehicle.updateVehicleStats(
-        vehicleId, _vehicle!.vehicleStats);
+        vehicleId, vehicle.vehicleStats);
     notifyListeners();
   }
 

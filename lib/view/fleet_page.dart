@@ -18,7 +18,7 @@ class FleetPage extends StatelessWidget {
       create: (context) => FleetPageState(),
       child: Consumer<FleetPageState>(builder: (_, state, __) {
         state.listVehicles.sort(
-          (a, b) {
+              (a, b) {
             if (a.vehicleStats == 'Disponivel' &&
                 b.vehicleStats != 'Disponivel') {
               return -1;
@@ -82,7 +82,7 @@ class FleetPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: state.filtredVehicles[index].vehicleStats ==
-                                  'Disponivel'
+                              'Disponivel'
                               ? Colors.white
                               : Colors.grey,
                           boxShadow: [
@@ -139,7 +139,7 @@ class FleetPage extends StatelessWidget {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       children: [
                                         Center(
                                           child: Text(
@@ -147,7 +147,7 @@ class FleetPage extends StatelessWidget {
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: vehicle.vehicleStats ==
-                                                        'Disponivel'
+                                                    'Disponivel'
                                                     ? Colors.green
                                                     : Colors.red),
                                           ),
@@ -171,7 +171,7 @@ class FleetPage extends StatelessWidget {
                                                     horizontal: 4),
                                               ),
                                               backgroundColor:
-                                                  WidgetStatePropertyAll<Color>(
+                                              WidgetStatePropertyAll<Color>(
                                                 Color(0xFFca122e),
                                               ),
                                             ),

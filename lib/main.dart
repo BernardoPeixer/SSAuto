@@ -9,7 +9,6 @@ import 'view/fleet_page.dart';
 import 'view/home_page.dart';
 import 'view/manager_customer_page.dart';
 import 'view/manager_registration_page.dart';
-import 'view/pdf_page.dart';
 import 'view/rental_completion_page.dart';
 import 'view/rental_filters_page.dart';
 import 'view/rental_list_details_page.dart';
@@ -48,7 +47,6 @@ class MyApp extends StatelessWidget {
         '/agencyRegistrationPage': (context) => const AgencyRegistrationPage(),
         '/rentalListPage': (context) => const RentalListPage(),
         '/rentalListDetailsPage': (context) => const RentalListDetailsPage(),
-        '/pdfPage': (context) => const PdfPage(),
       },
       home: const HomePage(),
     );

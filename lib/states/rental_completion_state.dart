@@ -81,11 +81,11 @@ class RentalCompletionState with ChangeNotifier {
   final controllerAgency = AgencyController();
 
   /// GET MANAGER FROM AGENCY
-  Manager? getManagerForAgency(int managerCode, int managerId) {
-    return _listManager.firstWhere(
-      (manager) => manager.managerId == managerCode,
-    );
-  }
+  // Manager? getManagerForAgency(int managerCode, int managerId) {
+  //   return _listManager.firstWhere(
+  //     (manager) => manager.managerId == managerCode,
+  //   );
+  // }
 
   /// LOAD MANAGER FROM DATABASE
   Future<void> loadManager() async {
