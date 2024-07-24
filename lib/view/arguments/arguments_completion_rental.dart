@@ -1,8 +1,5 @@
-import '../../model/agency_model.dart';
-import '../../model/customer_model.dart';
-
-/// RENTAL CUSTOMER AGENCY ARGUMENTS TO ROUTE
-class RentalArguments {
+/// COMPLETION RENTAL PAGE ARGUMENTS
+class ArgumentsCompletionRental {
   /// RENTAL START ARGUMENTS
   final String rentalStart;
 
@@ -15,19 +12,23 @@ class RentalArguments {
   /// RENTAL END DATE TIME ARGUMENTS
   final DateTime rentalEndA;
 
-  /// AGENCY ARGUMENTS
-  final Agency? selectedAgency;
+  /// CUSTOMER ID
+  final int customerId;
 
-  /// CUSTOMER ARGUMENTS
-  final Customer customer;
+  /// VEHICLE ID
+  final int vehicleId;
 
-  /// ARGUMENTS BUILDER
-  RentalArguments({
+  /// IMAGES PATHS
+  final List<String> listPaths;
+
+  /// BUILDER
+  ArgumentsCompletionRental({
+    required this.vehicleId,
+    required this.customerId,
+    required this.listPaths,
     required this.rentalStart,
     required this.rentalStartA,
     required this.rentalEnd,
     required this.rentalEndA,
-    required this.selectedAgency,
-    required this.customer,
   });
 }

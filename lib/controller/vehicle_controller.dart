@@ -65,15 +65,13 @@ class VehicleController {
   }
 
   /// GET VEHICLE BY ID FROM DATABASE
-  Future<Vehicle?> getVehicleById(int vehicleId) async {
+  Future<Vehicle> getVehicleById(int vehicleId) async {
     final database = await getDatabase();
     final List<Map<String, dynamic>> result = await database.query(
       VehicleTable.tableName,
       where: '${VehicleTable.vehicleId} = ?',
       whereArgs: [vehicleId],
     );
-
-    if (result.isNotEmpty) {
       return Vehicle(
         vehicleBrand: result.first[VehicleTable.vehicleBrand],
         vehicleModel: result.first[VehicleTable.vehicleModel],
@@ -84,7 +82,5 @@ class VehicleController {
         agencyCode: result.first[VehicleTable.agencyCode],
         vehicleId: result.first[VehicleTable.vehicleId],
       );
-    }
-    return null;
   }
 }

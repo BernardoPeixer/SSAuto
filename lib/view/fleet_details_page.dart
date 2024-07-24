@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../model/agency_model.dart';
 import '../model/vehicle_model.dart';
 import '../states/fleet_details_state.dart';
-import 'arguments/id_path_arguments.dart';
+import 'arguments/arguments_fleet_page.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/carousel_slider_widget.dart';
 
@@ -18,7 +18,7 @@ class FleetDetailsPage extends StatelessWidget {
     final args = ModalRoute
         .of(context)!
         .settings
-        .arguments as IdPathArguments;
+        .arguments as ArgumentsFleetPage;
 
     return ChangeNotifierProvider(
       create: (context) => FleetDetailsState(),

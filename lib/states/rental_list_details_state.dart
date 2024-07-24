@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 import '../controller/agency_controller.dart';
 import '../controller/customer_controller.dart';
 import '../controller/rental_controller.dart';
+import '../controller/vehicle_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
 import '../model/rental_model.dart';
+import '../model/vehicle_model.dart';
 
 /// CREATING THE STATE OF THE RENTAL LIST DETAILS PAGE PAGE
 class RentalListDetailsState with ChangeNotifier {
-  /// STATE BUILDER
-  RentalListDetailsState(int agencyCode, int customerCode) {
-    loadAgency(agencyCode);
-    loadCustomer(customerCode);
-  }
 
   /// FUNCTION TO FORMAT DATE
   String formatDateString(String date) {
@@ -21,28 +18,32 @@ class RentalListDetailsState with ChangeNotifier {
     return '${parts[2]}/${parts[1]}';
   }
 
-  /// INSTANCE OF AGENCY
-  Agency? agency;
+  /// GET RENTAL FROM ID
+  Future<Rental> setRentalById(int rentalId) async {
+    final rental = await controllerRental.getRentalById(rentalId);
+    return rental;
+  }
 
-  /// INSTANCE OF CUSTOMER
-  Customer? customer;
+  /// GET AGENCY FROM ID
+  Future<Agency?> setAgencyById(int agencyId) async {
+    final agency = await controllerAgency.getAgencyById(agencyId);
+    return agency;
+  }
 
-  final _listAgency = <Agency>[];
+  /// GET CUSTOMER FROM ID
+  Future<Customer?> setCustomerById(int customerId) async {
+    final customer = await controllerCustomer.getCustomerById(customerId);
+    return customer;
+  }
 
-  /// GETTER LIST AGENCY
-  List<Agency> get listAgency => _listAgency;
+  /// GET VEHICLE FROM ID
+  Future<Vehicle?> setVehicleById(int vehicleId) async {
+    final vehicle = await controllerVehicle.getVehicleById(vehicleId);
+    return vehicle;
+  }
 
   /// AGENCY CONTROLLER FROM DATABASE
   final controllerAgency = AgencyController();
-
-  /// LOAD AGENCYS FROM DATABASE
-  Future<void> loadAgency(int agencyCode) async {
-    final list = await controllerAgency.selectAgency();
-    _listAgency.clear();
-    _listAgency.addAll(list);
-    getAgencyFromRent(agencyCode);
-    notifyListeners();
-  }
 
   final _listCustomer = <Customer>[];
 
@@ -52,28 +53,8 @@ class RentalListDetailsState with ChangeNotifier {
   /// CUSTOMER CONTROLLER FROM DATABASE
   final controllerCustomer = CustomerController();
 
-  /// FUNCTION TO LOAD CUSTOMERS FROM DATABASE
-  Future<void> loadCustomer(int customerCode) async {
-    final list = await controllerCustomer.selectCustomers();
-    _listCustomer.clear();
-    _listCustomer.addAll(list);
-    getCustomerFromRent(customerCode);
-    notifyListeners();
-  }
-
-  /// FUNCTION TO GET AGENCY FROM RENT
-  void getAgencyFromRent(int agencyCode) {
-    agency = _listAgency.firstWhere(
-      (agency) => agency.agencyId == agencyCode,
-    );
-  }
-
-  /// FUNCTION TO GET CUSTOMER FROM RENT
-  void getCustomerFromRent(int customerCode) {
-    customer = _listCustomer.firstWhere(
-          (customer) => customer.customerId == customerCode,
-    );
-  }
+  /// VEHICLE CONTROLLER FROM DATABASE
+  final controllerVehicle = VehicleController();
 
   /// RENTAL CONTROLLER FROM DATABASE
   final controllerRental = RentalController();

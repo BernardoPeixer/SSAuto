@@ -1,5 +1,5 @@
 /// CLASS ID PATH ARGUMENTS TO ROUTE
-class IdPathArguments {
+class ArgumentsFleetPage {
   /// VEHICLE ID ARGUMENT
   final int id;
 
@@ -7,7 +7,7 @@ class IdPathArguments {
   final List<String> paths;
 
   /// ARGUMENTS BUILDER
-  IdPathArguments({
+  ArgumentsFleetPage({
     required this.id,
     required this.paths,
   });

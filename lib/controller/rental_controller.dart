@@ -19,11 +19,9 @@ class RentalController {
   }
 
   /// SELECT FILTERED VEHICLES FROM DATABASE
-  Future<List<Vehicle>> selectFilteredVehicles(
-    int agencyId,
-    String rentalStart,
-    String rentalEnd,
-  ) async {
+  Future<List<Vehicle>> selectFilteredVehicles(int agencyId,
+      String rentalStart,
+      String rentalEnd,) async {
     final database = await getDatabase();
 
     List<Map<String, dynamic>> result = await database.rawQuery('''
@@ -49,7 +47,8 @@ class RentalController {
 
     final vehicles = result
         .map(
-          (data) => Vehicle(
+          (data) =>
+          Vehicle(
             vehicleBrand: data['vehicleBrand'],
             vehicleModel: data['vehicleModel'],
             vehicleLicensePlate: data['vehicleLicensePlate'],
@@ -59,7 +58,7 @@ class RentalController {
             agencyCode: data['agencyCode'],
             vehicleStats: data['vehicleStats'],
           ),
-        )
+    )
         .toList();
 
     return vehicles;
@@ -70,7 +69,7 @@ class RentalController {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result =
-        await database.query(RentalTable.tableName);
+    await database.query(RentalTable.tableName);
 
     var list = <Rental>[];
     for (final item in result) {
@@ -159,4 +158,26 @@ class RentalController {
 
     return Sqflite.firstIntValue(result);
   }
+
+  /// GET RENTAL BY ID FROM DATABASE
+  Future<Rental> getRentalById(int rentalId) async {
+    final database = await getDatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      RentalTable.tableName,
+      where: '${RentalTable.rentalId} = ?',
+      whereArgs: [rentalId],
+    );
+    return Rental(
+      rentalId: result.first[RentalTable.rentalId],
+        customerCode: result.first[RentalTable.customerCode],
+        agencyCode: result.first[RentalTable.agencyCode],
+        vehicleCode: result.first[RentalTable.vehicleCode],
+        rentalRegisterDate: result.first[RentalTable.rentalRegisterDate],
+        rentalStart: result.first[RentalTable.rentalStart],
+        rentalEnd: result.first[RentalTable.rentalEnd],
+        rentalCost: result.first[RentalTable.rentalCost],
+        rentalStats: result.first[RentalTable.rentalStats],
+        rentalPaymentStats: result.first[RentalTable.rentalPaymentStats]);
+  }
+
 }

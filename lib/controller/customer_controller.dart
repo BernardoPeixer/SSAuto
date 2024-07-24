@@ -80,4 +80,26 @@ class CustomerController {
 
     return Sqflite.firstIntValue(result);
   }
+
+  Future<Customer?> getCustomerById(int customerId) async {
+    final database = await getDatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      CustomerTable.tableName,
+      where: '${CustomerTable.customerId} = ?',
+      whereArgs: [customerId],
+    );
+
+    if (result.isNotEmpty) {
+      return Customer(
+        customerName: result.first[CustomerTable.customerName],
+        customerCity: result.first[CustomerTable.customerCity],
+        customerCnpj: result.first[CustomerTable.customerCnpj],
+        customerState: result.first[CustomerTable.customerState],
+        customerPhone: result.first[CustomerTable.customerPhone],
+        customerStats: result.first[CustomerTable.customerStats],
+        customerId: result.first[CustomerTable.customerId],
+      );
+    }
+    return null;
+  }
 }

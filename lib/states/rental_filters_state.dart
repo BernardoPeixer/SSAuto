@@ -5,7 +5,7 @@ import '../controller/agency_controller.dart';
 import '../controller/customer_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
-import '../view/arguments/rental_arguments.dart';
+import '../view/arguments/arguments_rental_filters.dart';
 
 /// CREATING THE STATE OF THE RENTAL FILTERS PAGE PAGE
 class RentalFiltersState with ChangeNotifier {
@@ -117,14 +117,13 @@ class RentalFiltersState with ChangeNotifier {
       Navigator.pushNamed(
         context,
         '/carRentalPage',
-        arguments: RentalArguments(
-          rentalStart: formatedDatePickUp,
-          rentalStartA: selectedDatePickUp!,
-          rentalEndA: selectedDateDeliver!,
-          rentalEnd: formatedDateDeliver,
-          selectedAgency: selectedAgency,
-          customer: selectedCustomer!,
-        ),
+        arguments: ArgumentsRentalFilters(
+            agencyId: selectedAgency!.agencyId!,
+            rentalStart: formatedDatePickUp,
+            customerId: selectedCustomer!.customerId!,
+            rentalStartA: selectedDatePickUp!,
+            rentalEndA: selectedDateDeliver!,
+            rentalEnd: formatedDateDeliver),
       );
     }
   }

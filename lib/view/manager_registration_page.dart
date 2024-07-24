@@ -208,6 +208,7 @@ class ManagerRegistrationPage extends StatelessWidget {
                                     child: TextFormField(
                                       controller: state.controllerManagerCpf,
                                       inputFormatters: [state.maskFormatterCpf],
+                                      keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.white,

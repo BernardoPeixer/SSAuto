@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../states/fleet_page_state.dart';
-import 'arguments/id_path_arguments.dart';
+import 'arguments/arguments_fleet_page.dart';
 import 'widgets/bottom_app_bar_widget.dart';
 import 'widgets/search_bar_widget.dart';
 
@@ -178,7 +178,7 @@ class FleetPage extends StatelessWidget {
                                             onPressed: () {
                                               Navigator.of(context).pushNamed(
                                                 '/fleetDetailsPage',
-                                                arguments: IdPathArguments(
+                                                arguments: ArgumentsFleetPage(
                                                     id: vehicle.vehicleId!,
                                                     paths: snapshot.data!),
                                               );

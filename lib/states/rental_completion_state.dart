@@ -14,19 +14,20 @@ import '../controller/agency_controller.dart';
 import '../controller/customer_controller.dart';
 import '../controller/manager_controller.dart';
 import '../controller/rental_controller.dart';
+import '../controller/vehicle_controller.dart';
 import '../model/agency_model.dart';
 import '../model/customer_model.dart';
 import '../model/manager_model.dart';
 import '../model/rental_model.dart';
+import '../model/vehicle_model.dart';
 
 /// CREATING THE STATE OF THE RENTAL COMPLETION PAGE
 class RentalCompletionState with ChangeNotifier {
   /// BUILDER STATE
-  RentalCompletionState(double dailyCost, DateTime startA, DateTime endA) {
+  RentalCompletionState() {
     loadAgency();
     loadCustomers();
     loadManager();
-    calculateDateTotal(dailyCost, startA, endA);
   }
 
   /// DATE TIME TO SELECTED DATE TO PICK UP THE CAR
@@ -42,12 +43,14 @@ class RentalCompletionState with ChangeNotifier {
   double? totalRent;
 
   /// FUNCTION TO CALCULATE TOTAL DAYS
-  void calculateDateTotal(double? dailyCost, DateTime? startA, DateTime? endA) {
+  Future<void> calculateDateTotal(
+      double? dailyCost, DateTime? startA, DateTime? endA) async {
     if (startA != null && endA != null) {
       final difference = endA.difference(startA);
       daysRent = difference.inDays + 1;
       totalRent = dailyCost! * daysRent!;
-      notifyListeners();
+      print(daysRent);
+      print(totalRent);
     }
   }
 
@@ -64,6 +67,21 @@ class RentalCompletionState with ChangeNotifier {
   Future<Manager?> setManagerById(int id) async {
     final manager = await controllerManager.getManagerById(id);
     return manager;
+  }
+
+  /// VEHICLE CONTROLLER FROM DATABASE
+  final controllerVehicle = VehicleController();
+
+  /// GET VEHICLE BY ID FROM DATABASE
+  Future<Vehicle> setVehicleById(int id) async {
+    final vehicle = await controllerVehicle.getVehicleById(id);
+    return vehicle;
+  }
+
+  /// GET CUSTOMER BY ID FROM DATABASE
+  Future<Customer?> setCustomerById(int id) async {
+    final customer = await controllerCustomer.getCustomerById(id);
+    return customer;
   }
 
   /// GET AGENCY BY ID FROM DATABASE
@@ -611,9 +629,7 @@ class RentalCompletionState with ChangeNotifier {
                         border: pw.Border.all(color: PdfColors.black),
                       ),
                       child: pw.Text(
-                        '${agency.
-                        agencyName} - ${agency.
-                        agencyAddress} - Telefone: ${formatPhone(
+                        '${agency.agencyName} - ${agency.agencyAddress} - Telefone: ${formatPhone(
                           agency.agencyPhone,
                         )}',
                         style: const pw.TextStyle(
@@ -761,10 +777,8 @@ class RentalCompletionState with ChangeNotifier {
                         border: pw.Border.all(color: PdfColors.black),
                       ),
                       child: pw.Text(
-                        '${agency.
-                        agencyName} - ${agency.
-                        agencyAddress} - Telefone: ${formatPhone(agency.
-                        agencyPhone,
+                        '${agency.agencyName} - ${agency.agencyAddress} - Telefone: ${formatPhone(
+                          agency.agencyPhone,
                         )}',
                         style: const pw.TextStyle(
                           color: PdfColors.black,

@@ -13,13 +13,8 @@ class RentalListState with ChangeNotifier {
   /// STATE BUILDER
   RentalListState() {
     loadRentals();
-    loadVehicles();
   }
 
-  final _listVehicles = <Vehicle>[];
-
-  /// GETTER VEHICLES LIST
-  List<Vehicle> get listVehicles => _listVehicles;
   /// VEHICLE CONTROLLER FROM DATABASE
   final controllerVehicle = VehicleController();
 
@@ -49,14 +44,6 @@ class RentalListState with ChangeNotifier {
             .compareTo(statusPriority(b.rentalStats));
       },
     );
-
-    notifyListeners();
-  }
-
-  /// FUNCTION TO LOAD VEHICLES FROM DATABASE
-  Future<void> loadVehicles() async {
-    final list = await controllerVehicle.selectVehicles();
-    _listVehicles.addAll(list);
     notifyListeners();
   }
 
@@ -76,23 +63,10 @@ class RentalListState with ChangeNotifier {
     notifyListeners();
   }
 
-  /// FUNCTION TO GET VEHICLES FROM RENT
-  Vehicle? getVehicleForRent(int vehicleCode) {
-    try {
-      return _listVehicles
-          .firstWhere((vehicle) => vehicle.vehicleId == vehicleCode);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /// FUNCTION TO GET PATH IMAGES CAR
-  Future<String> getPathImagesCars(String licensePlate) async {
-    final appDocumentsDir = await getApplicationSupportDirectory();
-
-    final finalPath = '${appDocumentsDir.path}/images/cars/$licensePlate/0.png';
-
-    return finalPath;
+  /// FUNCTION TO SET VEHICLE BY ID
+  Future<Vehicle?> setVehicleById(int vehicleId) async {
+    final vehicle = await controllerVehicle.getVehicleById(vehicleId);
+    return vehicle;
   }
 
   /// FUNCTION TO GET LIST PATH IMAGES CAR
