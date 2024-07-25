@@ -1,6 +1,6 @@
-# ss_auto
+# SS Auto
 
-A new Flutter project.
+Aplicativo de gerenciamento de alugueis e cadastro de clientes, gerentes, agências e veículos.
 
 ## Getting Started
 
