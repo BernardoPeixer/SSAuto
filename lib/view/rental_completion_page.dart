@@ -368,7 +368,7 @@ class RentalCompletionPage extends StatelessWidget {
                                                   args.rentalEndA),
                                               vehicle.vehicleLicensePlate,
                                             );
-                                            state.openFile(pdfFile);
+                                            await state.openFile(pdfFile);
                                           },
                                           child: const Text(
                                             'Registrar aluguel',

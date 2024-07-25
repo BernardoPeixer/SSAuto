@@ -41,7 +41,7 @@ class RentalFiltersPage extends StatelessWidget {
                       ),
                       const Center(
                         child: Text(
-                          'ALUGUÉIS',
+                          'ALUGUEIS',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

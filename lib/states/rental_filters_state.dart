@@ -78,9 +78,9 @@ class RentalFiltersState with ChangeNotifier {
     );
 
     if (picked != null) {
-      dateControllerPickUp.text = picked.toString().split(' ')[0];
+      final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
+      dateControllerPickUp.text = formattedDate;
       selectedDatePickUp = picked;
-      formatedDatePickUp = DateFormat('yyyy-MM-dd').format(selectedDatePickUp!);
       notifyListeners();
     }
   }
@@ -98,10 +98,9 @@ class RentalFiltersState with ChangeNotifier {
     );
 
     if (picked != null) {
-      dateControllerDeliver.text = picked.toString().split(' ')[0];
+      final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
+      dateControllerDeliver.text = formattedDate;
       selectedDateDeliver = picked;
-      formatedDateDeliver =
-          DateFormat('yyyy-MM-dd').format(selectedDateDeliver!);
       notifyListeners();
     }
   }
