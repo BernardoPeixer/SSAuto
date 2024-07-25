@@ -1,6 +1,6 @@
 # SS Auto
 
-Aplicativo de gerenciamento de alugueis e cadastro de clientes, gerentes, agências e veículos.
+SS Auto é um aplicativo de gerenciamento de aluguéis e cadastro de clientes, gerentes, agências e veículos, desenvolvido com Dart e Flutter.
 
 ## Getting Started
 
